@@ -1,0 +1,399 @@
+﻿<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ফটো গ্যালারি ও স্মৃতিশালা | Khulna University Writers' Society (KUWS)</title>
+    <link rel="icon" type="image/png" href="favicon.png">
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;400;500;600;700&family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'ku-blue': '#1a3a60',
+                        'ku-dark-blue': '#112940',
+                        'ku-gold': '#ffb703',
+                        'ku-accent-gold': '#fab303',
+                        'ku-light': '#f0f4f8',
+                    },
+                    fontFamily: {
+                        sans: ['"Hind Siliguri"', 'Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Hind Siliguri', 'Inter', sans-serif;
+            background-color: #f8fafc;
+            color: #1e293b;
+        }
+        .blink {
+            color: #fab303 !important;
+            font-weight: 700 !important;
+            text-decoration: none;
+            animation: blinkText 1.2s infinite;
+            display: inline-block;
+        }
+        @keyframes blinkText {
+            0%   { opacity: 1; transform: scale(1); }
+            50%  { opacity: 0.25; transform: scale(1.04); }
+            100% { opacity: 1; transform: scale(1); }
+        }
+        .gallery-card {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .gallery-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 16px 30px rgba(26, 58, 96, 0.15);
+        }
+        .gallery-img-overlay {
+            opacity: 0;
+            transition: all 0.3s ease;
+        }
+        .gallery-card:hover .gallery-img-overlay {
+            opacity: 1;
+        }
+        .filter-btn.active {
+            background-color: #1a3a60;
+            color: #ffb703;
+            border-color: #1a3a60;
+            box-shadow: 0 4px 12px rgba(26, 58, 96, 0.2);
+        }
+    </style>
+</head>
+<body class="bg-gray-50 flex flex-col min-h-screen">
+
+    <!-- Header / Navbar -->
+    <header class="bg-ku-blue sticky top-0 z-50 shadow-md">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                <a href="/" class="flex items-center space-x-3">
+                    <img src="images/logo.jpg" alt="KU Writers' Society Logo" class="h-10 w-10 rounded-full object-cover border-2 border-ku-gold">
+                    <span class="text-2xl font-bold text-white tracking-wide">KU Writers' Society</span>
+                </a>
+                
+                <!-- Desktop Navigation -->
+                <nav class="hidden md:flex space-x-8 items-center">
+                    <a href="/" class="text-white hover:text-ku-gold transition duration-300 font-medium">Home</a>
+                    <a href="/#about" class="text-white hover:text-ku-gold transition duration-300 font-medium">About</a>
+                    <a href="/portal?category=events" class="text-white hover:text-ku-gold transition duration-300 font-medium">Events</a>
+                    <a href="/portal" class="blink">Read Our Writings</a>
+                    <a href="/honorboard.html" class="text-white hover:text-ku-gold transition duration-300 font-medium">Honor Board</a>
+                    <a href="/gallery.html" class="text-ku-gold font-bold border-b-2 border-ku-gold pb-1">Gallery</a>
+                    <a href="/#contact" class="text-white hover:text-ku-gold transition duration-300 font-medium">Join Us</a>
+                    <a href="/verification.html" class="text-white hover:text-ku-gold transition duration-300 font-medium">Verify Certificate</a>
+                </nav>
+
+                <!-- Mobile Menu Button -->
+                <button id="mobile-menu-button" class="md:hidden text-white hover:text-ku-gold focus:outline-none">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Menu (Hidden by default) -->
+        <div id="mobile-menu" class="hidden md:hidden bg-ku-blue pb-4 border-t border-ku-gold/30">
+            <a href="/" class="block px-4 py-2 text-white hover:bg-ku-blue/70 transition duration-300 font-medium">Home</a>
+            <a href="/#about" class="block px-4 py-2 text-white hover:bg-ku-blue/70 transition duration-300 font-medium">About</a>
+            <a href="/portal?category=events" class="block px-4 py-2 text-white hover:bg-ku-blue/70 transition duration-300 font-medium">Events</a>
+            <a href="/portal" class="block px-4 py-2 text-ku-gold font-bold hover:bg-ku-blue/70 transition duration-300 blink">Read Our Writings</a>
+            <a href="/honorboard.html" class="block px-4 py-2 text-white hover:bg-ku-blue/70 transition duration-300 font-medium">Honor Board</a>
+            <a href="/gallery.html" class="block px-4 py-2 text-ku-gold font-bold bg-ku-blue/80">Gallery</a>
+            <a href="/#contact" class="block px-4 py-2 text-white hover:bg-ku-blue/70 transition duration-300 font-medium">Join Us</a>
+            <a href="/verification.html" class="block px-4 py-2 text-white hover:bg-ku-blue/70 transition duration-300 font-medium">Verify Certificate</a>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="bg-gradient-to-r from-ku-dark-blue to-ku-blue text-white py-14 px-4 sm:px-6 lg:px-8 border-b-4 border-ku-gold relative overflow-hidden">
+        <div class="max-w-5xl mx-auto text-center relative z-10">
+            <span class="inline-block bg-ku-gold/20 text-ku-gold px-4 py-1.5 rounded-full text-xs sm:text-sm font-bold uppercase tracking-wider mb-3 border border-ku-gold/40">
+                <i class="fas fa-camera-retro mr-1"></i> KUWS Visual Chronicle
+            </span>
+            <h1 class="text-3xl sm:text-5xl font-extrabold text-white mb-4 leading-tight">
+                স্মৃতিময় মুহূর্ত ও কার্যক্রম গ্যালারি
+            </h1>
+            <p class="text-base sm:text-lg text-gray-200 max-w-3xl mx-auto leading-relaxed">
+                খুলনা বিশ্ববিদ্যালয় লেখক সংঘের সাহিত্য আড্ডা, বসন্ত উৎসব, নতুন সদস্য বরণ, কর্মশালা ও বর্ণাঢ্য ইভেন্টসমূহের স্থিরচিত্র সংকলন।
+            </p>
+        </div>
+    </section>
+
+    <!-- Main Gallery Content -->
+    <main class="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 w-full">
+
+        <!-- Category Filters -->
+        <div class="flex flex-wrap items-center justify-center gap-2 sm:gap-3 mb-10" id="category-filters">
+            <button class="filter-btn active px-5 py-2 rounded-full text-sm font-bold border border-gray-300 bg-white text-gray-700 hover:border-ku-blue hover:text-ku-blue transition duration-200" onclick="filterGallery('all')">
+                সকল ছবি (All)
+            </button>
+            <button class="filter-btn px-5 py-2 rounded-full text-sm font-bold border border-gray-300 bg-white text-gray-700 hover:border-ku-blue hover:text-ku-blue transition duration-200" onclick="filterGallery('Club Fair')">
+                ক্লাব ফেয়ার (Club Fair)
+            </button>
+            <button class="filter-btn px-5 py-2 rounded-full text-sm font-bold border border-gray-300 bg-white text-gray-700 hover:border-ku-blue hover:text-ku-blue transition duration-200" onclick="filterGallery('Meeting')">
+                সভা ও আড্ডা (Meetings)
+            </button>
+            <button class="filter-btn px-5 py-2 rounded-full text-sm font-bold border border-gray-300 bg-white text-gray-700 hover:border-ku-blue hover:text-ku-blue transition duration-200" onclick="filterGallery('Help Desk')">
+                সহায়তা ক্যাম্প (Help Desk)
+            </button>
+            <button class="filter-btn px-5 py-2 rounded-full text-sm font-bold border border-gray-300 bg-white text-gray-700 hover:border-ku-blue hover:text-ku-blue transition duration-200" onclick="filterGallery('Reception')">
+                নবীন বরণ (Reception)
+            </button>
+        </div>
+
+        <!-- Gallery Grid -->
+        <div id="gallery-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+            <!-- Loading Spinner -->
+            <div class="col-span-full py-16 text-center">
+                <i class="fas fa-spinner fa-spin fa-3x text-ku-blue"></i>
+                <p class="mt-4 text-gray-500 font-medium">গ্যালারি ছবি লোড হচ্ছে...</p>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Lightbox Modal -->
+    <div id="lightbox-modal" class="fixed inset-0 bg-black/90 z-50 hidden flex items-center justify-center p-4 backdrop-blur-sm transition-opacity duration-300" onclick="closeLightbox(event)">
+        <div class="relative max-w-4xl w-full bg-white rounded-2xl overflow-hidden shadow-2xl" onclick="event.stopPropagation()">
+            <!-- Close Button -->
+            <button onclick="closeLightbox()" class="absolute top-4 right-4 z-20 w-10 h-10 bg-ku-blue/80 hover:bg-ku-blue text-white rounded-full flex items-center justify-center transition shadow-lg">
+                <i class="fas fa-times text-lg"></i>
+            </button>
+            
+            <!-- Image Area -->
+            <div class="relative bg-black flex items-center justify-center max-h-[70vh] overflow-hidden">
+                <img id="lightbox-img" src="" alt="" class="w-full h-auto max-h-[70vh] object-contain">
+                
+                <!-- Nav Prev/Next Buttons -->
+                <button onclick="prevPhoto()" class="absolute left-3 top-1/2 -translate-y-1/2 w-11 h-11 bg-white/80 hover:bg-white text-ku-blue rounded-full flex items-center justify-center shadow-lg transition">
+                    <i class="fas fa-chevron-left"></i>
+                </button>
+                <button onclick="nextPhoto()" class="absolute right-3 top-1/2 -translate-y-1/2 w-11 h-11 bg-white/80 hover:bg-white text-ku-blue rounded-full flex items-center justify-center shadow-lg transition">
+                    <i class="fas fa-chevron-right"></i>
+                </button>
+            </div>
+
+            <!-- Content Area -->
+            <div class="p-6 bg-white border-t border-gray-100 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+                <div>
+                    <span id="lightbox-category" class="inline-block bg-ku-light text-ku-blue font-bold px-3 py-1 rounded-full text-xs mb-2 border border-ku-blue/20"></span>
+                    <h3 id="lightbox-title" class="text-xl font-bold text-ku-blue"></h3>
+                    <p id="lightbox-caption" class="text-sm text-gray-600 mt-1"></p>
+                </div>
+                <div class="text-xs text-gray-400 whitespace-nowrap">
+                    <span id="lightbox-counter"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Universal Footer -->
+    <footer class="bg-ku-blue text-white py-10 mt-auto border-t-4 border-ku-gold">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-2 md:grid-cols-4 gap-8">
+            
+            <!-- Logo/Name -->
+            <div>
+                <span class="text-xl font-bold text-ku-gold">Khulna University Writers' Society</span>
+                <p class="mt-2 text-sm text-gray-300">
+                    Powered by the passion of Khulna University students. মুক্তচিন্তা ও সৃজনশীল সাহিত্যের উন্মুক্ত প্রাঙ্গণ।
+                </p>
+            </div>
+
+            <!-- Quick Links -->
+            <div>
+                <h5 class="text-lg font-semibold mb-3">Quick Links</h5>
+                <ul class="space-y-2 text-sm">
+                    <li><a href="/ourstory.html" class="hover:text-ku-gold transition duration-200">Our Story</a></li>
+                    <li><a href="/portal?category=events" class="hover:text-ku-gold transition duration-200">Upcoming Activities</a></li>
+                    <li><a href="/portal" class="hover:text-ku-gold transition duration-200">Read Member Work</a></li>
+                    <li><a href="/honorboard.html" class="hover:text-ku-gold transition duration-200">Honor Board</a></li>
+                    <li><a href="/gallery.html" class="hover:text-ku-gold transition duration-200">Gallery</a></li>
+                    <li><a href="/verification.html" class="hover:text-ku-gold transition duration-200">Verify Certificate</a></li>
+                </ul>
+            </div>
+
+            <!-- Resources -->
+            <div>
+                <h5 class="text-lg font-semibold mb-3">Resources</h5>
+                <ul class="space-y-2 text-sm">
+                    <li><a href="/portal" class="hover:text-ku-gold transition duration-200">KUWS Literary Portal</a></li>
+                    <li><a href="/honorboard.html" class="hover:text-ku-gold transition duration-200">Honor Board</a></li>
+                    <li><a href="/gallery.html" class="hover:text-ku-gold transition duration-200">Photo Gallery</a></li>
+                    <li><a href="/verification.html" class="hover:text-ku-gold transition duration-200">Verify Certificate</a></li>
+                    <li><a href="https://ku.ac.bd" target="_blank" class="hover:text-ku-gold transition duration-200">KU Official Site</a></li>
+                </ul>
+            </div>
+
+            <!-- Contact Info -->
+            <div>
+                <h5 class="text-lg font-semibold mb-3">Get In Touch</h5>
+                <p class="text-sm">
+                    <span class="block">Email: kuwriterssociety@gmail.com</span>
+                    <span class="block mt-2">Khulna University, Khulna-9208</span>
+                </p>
+                <div class="mt-3 flex gap-3 text-lg">
+                    <a href="https://www.facebook.com/KUWritersSociety/" target="_blank" class="text-ku-gold hover:text-yellow-400"><i class="fab fa-facebook"></i></a>
+                    <a href="https://www.facebook.com/groups/kuws2024" target="_blank" class="text-ku-gold hover:text-yellow-400"><i class="fab fa-users"></i></a>
+                    <a href="mailto:kuwriterssociety@gmail.com" class="text-ku-gold hover:text-yellow-400"><i class="fas fa-envelope"></i></a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="mt-10 pt-6 border-t border-ku-gold/30 text-center text-sm text-gray-400">
+            &copy; 2026 Khulna University Writers' Society (KUWS). All rights reserved.
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script>
+        // Toggle Mobile Menu
+        const mobileBtn = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+        if (mobileBtn && mobileMenu) {
+            mobileBtn.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
+            });
+        }
+
+        let allPhotos = [];
+        let filteredPhotos = [];
+        let currentIndex = 0;
+
+        // Default Photos Fallback
+        const fallbackPhotos = [
+            { id: 1, title: 'Participating KU Club Fair', caption: 'Club Fair Event at KU Campus', category: 'Club Fair', image_url: 'images/Club Fair.jpg' },
+            { id: 2, title: 'Help desk during KU Admission Test', caption: 'KU Admission Test Support Camp', category: 'Help Desk', image_url: 'images/Helpdesk.jpg' },
+            { id: 3, title: "New Members' Reception", caption: 'Fresher Welcome & Orientation Program', category: 'Reception', image_url: 'images/News.jpg' },
+            { id: 4, title: 'Monthly General Meeting', caption: 'Monthly Society Strategy & Literary Discussion', category: 'Meeting', image_url: 'images/gm.jpg' },
+            { id: 5, title: 'Executive Committee Meeting', caption: 'Executive Board Planning Session', category: 'Meeting', image_url: 'images/Executive Meeting.jpg' },
+            { id: 6, title: 'Club Fair Literary Stall', caption: 'Literary Showcase & Book Fair', category: 'Club Fair', image_url: 'images/mela.jpeg' }
+        ];
+
+        async function loadGallery() {
+            try {
+                const res = await fetch('/api/gallery');
+                const data = await res.json();
+                if (data.photos && data.photos.length > 0) {
+                    allPhotos = data.photos;
+                } else {
+                    allPhotos = fallbackPhotos;
+                }
+            } catch (e) {
+                console.warn('Using fallback photos:', e);
+                allPhotos = fallbackPhotos;
+            }
+            filteredPhotos = [...allPhotos];
+            renderGallery();
+        }
+
+        function renderGallery() {
+            const grid = document.getElementById('gallery-grid');
+            if (filteredPhotos.length === 0) {
+                grid.innerHTML = '<div class="col-span-full py-16 text-center text-gray-400"><i class="far fa-image fa-3x mb-3"></i><p>এই বিভাগে কোনো ছবি পাওয়া যায়নি।</p></div>';
+                return;
+            }
+
+            grid.innerHTML = filteredPhotos.map((p, idx) => `
+                <div class="gallery-card bg-white rounded-2xl shadow-md overflow-hidden border border-gray-100 flex flex-col group cursor-pointer" onclick="openLightbox(${idx})">
+                    <div class="relative h-60 overflow-hidden bg-gray-100">
+                        <img src="${p.image_url}" alt="${p.title}" class="w-full h-full object-cover transform group-hover:scale-110 transition duration-500">
+                        <div class="gallery-img-overlay absolute inset-0 bg-ku-blue/60 flex items-center justify-center">
+                            <span class="w-12 h-12 rounded-full bg-ku-gold text-ku-blue flex items-center justify-center text-lg shadow-lg transform scale-90 group-hover:scale-100 transition duration-300">
+                                <i class="fas fa-expand-arrows-alt"></i>
+                            </span>
+                        </div>
+                        <span class="absolute top-3 left-3 bg-ku-blue/90 text-ku-gold text-xs font-bold px-3 py-1 rounded-full shadow border border-ku-gold/30 backdrop-blur-xs">
+                            ${p.category || 'Event'}
+                        </span>
+                    </div>
+                    <div class="p-5 flex flex-col flex-grow justify-between">
+                        <div>
+                            <h3 class="font-bold text-lg text-ku-blue group-hover:text-ku-gold transition duration-200 line-clamp-1">
+                                ${p.title}
+                            </h3>
+                            <p class="text-sm text-gray-500 mt-2 line-clamp-2">
+                                ${p.caption || 'Khulna University Writers\' Society Event'}
+                            </p>
+                        </div>
+                        <div class="mt-4 pt-3 border-t border-gray-100 flex items-center justify-between text-xs text-gray-400">
+                            <span><i class="far fa-images mr-1"></i> KUWS Memory</span>
+                            <span class="text-ku-blue font-semibold group-hover:underline">View Photo &rarr;</span>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function filterGallery(category) {
+            const buttons = document.querySelectorAll('.filter-btn');
+            buttons.forEach(b => {
+                b.classList.remove('active');
+                if ((category === 'all' && b.innerText.includes('All')) || b.innerText.includes(category)) {
+                    b.classList.add('active');
+                }
+            });
+
+            if (category === 'all') {
+                filteredPhotos = [...allPhotos];
+            } else {
+                filteredPhotos = allPhotos.filter(p => (p.category || '').toLowerCase() === category.toLowerCase());
+            }
+            renderGallery();
+        }
+
+        function openLightbox(index) {
+            currentIndex = index;
+            const photo = filteredPhotos[currentIndex];
+            if (!photo) return;
+
+            document.getElementById('lightbox-img').src = photo.image_url;
+            document.getElementById('lightbox-title').innerText = photo.title;
+            document.getElementById('lightbox-caption').innerText = photo.caption || '';
+            document.getElementById('lightbox-category').innerText = photo.category || 'General';
+            document.getElementById('lightbox-counter').innerText = `${currentIndex + 1} / ${filteredPhotos.length}`;
+
+            const modal = document.getElementById('lightbox-modal');
+            modal.classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeLightbox() {
+            const modal = document.getElementById('lightbox-modal');
+            modal.classList.add('hidden');
+            document.body.style.overflow = '';
+        }
+
+        function nextPhoto() {
+            currentIndex = (currentIndex + 1) % filteredPhotos.length;
+            openLightbox(currentIndex);
+        }
+
+        function prevPhoto() {
+            currentIndex = (currentIndex - 1 + filteredPhotos.length) % filteredPhotos.length;
+            openLightbox(currentIndex);
+        }
+
+        document.addEventListener('keydown', (e) => {
+            const modal = document.getElementById('lightbox-modal');
+            if (!modal.classList.contains('hidden')) {
+                if (e.key === 'Escape') closeLightbox();
+                if (e.key === 'ArrowRight') nextPhoto();
+                if (e.key === 'ArrowLeft') prevPhoto();
+            }
+        });
+
+        document.addEventListener('DOMContentLoaded', loadGallery);
+    </script>
+</body>
+</html>

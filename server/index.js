@@ -1068,6 +1068,9 @@ const server = http.createServer(async (req, res) => {
     if (pathname === '/honorboard' || pathname === '/honorboard.html') {
       return serveStatic(res, path.join(PUBLIC_DIR, 'honorboard.html'));
     }
+    if (pathname === '/gallery' || pathname === '/gallery.html') {
+      return serveStatic(res, path.join(PUBLIC_DIR, 'gallery.html'));
+    }
     if (pathname === '/verification' || pathname === '/verification.html') {
       return serveStatic(res, path.join(PUBLIC_DIR, 'verification.html'));
     }
