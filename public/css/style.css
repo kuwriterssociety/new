@@ -72,7 +72,7 @@ a:hover {
 .main-header {
   background: #ffffff;
   border-bottom: 1px solid var(--border-color);
-  padding: 16px 0;
+  padding: 18px 0;
 }
 
 .header-inner {
@@ -80,11 +80,10 @@ a:hover {
   justify-content: space-between;
   align-items: center;
   gap: 16px;
-  flex-wrap: wrap;
 }
 
 .brand-logo h1 {
-  font-size: 26px;
+  font-size: 28px;
   font-weight: 800;
   color: var(--primary);
   letter-spacing: -0.5px;
@@ -99,7 +98,7 @@ a:hover {
 .header-search-form {
   display: flex;
   gap: 6px;
-  width: auto;
+  width: 280px;
 }
 
 /* Nav Bar */
@@ -132,7 +131,7 @@ a:hover {
 
 .nav-links li a {
   display: block;
-  padding: 10px 14px;
+  padding: 12px 16px;
   font-weight: 600;
   font-size: 15px;
   color: #1e293b;
@@ -151,6 +150,7 @@ a:hover {
 .breaking-bar {
   background: #ffffff;
   border-bottom: 1px solid #fee2e2;
+  border-left: 4px solid var(--primary);
   display: flex;
   align-items: center;
   overflow: hidden;
@@ -162,7 +162,7 @@ a:hover {
 .breaking-label {
   background: var(--primary);
   color: #ffffff;
-  padding: 8px 14px;
+  padding: 8px 16px;
   font-weight: 700;
   font-size: 13px;
   display: flex;
@@ -201,10 +201,10 @@ a:hover {
 .badge-info { background: #e0f2fe; color: #0369a1; }
 .badge-secondary { background: #f1f5f9; color: #475569; }
 
-/* Responsive Layout Grids */
+/* Desktop Grid Layouts (2 Columns & Multi Columns) */
 .main-two-col-grid {
   display: grid;
-  grid-template-columns: 2fr 1fr;
+  grid-template-columns: 2.2fr 1fr;
   gap: 24px;
   margin-bottom: 30px;
 }
@@ -212,7 +212,7 @@ a:hover {
 .category-sub-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 16px;
+  gap: 18px;
 }
 
 /* News Cards */
@@ -238,7 +238,7 @@ a:hover {
 .news-card-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-  gap: 18px;
+  gap: 20px;
 }
 
 .news-card {
@@ -339,7 +339,7 @@ a:hover {
   margin-bottom: 20px;
 }
 .article-headline {
-  font-size: 28px;
+  font-size: 30px;
   font-weight: 800;
   margin: 12px 0;
   color: #0f172a;
@@ -354,8 +354,8 @@ a:hover {
   margin-bottom: 20px;
 }
 .author-avatar {
-  width: 44px;
-  height: 44px;
+  width: 46px;
+  height: 46px;
   border-radius: 50%;
   object-fit: cover;
 }
@@ -372,7 +372,7 @@ a:hover {
   font-style: italic;
 }
 .article-content {
-  font-size: 17px;
+  font-size: 18px;
   line-height: 1.85;
   color: #334155;
   margin: 20px 0;
@@ -383,10 +383,10 @@ a:hover {
 }
 .article-content blockquote {
   border-left: 4px solid var(--primary);
-  padding: 10px 16px;
+  padding: 12px 18px;
   background: #fef2f2;
   font-style: italic;
-  font-size: 18px;
+  font-size: 19px;
   margin: 18px 0;
   border-radius: 0 8px 8px 0;
 }
@@ -663,15 +663,16 @@ a:hover {
 .toast-info { background: #2563eb; }
 
 @keyframes slideIn {
-  from { transform: translateY(100%); opacity: 0; }
-  to { transform: translateY(0); opacity: 1; }
+  from { transform: translateX(100%); opacity: 0; }
+  to { transform: translateX(0); opacity: 1; }
 }
 
 /* ========================================================
-   RESPONSIVE MEDIA QUERIES (TABLET & MOBILE OPTIMIZATIONS)
+   RESPONSIVE MEDIA QUERIES (STRICTLY FOR MOBILE & TABLETS)
    ======================================================== */
 
-@media (max-width: 992px) {
+/* Mobile / Small Screens Only (Screens <= 768px) */
+@media (max-width: 768px) {
   .admin-layout {
     flex-direction: column;
   }
@@ -697,20 +698,23 @@ a:hover {
     border-left-color: transparent;
     border-bottom-color: var(--primary);
   }
-  
+
+  /* Collapse into 1 column ONLY on mobile screens */
   .main-two-col-grid,
   .article-grid-layout,
   .admin-editor-grid {
-    grid-template-columns: 1fr;
-    gap: 20px;
+    grid-template-columns: 1fr !important;
+    gap: 20px !important;
   }
 
-  .lead-img {
-    height: 280px;
+  .category-sub-grid {
+    grid-template-columns: 1fr !important;
   }
-}
 
-@media (max-width: 768px) {
+  .news-card-grid {
+    grid-template-columns: 1fr !important;
+  }
+
   .header-inner {
     flex-direction: column;
     align-items: stretch;
@@ -744,14 +748,6 @@ a:hover {
     justify-content: center;
   }
 
-  .category-sub-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .news-card-grid {
-    grid-template-columns: 1fr;
-  }
-
   .lead-img {
     height: 220px;
   }
@@ -764,7 +760,7 @@ a:hover {
   .article-main-image {
     max-height: 280px;
   }
-  
+
   .stat-grid {
     grid-template-columns: 1fr 1fr;
   }

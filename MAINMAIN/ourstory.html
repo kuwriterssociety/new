@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Khulna University Writers' Society</title>
+    <!-- Load Tailwind CSS --><script src="https://cdn.tailwindcss.com"></script>
+    <!-- Configure Tailwind for Inter Font --><script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        'ku-blue': '#1a3a60',
+                        'ku-gold': '#ffb703',
+                        'ku-light': '#f0f4f8',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Ensuring smooth scrolling for navigation links */
+        html {
+            scroll-behavior: smooth;
+            font-family: 'Inter', sans-serif;
+        }
+        /* Custom scrollbar for aesthetics */
+        body::-webkit-scrollbar {
+            width: 8px;
+        }
+        body::-webkit-scrollbar-thumb {
+            background-color: #ffb703;
+            border-radius: 4px;
+        }
+        body::-webkit-scrollbar-track {
+            background-color: #1a3a60;
+        }
+    </style>
+</head>
+<body class="bg-ku-light text-gray-800">
+
+    <!-- Header & Navigation --><header class="bg-ku-blue shadow-lg sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                <a href="#home" class="flex items-center space-x-3">
+                    <!-- LOGO IMAGE HERE --><img src="images/logo.jpg" alt="KU Writers' Society Logo" class="h-10 w-10 rounded-full object-cover">
+                    <span class="text-2xl font-bold text-white tracking-wide">KU Writers' Society</span>
+                </a>
+                
+                <!-- Desktop Navigation --><nav class="hidden md:flex space-x-8">
+                    <a href="#home" class="text-white hover:text-ku-gold transition duration-300 font-medium">Home</a>
+                    <a href="#about" class="text-white hover:text-ku-gold transition duration-300 font-medium">About</a>
+                    <a href="#events" class="text-white hover:text-ku-gold transition duration-300 font-medium">Events</a>
+                    <a href="#showcase" class="text-white hover:text-ku-gold transition duration-300 font-medium">Showcase</a>
+                    <a href="#honor-board" class="text-white hover:text-ku-gold transition duration-300 font-medium">Honor Board</a>
+                    <a href="#gallery" class="text-white hover:text-ku-gold transition duration-300 font-medium">Gallery</a>
+                    <a href="#contact" class="text-white hover:text-ku-gold transition duration-300 font-medium">Join Us</a>
+                    <a href="verification.html" class="text-white hover:text-ku-gold transition duration-300 font-medium">Verify Certificate</a>
+                </nav>
+
+                <!-- Mobile Menu Button --><button id="mobile-menu-button" class="md:hidden text-white hover:text-ku-gold focus:outline-none">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Menu (Hidden by default) --><div id="mobile-menu" class="hidden md:hidden bg-ku-blue pb-4 border-t border-ku-gold/30">
+            <a href="#home" class="block px-4 py-2 text-white hover:bg-ku-blue/70 transition duration-300 font-medium" onclick="toggleMenu()">Home</a>
+            <a href="#about" class="block px-4 py-2 text-white hover:bg-ku-blue/70 transition duration-300 font-medium" onclick="toggleMenu()">About</a>
+            <a href="#events" class="block px-4 py-2 text-white hover:bg-ku-blue/70 transition duration-300 font-medium" onclick="toggleMenu()">Events</a>
+            <a href="#showcase" class="block px-4 py-2 text-white hover:bg-ku-blue/70 transition duration-300 font-medium" onclick="toggleMenu()">Showcase</a>
+            <a href="#honor-board" class="block px-4 py-2 text-white hover:bg-ku-blue/70 transition duration-300 font-medium" onclick="toggleMenu()">Honor Board</a>
+            <a href="#gallery" class="block px-4 py-2 text-white hover:bg-ku-blue/70 transition duration-300 font-medium" onclick="toggleMenu()">Gallery</a>
+            <a href="#contact" class="block px-4 py-2 text-white hover:bg-ku-blue/70 transition duration-300 font-medium" onclick="toggleMenu()">Join Us</a>
+            <a href="verification.html" class="block px-4 py-2 text-white hover:bg-ku-blue/70 transition duration-300 font-medium" onclick="toggleMenu()">Verify Certificate</a>
+        </div>
+    </header>
+
+    <main>
+        <!-- 1. Hero Section --><section id="home" class="relative bg-ku-blue py-20 md:py-32 text-center overflow-hidden">
+            <! (image can be added in this section)img src="images/" alt="Hero background" class="absolute inset-0 w-full h-full object-cover opacity-20">
+            
+            <div class="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+                <h1 class="text-4xl sm:text-6xl font-extrabold text-white mb-4 leading-tight">
+                    Where Ideas Take Flight
+                </h1>
+                <p class="text-xl sm:text-2xl text-ku-gold font-light mb-8 max-w-2xl mx-auto">
+                    A community for the creative minds of Khulna University to read, write, and inspire.
+                </p>
+                <a href="#contact" class="inline-block bg-ku-gold text-ku-blue hover:bg-ku-gold/80 transition duration-300 text-lg font-semibold py-3 px-8 rounded-full shadow-xl transform hover:scale-105 active:scale-95 focus:outline-none focus:ring-4 focus:ring-ku-gold/50">
+                    Join with Us Today
+                </a>
+            </div>
+        </section>
+
+        <!-- 2. About Section --><section id="about" class="py-16 md:py-24 bg-white">
+            <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-12">
+                    <span class="text-ku-gold text-sm font-semibold uppercase tracking-wider">Our Mission</span>
+                    <h2 class="mt-2 text-3xl sm:text-4xl font-extrabold text-ku-blue">Cultivating Literary Talent</h2>
+                </div>
+                
+                <div class="grid md:grid-cols-3 gap-10 text-center">
+                    <div class="p-6 bg-ku-light rounded-xl shadow-lg hover:shadow-2xl transition duration-300 border-t-4 border-ku-gold">
+                        <!-- IMAGE_PLACEHOLDER: A diverse group of university students engaged in a lively discussion or brainstorming session, perhaps with notebooks and pens. --><img src="images/Guide New Writers.jpg" alt="Students inspiring creativity" class="w-full h-40 object-cover rounded-lg mb-4 shadow-md">
+                        <h3 class="text-xl font-bold mb-2 text-ku-blue">Guide New Writers</h3>
+                        <p class="text-gray-600">We mentor and inspire emerging writers, offering guidance to help them find their voice and grow with confidence.</p>
+                    </div>
+                    <div class="p-6 bg-ku-light rounded-xl shadow-lg hover:shadow-2xl transition duration-300 border-t-4 border-ku-gold">
+                        <!-- IMAGE_PLACEHOLDER: A close-up of hands writing in a notebook or typing on a laptop, emphasizing the act of writing and refinement. --><img src="images/Inspire Creativity.jpg" alt="Hands writing and refining craft" class="w-full h-40 object-cover rounded-lg mb-4 shadow-md">
+                        <h3 class="text-xl font-bold mb-2 text-ku-blue">Inspire Creativity</h3>
+                        <p class="text-gray-600">We host workshops and reading sessions to spark new ideas and push the boundaries of creative expression among students.</p>
+                    </div>
+                    <div class="p-6 bg-ku-light rounded-xl shadow-lg hover:shadow-2xl transition duration-300 border-t-4 border-ku-gold">
+                        <!-- IMAGE_PLACEHOLDER: A group of university students socializing, laughing, and interacting in a campus setting, symbolizing community. --><img src="images/Support Publication.jpg" alt="Students building community" class="w-full h-40 object-cover rounded-lg mb-4 shadow-md">
+                        <h3 class="text-xl font-bold mb-2 text-ku-blue">Support Publication & Build Community</h3>
+                        <p class="text-gray-600">We support young authors in editing, publishing, and showcasing their work, connecting them with the wider literary community.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Events Section --><section id="events" class="py-16 md:py-24 bg-ku-light">
+            <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-12">
+                    <span class="text-ku-gold text-sm font-semibold uppercase tracking-wider">What's Happening</span>
+                    <h2 class="mt-2 text-3xl sm:text-4xl font-extrabold text-ku-blue">Upcoming Literary Events</h2>
+                </div>
+
+                <div class="space-y-6">
+                    <!-- Event Card 1 --><div class="md:flex bg-white rounded-xl shadow-lg overflow-hidden border-l-8 border-ku-gold/80 p-6 transition duration-300 hover:shadow-xl">
+                        <div class="flex-shrink-0 md:w-48 mb-4 md:mb-0">
+                            <div class="bg-ku-blue text-white rounded-lg p-4 text-center">
+                                <span class="block text-4xl font-bold">Coming</span>
+                                <span class="block text-lg">Soon</span>
+                                <span class="block text-sm font-light">10:00 AM</span>
+                            </div>
+                        </div>
+                        <div class="md:ml-6 flex flex-col justify-center">
+                            <h3 class="text-2xl font-bold text-ku-blue mb-2">Training on Feature Writing</h3>
+                            <p class="text-gray-600 mb-3">Participate and earn certificate. Sign-ups open soon.</p>
+                            <div class="text-sm font-medium text-gray-500">
+                                Location: KU Campus
+                            </div>
+<img src="images/training.jpg" class="mt-4 w-full h-48 object-cover rounded-md shadow-md">
+                        </div>
+                    </div>
+
+                    <!-- Event Card 2 --><div class="md:flex bg-white rounded-xl shadow-lg overflow-hidden border-l-8 border-ku-gold/80 p-6 transition duration-300 hover:shadow-xl">
+                        <div class="flex-shrink-0 md:w-48 mb-4 md:mb-0">
+                            <div class="bg-ku-blue text-white rounded-lg p-4 text-center">
+                                <span class="block text-4xl font-bold">17</span>
+                                <span class="block text-lg">Oct</span>
+                                <span class="block text-sm font-light">8:00 PM</span>
+                            </div>
+                        </div>
+                        <div class="md:ml-6 flex flex-col justify-center">
+                            <h3 class="text-2xl font-bold text-ku-blue mb-2">Editorial Quiz- 2025</h3>
+                            <p class="text-gray-600 mb-3">This competition is specially designed for university students who wish to go beyond the surface-level news and delve into the depth and significance of events. By reading the editorials of the country's leading daily newspapers, you will not only gain insights into national and global affairs but also get a chance to sharpen your analytical skills.
+Participants will be required to regularly read the editorials published in two major national dailies of Bangladesh—Prothom Alo and Samakal—from September 20 to September 30, 2025. The quiz questions will be based on the content, author's perspective, and arguments presented in the editorials from this specific period.</p>
+                            <div class="text-sm font-medium text-gray-500">
+                                Location: Online
+                            </div>
+<img src="images/ediquiz.jpg" alt="Editorial Quiz 2025" class="mt-4 w-96 h-48 object-cover rounded-md shadow-md">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- See More Events Button --><div class="mt-12 text-center">
+                    <a href="events.html" class="inline-block bg-ku-blue text-white hover:bg-ku-blue/80 transition duration-300 text-lg font-semibold py-3 px-8 rounded-full shadow-xl transform hover:scale-105 active:scale-95 focus:outline-none focus:ring-4 focus:ring-ku-gold/50">
+                        See More Events &rarr;
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- 4. Showcase Section --><section id="showcase" class="py-16 md:py-24 bg-ku-blue/90">
+            <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-12">
+                    <span class="text-ku-gold text-sm font-semibold uppercase tracking-wider">Member Work</span>
+                    <h2 class="mt-2 text-3xl sm:text-4xl font-extrabold text-white">The KU Literary Showcase</h2>
+                </div>
+
+                <div class="grid md:grid-cols-3 gap-8">
+                    <!-- Showcase Card 1 --><div class="bg-white rounded-xl shadow-xl overflow-hidden p-6 border-b-4 border-ku-gold">
+                        <img src="images/machshikar.png" alt="MachShikar" class="w-full h-40 object-cover rounded-lg mb-4 shadow-md">
+                        <h4 class="text-xl font-bold text-ku-blue mb-1">কবিতা- মাছ শিকার</h4>
+                        <p class="text-sm font-medium text-ku-gold mb-3">— By Md. Arafat Hossain</p>
+                        <p class="text-gray-600 text-sm italic line-clamp-4">
+                            "বৃষ্টির দিনে পুকুর পাড়ে/ মাছের আনাগোনা,/ বড়শি দিয়ে মাছ ধরিবে/ ছোট্ট খোকন সোনা।..."
+                        </p>
+                        <a href="https://epaper.shomoyeralo.com/img.php?i=2025/10/04/7/details/7_r7_c3.jpg" class="mt-3 block text-right text-sm text-ku-blue font-semibold hover:text-ku-gold transition duration-300">Read More &rarr;</a>
+                    </div>
+                    
+                    <!-- Showcase Card 2 --><div class="bg-white rounded-xl shadow-xl overflow-hidden p-6 border-b-4 border-ku-gold">
+                        <!-- IMAGE_PLACEHOLDER: A beautiful, atmospheric image of Khulna University campus at evening, capturing the described mood. --><img src="images/TeachersDAy.png" alt="Ode to a Campus Evening" class="w-full h-40 object-cover rounded-lg mb-4 shadow-md">
+                        <h4 class="text-xl font-bold text-ku-blue mb-1">মানুষ হতে শেখান যারা</h4>
+                        <p class="text-sm font-medium text-ku-gold mb-3">— By Sanjida Akter</p>
+                        <p class="text-gray-600 text-sm italic line-clamp-4">
+                            "আজ ৫ অক্টোবর, বিশ্ব শিক্ষক দিবস। শৈশবের হাতেখড়ি থেকে যৌবনের জটিল সিদ্ধান্ত পর্যন্ত যেখানেই ভরসা হারাই, ঠিক সেখানেই শিক্ষক হয়ে ওঠেন আলোর পথপ্রদর্শক ।..."
+                        </p>
+                        <a href="#" class="mt-3 block text-right text-sm text-ku-blue font-semibold hover:text-ku-gold transition duration-300">Read More &rarr;</a>
+                    </div>
+
+                    <!-- Showcase Card 3 --><div class="bg-white rounded-xl shadow-xl overflow-hidden p-6 border-b-4 border-ku-gold">
+                        <img src="images/ghaser deshe.jpg" alt="Ghaser Deshe" class="w-full h-40 object-cover rounded-lg mb-4 shadow-md">
+                        <h4 class="text-xl font-bold text-ku-blue mb-1">কবিতা- ঘাসের দেশে</h4>
+                        <p class="text-sm font-medium text-ku-gold mb-3">— By Parvez Mosharrof</p>
+                        <p class="text-gray-600 text-sm italic line-clamp-4">
+                            "শিশির ভেজা ঘাসের দেশে/মুক্ত মনে হেসে,/ তেপান্তরের মাঠে মাঠে/ বেড়াই আমি ভেসে।/ ছোট্ট সজীব ঘাসের রূপে/ দুচোখ ভরে যায়,/ সবুজ শ্যামল ঘাসের এমন/ রূপ যে কোথাও নাই।..."
+                        </p>
+                        <a href="https://khulnagazette.com/literature/423175/" class="mt-3 block text-right text-sm text-ku-blue font-semibold hover:text-ku-gold transition duration-300">Read More &rarr;</a>
+                    </div>
+                </div>
+
+                <!-- See More Showcase Button --><div class="mt-12 text-center">
+                    <a href="headlines.html" class="inline-block bg-ku-gold text-ku-blue hover:bg-ku-gold/80 transition duration-300 text-lg font-semibold py-3 px-8 rounded-full shadow-xl transform hover:scale-105 active:scale-95 focus:outline-none focus:ring-4 focus:ring-ku-gold/50">
+                        Read More Work &rarr;
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- 5. Honor Board Section --><section id="honor-board" class="py-16 md:py-24 bg-white">
+            <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-12">
+                    <span class="text-ku-gold text-sm font-semibold uppercase tracking-wider">A Legacy of Leadership</span>
+                    <h2 class="mt-2 text-3xl sm:text-4xl font-extrabold text-ku-blue">Honor Board</h2>
+                </div>
+
+                <!-- Centered two-card grid layout (max-w-4xl mx-auto centers the container) -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 max-w-4xl mx-auto gap-8"> 
+                    <!-- President Card --><div class="bg-ku-light rounded-xl shadow-lg p-6 text-center border-b-4 border-ku-gold">
+                        <img src="images/President1.png" alt="Previous President, Mr. Ekramul HAque" class="w-32 h-32 rounded-full object-cover mx-auto mb-4 shadow-md">
+                        <h3 class="text-xl font-bold text-ku-blue mb-1">Ekramul Haque</h3>
+                        <p class="text-ku-gold text-sm mb-2">President (2025)</p>
+                        <p class="text-gray-600 text-sm">Current and Founding President</p>
+                    </div>
+
+                    <!-- General Secretary Card --><div class="bg-ku-light rounded-xl shadow-lg p-6 text-center border-b-4 border-ku-gold">
+                        <img src="images/mahfuz.png" alt="Previous General Secretary, Mahfuz" class="w-32 h-32 rounded-full object-cover mx-auto mb-4 shadow-md">
+                        <h3 class="text-xl font-bold text-ku-blue mb-1">Mahfujur Rahman</h3>
+                        <p class="text-ku-gold text-sm mb-2">General Secretary (2025)</p>
+                        <p class="text-gray-600 text-sm">current and founding secretary.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 6. Photo Gallery Section --><section id="gallery" class="py-16 md:py-24 bg-ku-blue/90">
+            <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-12">
+                    <span class="text-ku-gold text-sm font-semibold uppercase tracking-wider">Moments & Memories</span>
+                    <h2 class="mt-2 text-3xl sm:text-4xl font-extrabold text-white">Our Society in Action</h2>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <!-- Gallery Item 1 --><div class="bg-white rounded-xl shadow-lg overflow-hidden group">
+                        <img src="images/Club Fair.jpg" alt="Club Fair Event" class="w-full h-56 object-cover transform group-hover:scale-105 transition duration-300">
+                        <div class="p-4">
+                            <h4 class="font-semibold text-ku-blue">Participating KU Club Fair</h4>
+                            <p class="text-sm text-gray-600">February 2025</p>
+                        </div>
+                    </div>
+
+                    <!-- Gallery Item 2 --><div class="bg-white rounded-xl shadow-lg overflow-hidden group">
+                        <img src="images/Helpdesk.jpg" alt="KU Admission Helpdesk" class="w-full h-56 object-cover transform group-hover:scale-105 transition duration-300">
+                        <div class="p-4">
+                            <h4 class="font-semibold text-ku-blue">Help desk during KU Admission Test</h4>
+                            <p class="text-sm text-gray-600">April 2025</p>
+                        </div>
+                    </div>
+
+                    <!-- Gallery Item 3 --><div class="bg-white rounded-xl shadow-lg overflow-hidden group">
+                        <img src="images/News.jpg" alt="Fresher's Receiption" class="w-full h-56 object-cover transform group-hover:scale-105 transition duration-300">
+                        <div class="p-4">
+                            <h4 class="font-semibold text-ku-blue">New Members'Reeiption</h4>
+                            <p class="text-sm text-gray-600">January 2025</p>
+                        </div>
+                    </div>
+
+                     <!-- Gallery Item 4 --><div class="bg-white rounded-xl shadow-lg overflow-hidden group">
+                        <img src="images/gm.jpg" alt="General Meeting" class="w-full h-56 object-cover transform group-hover:scale-105 transition duration-300">
+                        <div class="p-4">
+                            <h4 class="font-semibold text-ku-blue">Monthly Meeting</h4>
+                            <p class="text-sm text-gray-600">June 2025</p>
+                        </div>
+                    </div>
+
+                    <!-- Gallery Item 5 --><div class="bg-white rounded-xl shadow-lg overflow-hidden group">
+                        <img src="images/Executive Meeting.jpg" alt="Executive Meeting Photo" class="w-full h-56 object-cover transform group-hover:scale-105 transition duration-300">
+                        <div class="p-4">
+                            <h4 class="font-semibold text-ku-blue">Executive Meeting</h4>
+                            <p class="text-sm text-gray-600">January 2025</p>
+                        </div>
+                    </div>
+
+                    <!-- Gallery Item 6 --><div class="bg-white rounded-xl shadow-lg overflow-hidden group">
+                        <img src="images/mela.jpeg" alt="Club Fair" class="w-full h-56 object-cover transform group-hover:scale-105 transition duration-300">
+                        <div class="p-4">
+                            <h4 class="font-semibold text-ku-blue">Club Fair</h4>
+                            <p class="text-sm text-gray-600">February 2025</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- See More Gallery Button --><div class="mt-12 text-center">
+                    <a href="gallery.html" class="inline-block bg-ku-gold text-ku-blue hover:bg-ku-gold/80 transition duration-300 text-lg font-semibold py-3 px-8 rounded-full shadow-xl transform hover:scale-105 active:scale-95 focus:outline-none focus:ring-4 focus:ring-ku-gold/50">
+                        View Full Gallery &rarr;
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- 7. Contact / Call to Action Section --><section id="contact" class="py-16 md:py-24 bg-ku-light">
+            <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+                <h2 class="text-3xl sm:text-4xl font-extrabold text-ku-blue mb-4">Ready to Start Writing?</h2>
+                <p class="text-lg text-gray-600 mb-8">
+                    We welcome writers and readers of all departments and skill levels. Your voice matters here.
+                </p>
+
+                <div class="md:flex justify-center space-y-4 md:space-y-0 md:space-x-6">
+                    <a href="https://forms.gle/1ZHep4fKWjWkJ5z39" class="inline-flex items-center justify-center w-full md:w-auto bg-ku-blue text-white hover:bg-ku-blue/80 transition duration-300 font-semibold py-3 px-8 rounded-full shadow-lg transform hover:scale-105 active:scale-95">
+                        <svg class="w-5 h-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
+                        Be A Member
+                    </a>
+                    <a href="https://www.facebook.com/KUWritersSociety/" target="_blank" class="inline-flex items-center justify-center w-full md:w-auto bg-ku-gold text-ku-blue hover:bg-ku-gold/80 transition duration-300 font-semibold py-3 px-8 rounded-full shadow-lg transform hover:scale-105 active:scale-95">
+                        <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-3 7h-2.5v-1.5c0-.827.673-1.5 1.5-1.5h1v-2h-2c-2.206 0-3 1.05-3 2.5v1.5h-2v2h2v7h3v-7h3l.5-2z"/></svg>
+                        Follow on Facebook
+                    </a>
+                    <a href="https://www.facebook.com/groups/kuws2024" target="_blank" class="inline-flex items-center justify-center w-full md:w-auto bg-ku-gold text-ku-blue hover:bg-ku-gold/80 transition duration-300 font-semibold py-3 px-8 rounded-full shadow-lg transform hover:scale-105 active:scale-95">
+                        <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-3 7h-2.5v-1.5c0-.827.673-1.5 1.5-1.5h1v-2h-2c-2.206 0-3 1.05-3 2.5v1.5h-2v2h2v7h3v-7h3l.5-2z"/></svg>
+                        Join Group
+                    </a>
+                </div>
+
+                <p class="mt-8 text-sm text-gray-500">
+                    Program Schedules are shared in our official group.
+                </p>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer --><footer class="bg-ku-blue text-white py-10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-2 md:grid-cols-4 gap-8">
+            
+            <!-- Logo/Name --><div>
+                <span class="text-xl font-bold text-ku-gold">Khulna University Writers' Society</span>
+                <p class="mt-2 text-sm text-gray-300">
+                    Powered by the passion of Khulna University students.
+                </p>
+            </div>
+
+            <!-- Quick Links --><div>
+                <h5 class="text-lg font-semibold mb-3">Quick Links</h5>
+                <ul class="space-y-2 text-sm">
+                    <li><a href="ourstory.html" class="hover:text-ku-gold transition duration-200">Our Story</a></li>
+                    <li><a href="events.html" class="hover:text-ku-gold transition duration-200">Upcoming Activities</a></li>
+                    <li><a href="headlines.html" class="hover:text-ku-gold transition duration-200">Read Member Work</a></li>
+                    <li><a href="honorboard.html" class="hover:text-ku-gold transition duration-200">Honor Board</a></li>
+                    <li><a href="gallery.html" class="hover:text-ku-gold transition duration-200">Gallery</a></li>
+                </ul>
+            </div>
+
+            <!-- Resources --><div>
+                <h5 class="text-lg font-semibold mb-3">Resources</h5>
+                <ul class="space-y-2 text-sm">
+                    <li><a href="logo.html" class="hover:text-ku-gold transition duration-200">KU related Logo</a></li>
+                    <li><a href="https://dsa.ku.ac.bd/clubs" class="hover:text-ku-gold transition duration-200">KU Club List</a></li>
+                    <li><a href="https://ku.ac.bd" class="hover:text-ku-gold transition duration-200">KU Official Site</a></li>
+                </ul>
+            </div>
+
+            <!-- Contact Info --><div>
+                <h5 class="text-lg font-semibold mb-3">Get In Touch</h5>
+                <p class="text-sm">
+                    <span class="block">Email: kuwriterssociety@ku.ac.bd</span>
+                    <span class="block mt-2">Khulna University, Khulna-9208</span>
+                </p>
+            </div>
+        </div>
+        
+        <div class="mt-10 pt-6 border-t border-ku-gold/30 text-center text-sm text-gray-400">
+            &copy; <span id="current-year"></span> Khulna University Writers' Society. All rights reserved.
+        </div>
+    </footer>
+
+    <script>
+        // Get the current year for the footer copyright
+        document.getElementById('current-year').textContent = new Date().getFullYear();
+
+        // JavaScript for Mobile Menu Toggle
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        function toggleMenu() {
+            mobileMenu.classList.toggle('hidden');
+        }
+
+        mobileMenuButton.addEventListener('click', toggleMenu);
+        
+    </script>
+</body>
+</html>

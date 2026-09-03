@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Khulna University Writers' Society</title>
+    <!-- Load Tailwind CSS --><script src="https://cdn.tailwindcss.com"></script>
+    <!-- Configure Tailwind for Inter Font --><script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        'ku-blue': '#1a3a60',
+                        'ku-gold': '#ffb703',
+                        'ku-light': '#f0f4f8',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Ensuring smooth scrolling for navigation links */
+        html {
+            scroll-behavior: smooth;
+            font-family: 'Inter', sans-serif;
+        }
+        /* Custom scrollbar for aesthetics */
+        body::-webkit-scrollbar {
+            width: 8px;
+        }
+        body::-webkit-scrollbar-thumb {
+            background-color: #ffb703;
+            border-radius: 4px;
+        }
+        body::-webkit-scrollbar-track {
+            background-color: #1a3a60;
+        }
+    </style>
+</head>
+<body class="bg-ku-light text-gray-800">
+
+    <!-- Header & Navigation --><header class="bg-ku-blue shadow-lg sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                <a href="#home" class="flex items-center space-x-3">
+                    <!-- LOGO IMAGE HERE --><img src="images/logo.jpg" alt="KU Writers' Society Logo" class="h-10 w-10 rounded-full object-cover">
+                    <span class="text-2xl font-bold text-white tracking-wide">KU Writers' Society</span>
+                </a>
+                
+                <!-- Desktop Navigation --><nav class="hidden md:flex space-x-8">
+                    <a href="https://kuws.netlify.app/" class="text-white hover:text-ku-gold transition duration-300 font-medium">Home</a>
+                    <a href="https://kuws.netlify.app/#about" class="text-white hover:text-ku-gold transition duration-300 font-medium">About</a>
+                    <a href="https://kuws-online.blogspot.com/search/label/%E0%A6%87%E0%A6%AD%E0%A7%87%E0%A6%A8%E0%A7%8D%E0%A6%9F%E0%A6%B8" class="text-white hover:text-ku-gold transition duration-300 font-medium">Events</a>
+                    <a href="https://kuws-online.blogspot.com" class="blink">Read Our Writings</a>
+
+<style>
+.blink {
+  color: #fab303;
+  font-weight: bold;
+  text-decoration: none;
+  animation: blinkText 1s infinite;
+}
+
+@keyframes blinkText {
+  0%   { opacity: 1; }
+  50%  { opacity: 0; }
+  100% { opacity: 1; }
+}
+</style>
+                    <a href="honorboard.html" class="text-white hover:text-ku-gold transition duration-300 font-medium">Honor Board</a>
+                    <a href="https://kuws-online.blogspot.com/p/gallery.html" class="text-white hover:text-ku-gold transition duration-300 font-medium">Gallery</a>
+                    <a href="https://kuws.netlify.app/#contact" class="text-white hover:text-ku-gold transition duration-300 font-medium">Join Us</a>
+                    <a href="verification.html" class="text-white hover:text-ku-gold transition duration-300 font-medium">Verify Certificate</a>
+                </nav>
+
+                <!-- Mobile Menu Button --><button id="mobile-menu-button" class="md:hidden text-white hover:text-ku-gold focus:outline-none">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Menu (Hidden by default) --><div id="mobile-menu" class="hidden md:hidden bg-ku-blue pb-4 border-t border-ku-gold/30">
+            <a href=""https://kuws.netlify.app/" class="block px-4 py-2 text-white hover:bg-ku-blue/70 transition duration-300 font-medium" onclick="toggleMenu()">Home</a>
+            <a href="https://kuws.netlify.app/#about" class="block px-4 py-2 text-white hover:bg-ku-blue/70 transition duration-300 font-medium" onclick="toggleMenu()">About</a>
+            <a href="https://kuws-online.blogspot.com/search/label/%E0%A6%87%E0%A6%AD%E0%A7%87%E0%A6%A8%E0%A7%8D%E0%A6%9F%E0%A6%B8" class="block px-4 py-2 text-white hover:bg-ku-blue/70 transition duration-300 font-medium" onclick="toggleMenu()">Events</a>
+            <a href="https://kuws-online.blogspot.com" class="block px-4 py-2 text-white hover:bg-ku-blue/70 transition duration-300 font-medium" onclick="toggleMenu()">Read Our Writings</a>
+            <a href="honorboard.html" class="block px-4 py-2 text-white hover:bg-ku-blue/70 transition duration-300 font-medium" onclick="toggleMenu()">Honor Board</a>
+            <a href="https://kuws-online.blogspot.com/p/gallery.html" class="block px-4 py-2 text-white hover:bg-ku-blue/70 transition duration-300 font-medium" onclick="toggleMenu()">Gallery</a>
+            <a href="https://kuws.netlify.app/#contact" class="block px-4 py-2 text-white hover:bg-ku-blue/70 transition duration-300 font-medium" onclick="toggleMenu()">Join Us</a>
+            <a href="verification.html" class="block px-4 py-2 text-white hover:bg-ku-blue/70 transition duration-300 font-medium" onclick="toggleMenu()">Verify Certificate</a>
+        </div>
+    </header>
+
+    <main>
+
+        <!-- Certificate Verification Section --><section id="verification" class="py-16 md:py-24 bg-ku-light">
+            <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+                <header class="text-center mb-12">
+                    <span class="text-ku-gold text-sm font-semibold uppercase tracking-wider">Authenticity Check</span>
+                    <h2 class="mt-2 text-3xl sm:text-4xl font-extrabold text-ku-blue">Certificate Verification Portal</h2>
+                    <p class="text-lg text-gray-600 mt-2">
+                        Enter the unique Certificate ID below to verify its authenticity and details.
+                    </p>
+                </header>
+                
+                <!-- Main Verification Card -->
+                <div class="w-full max-w-lg mx-auto bg-white rounded-xl shadow-2xl p-6 md:p-10 border border-gray-100">
+
+                    <!-- Verification Form -->
+                    <div id="verification-form">
+                        <label for="certificateId" class="block text-sm font-medium text-ku-blue mb-2">Certificate ID</label>
+                        <div class="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
+                            <input
+                                type="text"
+                                id="certificateId"
+                                placeholder="e.g., 25222641 or MS-250505"
+                                class="flex-grow p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-ku-gold focus:border-ku-gold transition duration-150"
+                            >
+                            <button
+                                id="verifyButton"
+                                onclick="verifyCertificate()"
+                                class="w-full sm:w-auto px-6 py-3 bg-ku-blue text-white font-bold rounded-lg hover:bg-ku-blue/80 transition duration-200 shadow-md hover:shadow-lg focus:outline-none focus:ring-4 focus:ring-ku-gold/50"
+                            >
+                                Verify
+                            </button>
+                        </div>
+                        <p id="loadingMessage" class="mt-4 text-center text-sm text-ku-blue hidden">
+                            Verifying certificate...
+                        </p>
+                        <p id="authStatus" class="mt-4 text-center text-xs text-ku-blue font-medium">
+                            Verification system is active.
+                        </p>
+                    </div>
+
+                    <!-- Verification Result Display Area -->
+                    <div id="resultContainer" class="mt-8 pt-6 border-t border-gray-200 hidden">
+                        <!-- Result content will be injected here -->
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+
+
+        <!-- 7. Contact / Call to Action Section --><section id="contact" class="py-16 md:py-24 bg-ku-light">
+            <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+                <h2 class="text-3xl sm:text-4xl font-extrabold text-ku-blue mb-4">Ready to Start Writing?</h2>
+                <p class="text-lg text-gray-600 mb-8">
+                    We welcome writers and readers of all departments and skill levels. Your voice matters here.
+                </p>
+
+                <div class="md:flex justify-center space-y-4 md:space-y-0 md:space-x-6">
+                    <a href="https://forms.gle/1ZHep4fKWjWkJ5z39" class="inline-flex items-center justify-center w-full md:w-auto bg-ku-blue text-white hover:bg-ku-blue/80 transition duration-300 font-semibold py-3 px-8 rounded-full shadow-lg transform hover:scale-105 active:scale-95">
+                        <svg class="w-5 h-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
+                        Be A Member
+                    </a>
+                    <a href="https://www.facebook.com/KUWritersSociety/" target="_blank" class="inline-flex items-center justify-center w-full md:w-auto bg-ku-gold text-ku-blue hover:bg-ku-gold/80 transition duration-300 font-semibold py-3 px-8 rounded-full shadow-lg transform hover:scale-105 active:scale-95">
+                        <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-3 7h-2.5v-1.5c0-.827.673-1.5 1.5-1.5h1v-2h-2c-2.206 0-3 1.05-3 2.5v1.5h-2v2h2v7h3v-7h3l.5-2z"/></svg>
+                        Follow on Facebook
+                    </a>
+                    <a href="https://www.facebook.com/groups/kuws2024" target="_blank" class="inline-flex items-center justify-center w-full md:w-auto bg-ku-gold text-ku-blue hover:bg-ku-gold/80 transition duration-300 font-semibold py-3 px-8 rounded-full shadow-lg transform hover:scale-105 active:scale-95">
+                        <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-3 7h-2.5v-1.5c0-.827.673-1.5 1.5-1.5h1v-2h-2c-2.206 0-3 1.05-3 2.5v1.5h-2v2h2v7h3v-7h3l.5-2z"/></svg>
+                        Join Group
+                    </a>
+                </div>
+
+                <p class="mt-8 text-sm text-gray-500">
+                    Program Schedules are shared in our official group.
+                </p>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer --><footer class="bg-ku-blue text-white py-10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-2 md:grid-cols-4 gap-8">
+            
+            <!-- Logo/Name --><div>
+                <span class="text-xl font-bold text-ku-gold">Khulna University Writers' Society</span>
+                <p class="mt-2 text-sm text-gray-300">
+                    Powered by the passion of Khulna University students.
+                </p>
+            </div>
+
+            <!-- Quick Links --><div>
+                <h5 class="text-lg font-semibold mb-3">Quick Links</h5>
+                <ul class="space-y-2 text-sm">
+                    <li><a href="ourstory.html" class="hover:text-ku-gold transition duration-200">Our Story</a></li>
+                    <li><a href="https://kuws-online.blogspot.com/search/label/%E0%A6%87%E0%A6%AD%E0%A7%87%E0%A6%A8%E0%A7%8D%E0%A6%9F%E0%A6%B8" class="hover:text-ku-gold transition duration-200">Upcoming Activities</a></li>
+                    <li><a href="https://kuws-online.blogspot.com" class="hover:text-ku-gold transition duration-200">Read Member Work</a></li>
+                    <li><a href="honorboard.html" class="hover:text-ku-gold transition duration-200">Honor Board</a></li>
+                    <li><a href="https://kuws-online.blogspot.com/p/gallery.html" class="hover:text-ku-gold transition duration-200">Gallery</a></li>
+                </ul>
+            </div>
+
+            <!-- Resources --><div>
+                <h5 class="text-lg font-semibold mb-3">Resources</h5>
+                <ul class="space-y-2 text-sm">
+                    <li><a href="logo.html" class="hover:text-ku-gold transition duration-200">KU related Logo</a></li>
+                    <li><a href="https://dsa.ku.ac.bd/clubs" class="hover:text-ku-gold transition duration-200">KU Club List</a></li>
+                    <li><a href="https://ku.ac.bd" class="hover:text-ku-gold transition duration-200">KU Official Site</a></li>
+                </ul>
+            </div>
+
+            <!-- Contact Info --><div>
+                <h5 class="text-lg font-semibold mb-3">Get In Touch</h5>
+                <p class="text-sm">
+                    <span class="block">Email: kuwriterssociety@gmail.com</span>
+                    <span class="block mt-2">Khulna University, Khulna-9208</span>
+                </p>
+            </div>
+        </div>
+        
+        <div class="mt-10 pt-6 border-t border-ku-gold/30 text-center text-sm text-gray-400">
+            &copy; <span id="current-year"></span> Khulna University Writers' Society. All rights reserved.
+        </div>
+    </footer>
+
+
+    <!-- JavaScript & Module Imports (LLM Logic and Mock Verification) --><script type="module">
+        
+        // --- GEMINI API CONSTANTS ---
+        const apiKey = ""; 
+        const geminiApiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`;
+
+        // --- MOCK DATA ARRAY (No Firestore/Firebase dependency now) ---
+        const mockCertificates = [
+            // Mock data for "Editorial Quiz- 2025"
+            { id: "25222641", name: "Nourin Haque", event: "Editorial Quiz- 2025", issueDate: "2025-10-17", status: "Verified" },
+            { id: "25222605", name: "Shithi Rani Shaha", event: "Editorial Quiz- 2025", issueDate: "2025-10-17", status: "Verified" },
+            { id: "25232614", name: "Md Mahmud Shaikh", event: "Editorial Quiz- 2025", issueDate: "2025-10-17", status: "Verified" },
+            { id: "25222642", name: "Tanim Mollick", event: "Editorial Quiz- 2025", issueDate: "2025-10-17", status: "Verified" },
+            { id: "25222619", name: "Mashrafe Ahmed", event: "Editorial Quiz- 2025", issueDate: "2025-10-17", status: "Verified" },
+            { id: "25230322", name: "Obaydur Rahman", event: "Editorial Quiz- 2025", issueDate: "2025-10-17", status: "Verified" },
+            { id: "25242104", name: "Abdul Mukit Shourov", event: "Editorial Quiz- 2025", issueDate: "2025-10-17", status: "Verified" },
+            { id: "25222633", name: "Ripon Mondal", event: "Editorial Quiz- 2025", issueDate: "2025-10-17", status: "Verified" },
+            { id: "25232902", name: "Mst.Afriza Aktar Ria", event: "Editorial Quiz- 2025", issueDate: "2025-10-17", status: "Verified" },
+            { id: "25221901", name: "Kanta Sadhu", event: "Editorial Quiz- 2025", issueDate: "2025-10-17", status: "Verified" },
+            { id: "25232610", name: "S M Miftahul Islam Mahin", event: "Editorial Quiz- 2025", issueDate: "2025-10-17", status: "Verified" },
+            { id: "25222610", name: "Md. Nayeem Shaikh", event: "Editorial Quiz- 2025", issueDate: "2025-10-17", status: "Verified" },
+            { id: "25050502", name: "Md. Mushfiqure Rahman Moon", event: "Editorial Quiz- 2025", issueDate: "2025-10-17", status: "Verified" },
+            { id: "25242628", name: "Asraful Alam", event: "Editorial Quiz- 2025", issueDate: "2025-10-17", status: "Verified" },
+            { id: "25232911", name: "Mokarrom Billah", event: "Editorial Quiz- 2025", issueDate: "2025-10-17", status: "Verified" },
+            { id: "25222621", name: "Nusrat Sultana", event: "Editorial Quiz- 2025", issueDate: "2025-10-17", status: "Verified" },
+            { id: "25222612", name: "Mst. Hosneara", event: "Editorial Quiz- 2025", issueDate: "2025-10-17", status: "Verified" },
+            { id: "25222615", name: "Maliha Jannat Misha", event: "Editorial Quiz- 2025", issueDate: "2025-10-17", status: "Verified" },
+            { id: "25221908", name: "Khadiza Tul Kubra", event: "Editorial Quiz- 2025", issueDate: "2025-10-17", status: "Verified" },
+            { id: "25232129", name: "Saudia Zaman Sinthe", event: "Editorial Quiz- 2025", issueDate: "2025-10-17", status: "Verified" },
+            { id: "25222636", name: "Jannatul Ferdousi", event: "Editorial Quiz- 2025", issueDate: "2025-10-17", status: "Verified" },
+            { id: "25250721", name: "Sreyoshi Mahjabin", event: "Editorial Quiz- 2025", issueDate: "2025-10-17", status: "Verified" },
+            { id: "25252902", name: "Sharmili", event: "Editorial Quiz- 2025", issueDate: "2025-10-17", status: "Verified" },
+            { id: "25242701", name: "Marzia", event: "Editorial Quiz- 2025", issueDate: "2025-10-17", status: "Verified" },
+            { id: "25242829", name: "MD. Mehedi Hassan", event: "Editorial Quiz- 2025", issueDate: "2025-10-17", status: "Verified" },
+            { id: "25232607", name: "Ratul Khan", event: "Editorial Quiz- 2025", issueDate: "2025-10-17", status: "Verified" },
+            { id: "25211905", name: "Liton Hossen", event: "Editorial Quiz- 2025", issueDate: "2025-10-17", status: "Verified" },
+            { id: "25242704", name: "ISRAT JARIN ANIMA", event: "Editorial Quiz- 2025", issueDate: "2025-10-17", status: "Verified" },
+            { id: "25231128", name: "Taslima Akter Urme", event: "Editorial Quiz- 2025", issueDate: "2025-10-17", status: "Verified" },
+            { id: "25051902", name: "Sohel Rana Antu", event: "Editorial Quiz- 2025", issueDate: "2025-10-17", status: "Verified" },
+            { id: "25231931", name: "Takia Sultana", event: "Editorial Quiz- 2025", issueDate: "2025-10-17", status: "Verified" },
+            { id: "25222608", name: "Al Imran Shikder", event: "Editorial Quiz- 2025", issueDate: "2025-10-17", status: "Verified" },
+            { id: "25250704", name: "Jannatul Mawa", event: "Editorial Quiz- 2025", issueDate: "2025-10-17", status: "Verified" },
+            { id: "25222640", name: "Saima Anan Prome", event: "Editorial Quiz- 2025", issueDate: "2025-10-17", status: "Verified" },
+            { id: "25221625", name: "Mostofa Kamal", event: "Editorial Quiz- 2025", issueDate: "2025-10-17", status: "Verified" },
+            { id: "25232626", name: "Shafia Sultana", event: "Editorial Quiz- 2025", issueDate: "2025-10-17", status: "Verified" },
+            { id: "25292102", name: "Emam Hossain", event: "Editorial Quiz- 2025", issueDate: "2025-10-17", status: "Verified" },
+            { id: "25200531", name: "Sidratul Muntaha", event: "Editorial Quiz- 2025", issueDate: "2025-10-17", status: "Verified" },
+            { id: "25124202", name: "Rubaya Sultana", event: "Editorial Quiz- 2025", issueDate: "2025-10-17", status: "Verified" },
+            { id: "25232731", name: "Shanzida Karabi Mishu", event: "Editorial Quiz- 2025", issueDate: "2025-10-17", status: "Verified" },
+            { id: "25232639", name: "Ruqaiya Afia Neha", event: "Editorial Quiz- 2025", issueDate: "2025-10-17", status: "Verified" },
+            { id: "25251138", name: "Atika Zaman Esha", event: "Editorial Quiz- 2025", issueDate: "2025-10-17", status: "Verified" },
+            { id: "25231922", name: "Arafat Hossen", event: "Editorial Quiz- 2025", issueDate: "2025-10-17", status: "Verified" },
+            { id: "25232105", name: "Md. Abid Hasan", event: "Editorial Quiz- 2025", issueDate: "2025-10-17", status: "Verified" },
+            { id: "25220707", name: "Shruti", event: "Editorial Quiz- 2025", issueDate: "2025-10-17", status: "Verified" },
+            { id: "25220729", name: "Noyrin Islam", event: "Editorial Quiz- 2025", issueDate: "2025-10-17", status: "Verified" },
+            { id: "25222611", name: "Sanjida Akter", event: "Editorial Quiz- 2025", issueDate: "2025-10-17", status: "Verified" },
+            { id: "SC242403", name: "Shuvojit Bachar", event: "Editorial Quiz- 2025", issueDate: "2025-10-17", status: "Verified" },
+            { id: "25241204", name: "MDDUDAUVE ALIM", event: "Editorial Quiz- 2025", issueDate: "2025-10-17", status: "Verified" },
+            { id: "25232604", name: "Marium Moni", event: "Editorial Quiz- 2025", issueDate: "2025-10-17", status: "Verified" },
+            { id: "251923159", name: "শবনম ইসলাম মারিয়া", event: "Editorial Quiz- 2025", issueDate: "2025-10-17", status: "Verified" },
+            { id: "25232615", name: "Jebunesa SHOSHI", event: "Editorial Quiz- 2025", issueDate: "2025-10-17", status: "Verified" },
+            { id: "25230627", name: "Rifah Tasnia", event: "Editorial Quiz- 2025", issueDate: "2025-10-17", status: "Verified" },
+            { id: "25251826", name: "মোতাসাদ্দিক আহম্মেদ", event: "Editorial Quiz- 2025", issueDate: "2025-10-17", status: "Verified" },
+            { id: "25242411", name: "Sumaiya Akter Aysha", event: "Editorial Quiz- 2025", issueDate: "2025-10-17", status: "Verified" },
+            { id: "25222117", name: "Farhana Afrin", event: "Editorial Quiz- 2025", issueDate: "2025-10-17", status: "Verified" },
+        ];
+        
+        // ------------------ VERIFICATION LOGIC (Mock Lookup) ------------------
+        window.verifyCertificate = async function() {
+            
+            const certificateIdInput = document.getElementById('certificateId');
+            // Normalize input ID (trim, uppercase, remove spaces/dots)
+            const inputId = certificateIdInput.value.trim();
+            const certId = inputId.toUpperCase().replace(/[\s\.]/g, ''); // Used for lookup
+            
+            const resultContainer = document.getElementById('resultContainer');
+            const loadingMessage = document.getElementById('loadingMessage');
+            
+            resultContainer.classList.add('hidden');
+            resultContainer.innerHTML = '';
+
+            if (!certId) {
+                resultContainer.innerHTML = createErrorMarkup("Please enter a Certificate ID.");
+                resultContainer.classList.remove('hidden');
+                return;
+            }
+
+            // Show loading message (Simulate network delay for better UX)
+            loadingMessage.classList.remove('hidden');
+            const verifyButton = document.getElementById('verifyButton');
+            verifyButton.disabled = true;
+            
+            // --- Simulate Lookup Delay ---
+            await new Promise(resolve => setTimeout(resolve, 500));
+            // -----------------------------
+            
+            let foundCert = null;
+            for (const cert of mockCertificates) {
+                const normalizedMockId = cert.id.trim().toUpperCase().replace(/[\s\.]/g, '');
+                if (normalizedMockId === certId) {
+                    foundCert = cert;
+                    break;
+                }
+            }
+
+            loadingMessage.classList.add('hidden');
+            verifyButton.disabled = false;
+
+            if (foundCert) {
+                resultContainer.innerHTML = createSuccessMarkup(foundCert, inputId);
+            } else {
+                resultContainer.innerHTML = createNotFoundMarkup(inputId);
+            }
+
+            resultContainer.classList.remove('hidden');
+        }
+        
+        // ------------------ LLM WRITER'S MUSE LOGIC ------------------
+        window.generatePrompt = async function() {
+            const topicInput = document.getElementById('promptTopic');
+            const genreInput = document.getElementById('promptGenre');
+            const loadingEl = document.getElementById('promptLoading');
+            const resultEl = document.getElementById('promptResult');
+            const generateBtn = document.getElementById('generatePromptButton');
+
+            const topic = topicInput.value.trim() || "a recent memory";
+            const genre = genreInput.value.trim() || "surreal short story";
+            
+            resultEl.innerHTML = '';
+            loadingEl.classList.remove('hidden');
+            generateBtn.disabled = true;
+
+            const systemPrompt = "You are a creative writing prompt generator. Based on the user's input, generate one unique, evocative, and detailed prompt (2-3 sentences max) suitable for a university-level creative writing society. The response must be only the prompt text.";
+            const userQuery = `Generate a writing prompt for a ${genre} based on the topic: ${topic}.`;
+
+            const payload = {
+                contents: [{ parts: [{ text: userQuery }] }],
+                systemInstruction: { parts: [{ text: systemPrompt }] },
+            };
+            
+            const maxRetries = 3;
+            let delay = 1000;
+
+            for (let attempt = 0; attempt < maxRetries; attempt++) {
+                try {
+                    const response = await fetch(geminiApiUrl, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload)
+                    });
+
+                    if (response.ok) {
+                        const result = await response.json();
+                        const generatedText = result.candidates?.[0]?.content?.parts?.[0]?.text;
+                        
+                        loadingEl.classList.add('hidden');
+                        generateBtn.disabled = false;
+
+                        if (generatedText) {
+                            resultEl.innerHTML = `
+                                <div class="bg-white p-6 rounded-xl border-l-4 border-ku-gold shadow-md">
+                                    <h4 class="text-xl font-bold text-ku-blue mb-3">Your Creative Prompt:</h4>
+                                    <p class="text-gray-700 italic">${generatedText}</p>
+                                </div>
+                            `;
+                        } else {
+                            resultEl.innerHTML = createErrorMarkup("Failed to generate prompt. Response missing content.");
+                        }
+                        return;
+                    } else if (response.status === 429 && attempt < maxRetries - 1) {
+                        await new Promise(resolve => setTimeout(resolve, delay));
+                        delay *= 2;
+                    } else {
+                        const errorText = await response.text();
+                        throw new Error(`API call failed: ${response.status} - ${errorText}`);
+                    }
+                } catch (error) {
+                    console.error("Gemini API Error:", error);
+                    loadingEl.classList.add('hidden');
+                    generateBtn.disabled = false;
+                    resultEl.innerHTML = createErrorMarkup("Could not connect to the Writer's Muse. Check the console for API errors.");
+                    return;
+                }
+            }
+        }
+
+        
+        // ------------------ UI RENDERING FUNCTIONS ------------------
+        function createSuccessMarkup(data, certId) {
+            return `
+                <div class="bg-green-50 border-l-4 border-green-500 p-4 rounded-lg">
+                    <h3 class="text-xl font-bold text-green-700 mb-4 flex items-center">
+                        <svg class="w-6 h-6 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                        Certificate Verification Successful
+                    </h3>
+                    <div class="space-y-3 text-gray-700">
+                        <p><strong>Certificate ID:</strong> <span class="text-green-800">${certId}</span></p>
+                        <p><strong>Holder Name:</strong> <span class="font-semibold">${data.name}</span></p>
+                        <p><strong>Program/Event:</strong> <span class="font-semibold">${data.event}</span></p>
+                        <p><strong>Date Issued:</strong> ${data.issueDate}</p>
+                    </div>
+                </div>
+            `;
+        }
+
+        function createNotFoundMarkup(certId) {
+            return `
+                <div class="bg-yellow-50 border-l-4 border-yellow-500 p-4 rounded-lg">
+                    <h3 class="text-xl font-bold text-yellow-800 mb-2 flex items-center">
+                        <svg class="w-6 h-6 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
+                        Certificate Not Found
+                    </h3>
+                    <p class="text-gray-700">The Certificate ID <strong>${certId}</strong> could not be found in our records. Please double-check the ID or contact the KU Writers' Society administration for assistance.</p>
+                </div>
+            `;
+        }
+
+        function createErrorMarkup(message) {
+            return `
+                <div class="bg-red-50 border-l-4 border-red-500 p-4 rounded-lg">
+                    <h3 class="text-xl font-bold text-red-800 mb-2 flex items-center">
+                         <svg class="w-6 h-6 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                        System Message
+                    </h3>
+                    <p class="text-gray-700">${message}</p>
+                </div>
+            `;
+        }
+
+        // Global functions for menu toggle and footer year
+        document.getElementById('current-year').textContent = new Date().getFullYear();
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        window.toggleMenu = function() {
+            mobileMenu.classList.toggle('hidden');
+        }
+
+        mobileMenuButton.addEventListener('click', window.toggleMenu);
+        
+    </script>
+</body>
+</html>
+
+

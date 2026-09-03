@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KUWS Certificate Download Portal</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* NEW COLOR PALETTE & GLOBAL STYLES */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f7f9fc;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            padding-top: 64px; /* Space for fixed header */
+        }
+        /* FIXED HEADER FIX & NEW COLOR */
+        .kuws-header-bg {
+            background-color: #1a3a60; /* New Dark Teal/Blue color */
+            position: fixed; /* KEY FIX: Make header fixed */
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 50; /* Ensure it stays on top */
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .kuws-primary-text {
+            color: #1a3a60; /* New Dark Teal/Blue color for text */
+        }
+        .kuws-nav-link:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+        .table-container {
+            overflow-x: auto; 
+        }
+        .sticky-header th {
+            position: sticky;
+            top: 0;
+            background-color: #e9ecef; 
+            z-index: 10;
+        }
+
+        /* Go Up Button Style */
+        #go-up-btn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 48px;
+            height: 48px;
+            background-color: #1a3a60; /* Matching New Color */
+            color: white;
+            border-radius: 50%;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.4);
+            transition: opacity 0.3s;
+            cursor: pointer;
+            z-index: 40;
+            border: none;
+        }
+        #go-up-btn:hover {
+            background-color: #112940; /* Darker hover state */
+        }
+
+        /* Preview CSS */
+        .preview-content-area {
+            display: flex;
+            justify-content: center;
+            align-items: flex-start; 
+            width: 100%;
+            height: 100%; 
+            padding: 3rem; 
+            box-sizing: border-box;
+        }
+        #certificate-image {
+            max-width: 90%; 
+            max-height: 90%; 
+            width: auto;
+            height: auto;
+            object-fit: contain; 
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2); 
+        }
+        
+        /* MOBILE FIX: Stacked table for screens <= 768px */
+        @media (max-width: 768px) {
+            .table-responsive tbody tr {
+                display: block;
+                margin-bottom: 1rem;
+                border: 1px solid #e2e8f0;
+                border-radius: 0.5rem;
+            }
+            .table-responsive td {
+                display: flex;
+                justify-content: space-between;
+                padding: 0.75rem 1rem;
+                border-bottom: 1px solid #e2e8f0;
+            }
+            .table-responsive td:last-child {
+                display: block;
+                border-bottom: none;
+                padding: 0; 
+                margin-bottom: -1px; 
+            }
+            .table-responsive td:before {
+                content: attr(data-label);
+                font-weight: 600;
+                margin-right: 1rem;
+                color: #495057; /* Dark Gray for labels */
+                flex-shrink: 0;
+            }
+            /* Style for inner action elements to stack them properly */
+            .table-responsive td:last-child .action-group {
+                display: block;
+                border-bottom: 1px solid #e9ecef;
+                padding: 0.75rem 1rem;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+            }
+            .table-responsive td:last-child .action-group:last-child {
+                border-bottom: none;
+            }
+             .table-responsive td:last-child .action-group:before {
+                content: attr(data-label-action);
+                font-weight: 600;
+                color: #495057;
+                flex-shrink: 0;
+            }
+            .table-responsive thead {
+                display: none; 
+            }
+            .table-container {
+                 overflow-x: hidden; 
+            }
+        }
+    </style>
+</head>
+<body class="flex flex-col">
+
+    <nav class="kuws-header-bg text-white p-4 shadow-md">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <div class="flex items-center">
+                <img src="images/logo.jpg" alt="KUWS Logo" class="w-10 h-10 mr-2">
+                <a href="#" class="text-2xl font-bold">KU Writers' Society</a>
+            </div>
+            <div class="hidden md:flex space-x-4">
+                <a href="index.html" class="kuws-nav-link">Home</a>
+                <a href="index.html#about" class="kuws-nav-link">About</a>
+                <a href="index.html#events" class="kuws-nav-link">Events</a>
+                <a href="index.html#showcase" class="kuws-nav-link">Showcase</a>
+                <a href="index.html#honor-board" class="kuws-nav-link">Honor Board</a>
+                <a href="index.html#gallery" class="kuws-nav-link">Gallery</a>
+                <a href="index.html#contact" class="kuws-nav-link">Join Us</a>
+                <a href="verification.html" class="kuws-nav-link">Verify Certificate</a>
+            </div>
+            <div class="md:hidden">
+                <button class="text-white focus:outline-none">
+                    <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <div id="app" class="flex-grow p-4 md:p-8 bg-gray-50">
+        <div class="max-w-4xl mx-auto bg-white shadow-xl rounded-xl p-6 md:p-10 text-center">
+            
+            <h1 class="text-4xl font-extrabold kuws-primary-text mb-2">Certificate Download Portal</h1>
+            <p class="text-xl text-gray-700 mb-4">Editorial Quiz-2025</p>
+
+            <div class="bg-yellow-50 border-l-4 border-yellow-500 text-yellow-700 p-4 mb-8 text-left rounded-lg">
+                <p class="font-bold">Important Notice</p>
+                <p class="text-sm mt-1">
+                    This portal is designed only for downloading your certificate using your <b>Student ID, Name or last 5 digit of given phone number</b>. For certificate verification, you must visit our official website's <b><span style="color: red;"><a href="https://kuws.netlify.app/verification" class="kuws-nav-link">Certificate Verification portal</a></span></b> and use the unique Credential ID mentioned on your certificate. Verification cannot be performed using your Student ID.
+                </p>
+            </div>
+            <div class="mb-10 flex flex-col md:flex-row items-center justify-center gap-4">
+                <label for="search-input" class="text-lg font-semibold text-gray-700 md:w-auto w-full text-left md:text-right">Search:</label>
+                <input 
+                    type="text" 
+                    id="search-input" 
+                    placeholder="Student ID/ Phone Number/ Name" 
+                    class="w-full md:w-80 p-3 border border-gray-400 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-150 shadow-sm text-lg"
+                    onkeyup="filterTable()"
+                >
+            </div>
+
+            <div class="bg-white rounded-lg shadow-inner border border-gray-200">
+                <div class="table-container">
+                    <table id="certificate-table" class="min-w-full divide-y divide-gray-200 table-responsive">
+                        <thead class="bg-gray-100 sticky-header">
+                            <tr>
+                                <th scope="col" class="px-4 py-3 text-left text-sm font-bold text-gray-700 uppercase tracking-wider w-1/12">SL</th>
+                                <th scope="col" class="px-4 py-3 text-left text-sm font-bold text-gray-700 uppercase tracking-wider w-3/12">ID/ Phone Number</th>
+                                <th scope="col" class="px-4 py-3 text-left text-sm font-bold text-gray-700 uppercase tracking-wider w-5/12">Name</th>
+                                <th scope="col" class="px-4 py-3 text-center text-sm font-bold text-gray-700 uppercase tracking-wider w-3/12">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="table-body" class="bg-white divide-y divide-gray-100">
+                            </tbody>
+                    </table>
+                </div>
+                
+                <div id="not-found" class="hidden p-6 text-center text-xl text-red-500 font-semibold">
+                    দুঃখিত, কোনো তথ্য খুঁজে পাওয়া যায়নি।
+                </div>
+            </div>
+
+        </div>
+    </div>
+    
+    <div id="preview-modal" class="fixed inset-0 bg-gray-900 bg-opacity-75 hidden flex items-center justify-center p-4 z-50 transition-opacity duration-300" onclick="closeModal()">
+        <div class="bg-white rounded-xl shadow-2xl w-full max-w-3xl h-[90vh] overflow-hidden" onclick="event.stopPropagation()">
+            <div class="flex justify-between items-center p-3 border-b kuws-header-bg text-white">
+                <h2 class="text-xl font-semibold">Certificate Preview</h2>
+                <button onclick="handleDownload(modalDownloadBtn.getAttribute('data-href'), modalDownloadBtn.getAttribute('data-filename'))" 
+                        id="modal-download-btn" 
+                        data-href="#" 
+                        data-filename="certificate.png"
+                        class="flex items-center space-x-2 text-white bg-blue-500 hover:bg-blue-600 px-3 py-1 rounded-md transition duration-150 ml-auto mr-3">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm3.293-7.707a1 1 0 011.414 0L10 11.586l1.293-1.293a1 1 0 111.414 1.414l-2 2a1 1 0 01-1.414 0l-2-2a1 1 0 010-1.414z" clip-rule="evenodd" />
+                        <path fill-rule="evenodd" d="M10 3a1 1 0 011 1v7a1 1 0 11-2 0V4a1 1 0 011-1z" clip-rule="evenodd" />
+                    </svg>
+                    <span>Download</span>
+                </button>
+                <button onclick="closeModal()" class="text-white hover:text-gray-200">
+                    <svg class="h-8 w-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                </button>
+            </div>
+            
+            <div class="preview-content-area">
+                <img id="certificate-image" src="" alt="Certificate Preview">
+            </div>
+
+        </div>
+    </div>
+
+    <button id="go-up-btn" onclick="window.scrollTo({ top: 0, behavior: 'smooth' })">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18"></path>
+        </svg>
+    </button>
+
+
+    <script>
+        // Modal Element References
+        const tableBody = document.getElementById('table-body');
+        const notFoundMsg = document.getElementById('not-found');
+        const searchInput = document.getElementById('search-input');
+        const previewModal = document.getElementById('preview-modal');
+        const modalDownloadBtn = document.getElementById('modal-download-btn'); 
+        const certImage = document.getElementById('certificate-image'); 
+
+        // স্থির কনফিগারেশন: ফোল্ডারের নাম এবং ফাইলের এক্সটেনশন
+        const FOLDER_NAME = 'certificates/';
+        const FILE_EXTENSION = '.png'; 
+
+        // *** ফাংশন: সিরিয়াল নাম্বার (SL) থেকে Local File Path তৈরি করে ***
+        function getLocalFileLinks(serialNumber, name) {
+            const fileName = serialNumber + FILE_EXTENSION; 
+            const filePath = FOLDER_NAME + fileName;
+            const downloadFileName = name.replace(/\s/g, '_') + FILE_EXTENSION;
+            
+            return {
+                download: filePath, 
+                embed: filePath,    
+                fileName: downloadFileName
+            };
+        }
+        
+        // *** ডাউনলোড ফিক্স: সরাসরি ব্রাউজারকে ফাইল ডাউনলোডে বাধ্য করার ফাংশন ***
+        function handleDownload(url, filename) {
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = filename; 
+            link.style.display = 'none';
+            
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+
+        // Modal Functions
+        function openModal(links) {
+            certImage.src = links.embed;
+            
+            modalDownloadBtn.setAttribute('data-href', links.download);
+            modalDownloadBtn.setAttribute('data-filename', links.fileName); 
+            
+            previewModal.classList.remove('hidden');
+        }
+
+        function closeModal() {
+            previewModal.classList.add('hidden');
+            certImage.src = ''; 
+            modalDownloadBtn.setAttribute('data-href', '#'); 
+            modalDownloadBtn.setAttribute('data-filename', 'certificate.png'); 
+        }
+
+        // *** Go Up Button Logic ***
+        const goUpBtn = document.getElementById('go-up-btn');
+
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 300) { // Show button after scrolling 300px
+                goUpBtn.style.display = 'flex';
+            } else {
+                goUpBtn.style.display = 'none';
+            }
+        });
+        
+        // --- ডেটা পুনরুদ্ধার: মোট 61 জন এন্ট্রি ---
+        const csvData = `Student ID,Name,Status,
+# --- Present Participants (56) ---
+222641,Nourin Haque,,
+222605,Shithi Rani Shaha,,
+232614,Md Mahmud Shaikh,,
+222642,Tanim Mollick,,
+222619,Mashrafe Ahmed,,
+230322,Obaydur Rahman,,
+242104,Abdul Mukit Shourov,,
+222633,Ripon Mondal,,
+232902,Mst.Afriza Aktar Ria,,
+221901,Kanta sadhu,,
+232610,S M Miftahul Islam Mahin,,
+222610,Md. Nayeem Shaikh,,
+MS-250505,Md. Mushfiqure Rahman Moon,,
+242628,Asraful Alam,,
+232911,Mokarrom Billah,,
+222621,Nusrat Sultana,,
+222612,Mst. Hosneara,,
+222615,Maliha Jannat Misha,,
+221908,Khadiza Tul kubra,,
+232129,Saudia Zaman Sinthe,,
+222636,Jannatul Ferdousi,,
+250721,Sreyoshi Mahjabin,,
+252902,Sharmili,,
+242701,Marzia,,
+242829,MD. Mehedi Hassan,,
+232607,Ratul Khan,,
+211905,Liton hossen,,
+242704,ISRAT JARIN ANIMA,,
+231128,Taslima Akter Urme,,
+MS-250519,Sohel Rana Antu,,
+231931,Takia Sultana,,
+222608,Al Imran Shikder,,
+250704,Jannatul Mawa,,
+222640,Saima Anan Prome,,
+221625,Mostofa kamal,,
+232626,Shafia Sultana,,
+M.Ed. 252921,Emam Hossain,,
+200531,Sidratul Muntaha,,
+M.Sc. 251242,Rubaya Sultana,,
+232731,Shanzida Karabi Mishu,,
+232639,Ruqaiya Afia Neha,,
+251138,Atika Zaman Esha,,
+231922,Arafat Hossen,,
+232105,Md. Abid Hasan,,
+220707,Shruti,,
+220729,Noyrin Islam,,
+222611,Sanjida Akter,,
+Sc 242403,shuvojit Bachar,,
+241204,MDDUDAUVE ALIM,,
+232604,Marium moni,,
+1923159,শবনম ইসলাম মারিয়া,,
+232615,Jebunesa SHOSHI,,
+230627,Rifah Tasnia,,
+251826,মোতাসাদ্দিক আহম্মেদ,,
+242411,Sumaiya Akter Aysha,,
+222117,Farhana Afrin,,
+
+# --- Absent Participants (5) - SL 57 থেকে 61 ---
+Not Given,Abdul Momin,absent,
+70685,সুরাইয়া আক্তার লাবনী ,absent,
+52370,Jannatul Ferdousi ,absent,
+64480,Afnan Aziz ,absent,
+54816,Akhi Anis,absent,
+40566,Anika Urjoshi Hasan ,absent,
+68787,Arafat Rahman,absent,
+53374,Ariful Islam,absent,
+68715,Ayon,absent,
+29200,Aysha Reza Sadia ,absent,
+10774,Azijul hakim ,absent,
+37209,Azizur Rahman ,absent,
+11157,Diya Tabassum,absent,
+46086,Faiz Jasim,absent,
+63511,Faria Hossain Oyshi,absent,
+69371,Faruk Khan,absent,
+44080,Fyrooz Zaheen Khan ,absent,
+97414,Golam Mostafa,absent,
+99651,Hafizur Rahman ,absent,
+36037,Happy Akter,absent,
+76860,Husnine Baset Pryangka ,absent,
+30689,Israt Jarin Anima ,absent,
+10227,Jahida Sultana Rima ,absent,
+70897,Jannatul Ferdous Sumaiya ,absent,
+34321,Jarin Anjum Adity ,absent,
+25348,Jarin Tasnim,absent,
+23228,Jasmin Akter Rikta,absent,
+04543,Joynob Ahmed Sara ,absent,
+17483,Kamrul Islam ,absent,
+67515,Karima Sultana ,absent,
+63256,Khadiza Yesmin,absent,
+24390,Khadizatul kubra,absent,
+08866,M. Shahed Ibne Emon,absent,
+46906,Mahadi Hasan Riad ,absent,
+39062,Mahfuzur Rahman ,absent,
+08779,Mahfuzur Rahman ,absent,
+94989,Marjia Afroj Eva,absent,
+79424,Masuma Akter Tisha,absent,
+41485,Md Fahad Hosen Shazid ,absent,
+91595,Md Fahim khan ,absent,
+48874,MD Islam Molla ,absent,
+46795,MD Maminul Islam ,absent,
+59625,Md Manikul Islam ,absent,
+74934,Md Mostafizur Rahman,absent,
+46993,Md Rameem Mustafiz ,absent,
+10050,Md Shoab Hasan ,absent,
+00103,MD TANVIR ISLAM ,absent,
+42844,MD. ABRAR FAHIM TAMZID,absent,
+69547,Md. Fahad khandokar ,absent,
+90448,Md. Hasibul Hassan ,absent,
+58028,MD. IMRAN NASIR ,absent,
+22854,MD. Labib Abrar Siam ,absent,
+94443,Md. Mahmud Shaikh ,absent,
+18986,Md. Nazmus sakib ,absent,
+36590,Md. Rofiqul Islam,absent,
+74195,Md. Tamim Hasan ,absent,
+29405,Md.Abu Soyaib Hossen Shawon ,absent,
+24826,MD.Abu Zihad,absent,
+51000,MD.Jahangir Zulfikar ,absent,
+62014,MD.Mahfuz Ahmmed ,absent,
+21498,MD.Mahmud Hossen,absent,
+84706,Md.Maruf Ahmmed ,absent,
+74508,Md.Mehedi Hasan,absent,
+31309,Md.Sakibul Hasan,absent,
+07557,Md.Taofikul Islam ,absent,
+07350,Mehejabin Ahmed ,absent,
+71315,Mirza Najmus Sadat ,absent,
+72131,Mithila Zaman Oishi,absent,
+24637,Mst Takiya Sultana ,absent,
+67591,Mst.Mumtari Rahman Mumu ,absent,
+25463,Mst.Nabila Tabassum,absent,
+98872,Mst.Rahina Akter,absent,
+42397,Mst.Shraboni Khatun ,absent,
+43820,Mst.Sumaiya khatun,absent,
+01341,Nahin Munkar Nayan ,absent,
+57398,Nazmin Sultana,absent,
+80588,Nibir Hassan ,absent,
+91073,Nirob kundu,absent,
+10325,Partho Protim Das,absent,
+10326,Partho Protim Das,absent,
+58134,Pritom Kumar  Das,absent,
+61781,Puspita Biswas Puza ,absent,
+77097,Rakib Hossain ,absent,
+85157,Razia Sultana ,absent,
+57381,Ruksita Akter Rimi ,absent,
+25159,S. M. Abdullah-Al-Rabbi,absent,
+89093,S.M.Tausifuzzaman ,absent,
+15326,Sagor Biswas,absent,
+83396,Samia Akter Sorme,absent,
+18814,Samia Tasnim Sneha ,absent,
+17680,SAWORNA RANI SAHA,absent,
+10964,Sayma Kalam Nishat ,absent,
+19537,Shaharia Sultana ,absent,
+74802,shamim islam ,absent,
+60810,Shrabanta Chakma ,absent,
+20843,Sikder Sayla Rahman ,absent,
+74901,Sompa Malo ,absent,
+62933,Sonia Khatun,absent,
+16377,Sorifa khatun ,absent,
+14007,Sumaya Akther,absent,
+62095,Sumya Ratri ,absent,
+46979,Sweety Day ,absent,
+22870,T M Atikur Rahman Shovo,absent,
+87706,Tamanna Shirin ,absent,
+64908,Tania Tabassum ,absent,
+65444,Tanmoy Kumar Pal,absent,
+49104,Tanvir hasan Shovon ,absent,
+48563,Tanzim Ahmed Khan,absent,
+05882,Tasnim Junayed ,absent,
+28348,Tasnim Shruti ,absent,
+14788,Tithe Biswas ,absent,
+24234,Wahida Tabassum Mouree ,absent,
+81669,তরিকুল ইসলাম ,absent,
+`; 
+
+        let allCertificates = [];
+        
+        function parseCSV(csv) {
+            const lines = csv.trim().split('\n');
+            const data = [];
+            let slCounter = 1; 
+
+            for (let i = 1; i < lines.length; i++) {
+                const line = lines[i].trim();
+                if (line.startsWith('#') || line === '') continue; 
+                
+                const values = line.split(','); 
+                
+                if (values.length >= 2) { 
+                    const id = values[0].trim();
+                    const name = values[1].trim();
+                    const status = values[2] ? values[2].trim().toLowerCase() : ''; 
+                    
+                    let finalLinks = { download: '#', embed: '', fileName: '' };
+
+                    if (status !== 'absent') {
+                        finalLinks = getLocalFileLinks(slCounter, name);
+                    }
+                    
+                    data.push({
+                        sl: slCounter++,
+                        id: id,
+                        name: name,
+                        status: status, 
+                        link: finalLinks 
+                    });
+                }
+            }
+            return data;
+        }
+
+        function renderTable(data) {
+            tableBody.innerHTML = '';
+            
+            if (data.length === 0) {
+                notFoundMsg.classList.remove('hidden');
+                return;
+            }
+
+            notFoundMsg.classList.add('hidden');
+
+            data.forEach((item) => {
+                const row = tableBody.insertRow();
+                row.className = 'hover:bg-gray-50 transition duration-100';
+
+                // 1. SL Column
+                const cell1 = row.insertCell();
+                cell1.className = 'px-4 py-3 whitespace-nowrap text-sm font-medium text-gray-900';
+                cell1.setAttribute('data-label', 'SL:'); 
+                cell1.textContent = item.sl;
+
+                // 2. Student ID/Phone Number Column
+                const cell2 = row.insertCell();
+                cell2.className = 'px-4 py-3 whitespace-nowrap text-sm text-gray-700 font-mono';
+                cell2.setAttribute('data-label', 'ID/ Phone Number:'); 
+                cell2.textContent = item.id;
+
+                // 3. Name Column
+                const cell3 = row.insertCell();
+                cell3.className = 'px-4 py-3 whitespace-nowrap text-sm font-medium text-gray-900';
+                cell3.setAttribute('data-label', 'Name:'); 
+                cell3.textContent = item.name;
+
+                // 4. Action Column (Combined cell for stacking View/Download)
+                const cell4 = row.insertCell();
+                cell4.className = 'px-4 py-3 text-sm font-medium'; 
+                cell4.setAttribute('data-label', ''); 
+                
+                if (item.status === 'absent') {
+                    cell4.innerHTML = '<span class="text-red-500 font-semibold">Absent</span>';
+                } else {
+                    cell4.innerHTML = `
+                        <div class="md:flex md:items-center md:justify-center md:space-x-2">
+                            
+                            <div class="action-group" data-label-action="View:">
+                                <button onclick="openModal({embed: '${item.link.embed}', download: '${item.link.download}', fileName: '${item.link.fileName}'})" 
+                                    class="text-gray-500 hover:text-blue-600 transition duration-150 p-2 rounded-full hover:bg-gray-100 focus:outline-none"
+                                    title="সার্টিফিকেট দেখুন">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 20 20" fill="currentColor">
+                                        <path d="M10 12a2 2 0 100-4 2 2 0 000 4z" />
+                                        <path fill-rule="evenodd" d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z" clip-rule="evenodd" />
+                                    </svg>
+                                </button>
+                            </div>
+
+                            <div class="action-group" data-label-action="Download:">
+                                <button onclick="handleDownload('${item.link.download}', '${item.link.fileName}')"
+                                    class="kuws-primary-text hover:text-blue-700 transition duration-150 p-2 rounded-full hover:bg-gray-100"
+                                    title="Download your certificate">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 20 20" fill="currentColor">
+                                        <path fill-rule="evenodd" d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm3.293-7.707a1 1 0 011.414 0L10 11.586l1.293-1.293a1 1 0 111.414 1.414l-2 2a1 1 0 01-1.414 0l-2-2a1 1 0 010-1.414z" clip-rule="evenodd" />
+                                        <path fill-rule="evenodd" d="M10 3a1 1 0 011 1v7a1 1 0 11-2 0V4a1 1 0 011-1z" clip-rule="evenodd" />
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+                    `;
+                }
+            });
+        }
+
+        // সার্চ এবং ফিল্টারিং ফাংশন
+        function filterTable() {
+            const searchTerm = searchInput.value.toLowerCase().trim();
+
+            const filteredData = allCertificates.filter(item => {
+                const name = item.name.toLowerCase();
+                const id = item.id.toLowerCase();
+                
+                return name.includes(searchTerm) || id.includes(searchTerm);
+            });
+
+            renderTable(filteredData);
+        }
+        
+        // পেজ লোড হওয়ার পর ডেটা লোড করা
+        window.onload = function() {
+            allCertificates = parseCSV(csvData);
+            renderTable(allCertificates);
+        };
+    </script>
+</body>
+</html>

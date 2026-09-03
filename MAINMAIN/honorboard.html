@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Khulna University Writers' Society</title>
+    <!-- Load Tailwind CSS --><script src="https://cdn.tailwindcss.com"></script>
+    <!-- Configure Tailwind for Inter Font --><script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        'ku-blue': '#1a3a60',
+                        'ku-gold': '#ffb703',
+                        'ku-light': '#f0f4f8',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Ensuring smooth scrolling for navigation links */
+        html {
+            scroll-behavior: smooth;
+            font-family: 'Inter', sans-serif;
+        }
+        /* Custom scrollbar for aesthetics */
+        body::-webkit-scrollbar {
+            width: 8px;
+        }
+        body::-webkit-scrollbar-thumb {
+            background-color: #ffb703;
+            border-radius: 4px;
+        }
+        body::-webkit-scrollbar-track {
+            background-color: #1a3a60;
+        }
+    </style>
+</head>
+<body class="bg-ku-light text-gray-800">
+
+    <!-- Header & Navigation --><header class="bg-ku-blue shadow-lg sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                <a href="#home" class="flex items-center space-x-3">
+                    <!-- LOGO IMAGE HERE --><img src="images/logo.jpg" alt="KU Writers' Society Logo" class="h-10 w-10 rounded-full object-cover">
+                    <span class="text-2xl font-bold text-white tracking-wide">KU Writers' Society</span>
+                </a>
+                
+                <!-- Desktop Navigation --><nav class="hidden md:flex space-x-8">
+                    <a href="https://kuws.netlify.app/" class="text-white hover:text-ku-gold transition duration-300 font-medium">Home</a>
+                    <a href="https://kuws.netlify.app/#about" class="text-white hover:text-ku-gold transition duration-300 font-medium">About</a>
+                    <a href="https://kuws-online.blogspot.com/search/label/%E0%A6%87%E0%A6%AD%E0%A7%87%E0%A6%A8%E0%A7%8D%E0%A6%9F%E0%A6%B8" class="text-white hover:text-ku-gold transition duration-300 font-medium">Events</a>
+                    <a href="https://kuws-online.blogspot.com" class="blink">Read Our Writings</a>
+
+<style>
+.blink {
+  color: #fab303;
+  font-weight: bold;
+  text-decoration: none;
+  animation: blinkText 1s infinite;
+}
+
+@keyframes blinkText {
+  0%   { opacity: 1; }
+  50%  { opacity: 0; }
+  100% { opacity: 1; }
+}
+</style>
+                    <a href="honorboard.html" class="text-white hover:text-ku-gold transition duration-300 font-medium">Honor Board</a>
+                    <a href="https://kuws-online.blogspot.com/p/gallery.html" class="text-white hover:text-ku-gold transition duration-300 font-medium">Gallery</a>
+                    <a href="https://kuws.netlify.app/#contact" class="text-white hover:text-ku-gold transition duration-300 font-medium">Join Us</a>
+                    <a href="verification.html" class="text-white hover:text-ku-gold transition duration-300 font-medium">Verify Certificate</a>
+                </nav>
+
+                <!-- Mobile Menu Button --><button id="mobile-menu-button" class="md:hidden text-white hover:text-ku-gold focus:outline-none">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Menu (Hidden by default) --><div id="mobile-menu" class="hidden md:hidden bg-ku-blue pb-4 border-t border-ku-gold/30">
+            <a href=""https://kuws.netlify.app/" class="block px-4 py-2 text-white hover:bg-ku-blue/70 transition duration-300 font-medium" onclick="toggleMenu()">Home</a>
+            <a href="https://kuws.netlify.app/#about" class="block px-4 py-2 text-white hover:bg-ku-blue/70 transition duration-300 font-medium" onclick="toggleMenu()">About</a>
+            <a href="https://kuws-online.blogspot.com/search/label/%E0%A6%87%E0%A6%AD%E0%A7%87%E0%A6%A8%E0%A7%8D%E0%A6%9F%E0%A6%B8" class="block px-4 py-2 text-white hover:bg-ku-blue/70 transition duration-300 font-medium" onclick="toggleMenu()">Events</a>
+            <a href="https://kuws-online.blogspot.com" class="block px-4 py-2 text-white hover:bg-ku-blue/70 transition duration-300 font-medium" onclick="toggleMenu()">Read Our Writings</a>
+            <a href="honorboard.html" class="block px-4 py-2 text-white hover:bg-ku-blue/70 transition duration-300 font-medium" onclick="toggleMenu()">Honor Board</a>
+            <a href="https://kuws-online.blogspot.com/p/gallery.html" class="block px-4 py-2 text-white hover:bg-ku-blue/70 transition duration-300 font-medium" onclick="toggleMenu()">Gallery</a>
+            <a href="https://kuws.netlify.app/#contact" class="block px-4 py-2 text-white hover:bg-ku-blue/70 transition duration-300 font-medium" onclick="toggleMenu()">Join Us</a>
+            <a href="verification.html" class="block px-4 py-2 text-white hover:bg-ku-blue/70 transition duration-300 font-medium" onclick="toggleMenu()">Verify Certificate</a>
+        </div>
+    </header>
+
+    <main>
+
+        <!-- Honor Board Section (REVERTED TO TABLE) --><section id="honor-board" class="py-16 md:py-24 bg-white">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-12">
+                    <span class="text-ku-gold text-sm font-semibold uppercase tracking-wider">Our Legacy</span>
+                    <h2 class="mt-2 text-3xl sm:text-4xl font-extrabold text-ku-blue">KUWS Leadership History</h2>
+                    <p class="text-lg text-gray-600 mt-2">
+                        List of the Presidents and General Secretaries who served the society.
+                    </p>
+                </div>
+
+                <div class="bg-ku-light p-4 md:p-8 rounded-xl shadow-xl overflow-x-auto border-t-4 border-ku-gold">
+                    <table class="min-w-full divide-y divide-gray-300">
+                        <thead class="bg-ku-blue">
+                            <tr>
+                                <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-white">SL</th>
+                                <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-white">President</th>
+                                <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-white">General Secretary</th>
+                                <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-white">From</th>
+                                <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-white">To</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-gray-200 bg-white">
+                            
+                            <tr>
+                                <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">1</td>
+                                <td class="whitespace-nowrap px-3 py-4">
+  										<button
+    									onclick="openProfile(
+										'images/President1.png',
+      									'Ekramul Haque',
+      									'Ekramul Haque is the Founding President of the Khulna University Writers’ Society. He has a strong academic and professional background that combines forestry research with journalism, communication, and leadership. He is currently pursuing an MS in Forestry at the Forestry and Wood Technology Discipline, Khulna University, and completed his BSc (Honours) in Forestry in 2025. Ekramul Haque served as President (2024), Organizing Secretary (2023), and Secretary of Publicity and Publication (2022) of the Khulna University Journalists’ Association. In parallel, he held the roles of General Secretary (2024), Office Secretary (2023), and Secretary of Publicity (2022) of the Forestry and Wood Technology Club, Khulna University. He passed the Higher Secondary Certificate examination from Government Azizul Haque College, Bogura in 2018. [Cell: 01777024027]'
+    														)"
+    									class="flex items-center gap-3 text-left">
+    									<img src="images/President1.png"
+         								class="h-8 w-8 rounded-full object-cover border" />
+    									<span class="text-sm text-ku-blue font-medium">Ekramul Haque</span>
+  										</button>
+								</td>
+                                <td class="whitespace-nowrap px-3 py-4">
+  										<button
+    									onclick="openProfile(
+                                        'images/mahfuz.png',
+      									'Mahfuzur Rahman',
+      									'Mahfuzur Rahman was the Founding General Secretary of the Khulna University Writers’ Society. He has a strong academic and professional background.'
+    														)"
+    									class="flex items-center gap-3 text-left">
+    									<img src="images/mahfuz.png"
+         								class="h-8 w-8 rounded-full object-cover border" />
+    									<span class="text-sm text-ku-blue font-medium">Mahfuzur Rahman</span>
+  										</button>
+								</td>
+                                <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-700">30 October 2024</td>
+                                <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-700">---</td>
+                            </tr>
+   
+                            
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Section --><section id="contact" class="py-16 md:py-24 bg-ku-light">
+            <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+                <h2 class="text-3xl sm:text-4xl font-extrabold text-ku-blue mb-4">Ready to Start Writing?</h2>
+                <p class="text-lg text-gray-600 mb-8">
+                    We welcome writers and readers of all departments and skill levels. Your voice matters here.
+                </p>
+
+                <div class="md:flex justify-center space-y-4 md:space-y-0 md:space-x-6">
+                    <a href="https://forms.gle/1ZHep4fKWjWkJ5z39" class="inline-flex items-center justify-center w-full md:w-auto bg-ku-blue text-white hover:bg-ku-blue/80 transition duration-300 font-semibold py-3 px-8 rounded-full shadow-lg transform hover:scale-105 active:scale-95">
+                        <svg class="w-5 h-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
+                        Be A Member
+                    </a>
+                    <a href="https://www.facebook.com/KUWritersSociety/" target="_blank" class="inline-flex items-center justify-center w-full md:w-auto bg-ku-gold text-ku-blue hover:bg-ku-gold/80 transition duration-300 font-semibold py-3 px-8 rounded-full shadow-lg transform hover:scale-105 active:scale-95">
+                        <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-3 7h-2.5v-1.5c0-.827.673-1.5 1.5-1.5h1v-2h-2c-2.206 0-3 1.05-3 2.5v1.5h-2v2h2v7h3v-7h3l.5-2z"/></svg>
+                        Follow on Facebook
+                    </a>
+                    <a href="https://www.facebook.com/groups/kuws2024" target="_blank" class="inline-flex items-center justify-center w-full md:w-auto bg-ku-gold text-ku-blue hover:bg-ku-gold/80 transition duration-300 font-semibold py-3 px-8 rounded-full shadow-lg transform hover:scale-105 active:scale-95">
+                        <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-3 7h-2.5v-1.5c0-.827.673-1.5 1.5-1.5h1v-2h-2c-2.206 0-3 1.05-3 2.5v1.5h-2v2h2v7h3v-7h3l.5-2z"/></svg>
+                        Join Group
+                    </a>
+                </div>
+
+                <p class="mt-8 text-sm text-gray-500">
+                    Program Schedules are shared in our official group.
+                </p>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer --><footer class="bg-ku-blue text-white py-10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-2 md:grid-cols-4 gap-8">
+            
+            <!-- Logo/Name --><div>
+                <span class="text-xl font-bold text-ku-gold">Khulna University Writers' Society</span>
+                <p class="mt-2 text-sm text-gray-300">
+                    Powered by the passion of Khulna University students.
+                </p>
+            </div>
+
+            <!-- Quick Links --><div>
+                <h5 class="text-lg font-semibold mb-3">Quick Links</h5>
+                <ul class="space-y-2 text-sm">
+                    <li><a href="ourstory.html" class="hover:text-ku-gold transition duration-200">Our Story</a></li>
+                    <li><a href="https://kuws-online.blogspot.com/search/label/%E0%A6%87%E0%A6%AD%E0%A7%87%E0%A6%A8%E0%A7%8D%E0%A6%9F%E0%A6%B8" class="hover:text-ku-gold transition duration-200">Upcoming Activities</a></li>
+                    <li><a href="https://kuws-online.blogspot.com" class="hover:text-ku-gold transition duration-200">Read Member Work</a></li>
+                    <li><a href="honorboard.html" class="hover:text-ku-gold transition duration-200">Honor Board</a></li>
+                    <li><a href="https://kuws-online.blogspot.com/p/gallery.html" class="hover:text-ku-gold transition duration-200">Gallery</a></li>
+                </ul>
+            </div>
+
+            <!-- Resources --><div>
+                <h5 class="text-lg font-semibold mb-3">Resources</h5>
+                <ul class="space-y-2 text-sm">
+                    <li><a href="logo.html" class="hover:text-ku-gold transition duration-200">KU related Logo</a></li>
+                    <li><a href="https://dsa.ku.ac.bd/clubs" class="hover:text-ku-gold transition duration-200">KU Club List</a></li>
+                    <li><a href="https://ku.ac.bd" class="hover:text-ku-gold transition duration-200">KU Official Site</a></li>
+                </ul>
+            </div>
+
+            <!-- Contact Info --><div>
+                <h5 class="text-lg font-semibold mb-3">Get In Touch</h5>
+                <p class="text-sm">
+                    <span class="block">Email: kuwriterssociety@gmail.com</span>
+                    <span class="block mt-2">Khulna University, Khulna-9208</span>
+                </p>
+            </div>
+        </div>
+        
+        <div class="mt-10 pt-6 border-t border-ku-gold/30 text-center text-sm text-gray-400">
+            &copy; <span id="current-year"></span> Khulna University Writers' Society. All rights reserved.
+        </div>
+    </footer>
+
+    <script>
+        // Get the current year for the footer copyright
+        document.getElementById('current-year').textContent = new Date().getFullYear();
+
+        // JavaScript for Mobile Menu Toggle
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        function toggleMenu() {
+            mobileMenu.classList.toggle('hidden');
+        }
+
+        mobileMenuButton.addEventListener('click', toggleMenu);
+        
+    </script>  <script>
+  function openProfile(image, name, description) {
+    document.getElementById('profileImage').src = image;
+    document.getElementById('profileName').innerText = name;
+    document.getElementById('profileDescription').innerText = description;
+
+    document.getElementById('profileModal').classList.remove('hidden');
+    document.getElementById('profileModal').classList.add('flex');
+  }
+
+  function closeProfile() {
+    document.getElementById('profileModal').classList.add('hidden');
+    document.getElementById('profileModal').classList.remove('flex');
+  }
+</script>
+
+<!-- Profile Popup -->
+<div id="profileModal"
+     class="fixed inset-0 z-50 hidden items-center justify-center bg-black/60">
+
+  <div class="bg-white rounded-xl max-w-sm w-full p-6 relative text-center">
+    
+    <button onclick="closeProfile()"
+            class="absolute top-2 right-3 text-gray-500 text-xl">&times;</button>
+
+    <img id="profileImage"
+         class="mx-auto h-32 w-32 rounded-full object-cover border mb-4" />
+
+    <h2 id="profileName"
+        class="text-lg font-semibold text-ku-blue mb-2"></h2>
+
+    <p id="profileDescription"
+       class="text-sm text-gray-600"></p>
+
+  </div>
+</div>
+
+
+	
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
