@@ -30,15 +30,17 @@
             <i class="fas fa-feather-alt"></i>
           </div>
           <div>
-            <h1 id="site-name-display" style="font-size: 26px; font-weight: 800; color: var(--primary); margin: 0;">খুলনা বিশ্ববিদ্যালয় লেখক সংঘ</h1>
-            <p id="site-tagline-display" style="font-size: 13px; color: var(--text-muted); margin: 2px 0 0 0;">মুক্তচিন্তা ও সৃজনশীল সাহিত্যের উন্মুক্ত প্রাঙ্গণ</p>
+            <h1 id="site-name-display">খুলনা বিশ্ববিদ্যালয় লেখক সংঘ</h1>
+            <p id="site-tagline-display">মুক্তচিন্তা ও সৃজনশীল সাহিত্যের উন্মুক্ত প্রাঙ্গণ</p>
           </div>
         </a>
       </div>
-      <form action="/category.html" method="GET" style="display: flex; gap: 6px;">
-        <input type="text" name="search" placeholder="কবিতা, গল্প বা লেখক খুঁজুন..." class="form-control" style="width: 240px; padding: 8px 12px;">
-        <button type="submit" class="btn btn-primary"><i class="fas fa-search"></i></button>
-      </form>
+      <div style="display: flex; gap: 10px; align-items: center; width: 100%; max-width: 320px;">
+        <form action="/category.html" method="GET" class="header-search-form" style="width: 100%;">
+          <input type="text" name="search" placeholder="কবিতা, গল্প বা লেখক খুঁজুন..." class="form-control" style="width: 100%; padding: 8px 12px;">
+          <button type="submit" class="btn btn-primary"><i class="fas fa-search"></i></button>
+        </form>
+      </div>
     </div>
   </header>
 
@@ -52,9 +54,9 @@
   </nav>
 
   <!-- Main Article Content -->
-  <main class="container" style="margin-top: 24px; margin-bottom: 50px;">
+  <main class="container" style="margin-top: 20px; margin-bottom: 50px;">
     
-    <div style="display: grid; grid-template-columns: 2.2fr 1fr; gap: 30px;">
+    <div class="article-grid-layout">
       
       <!-- Left Column: Article Body -->
       <article id="article-view-container">
@@ -134,7 +136,7 @@
         // Render Article
         const container = document.getElementById('article-view-container');
         container.innerHTML = `
-          <div style="background: #ffffff; border-radius: 8px; padding: 24px; border: 1px solid var(--border-color);">
+          <div style="background: #ffffff; border-radius: 8px; padding: 20px; border: 1px solid var(--border-color);">
             
             <div style="margin-bottom: 12px;">
               <a href="/category.html?category=${a.category_slug}" class="badge badge-primary" style="font-size: 13px; padding: 4px 10px;">
@@ -148,9 +150,12 @@
               <img src="${a.author_avatar || 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150'}" alt="${a.author_name}" class="author-avatar">
               <div>
                 <div style="font-weight: 700; color: #0f172a;"><i class="fas fa-pen-nib"></i> ${a.author_name}</div>
-                <div style="font-size: 13px; color: var(--text-muted);">
-                  ${a.author_designation || 'লেখক ও গবেষক'} • <i class="far fa-clock"></i> প্রকাশিত: ${Utils.timeAgo(a.published_at || a.created_at)}
-                  • <i class="far fa-eye"></i> পঠিত: ${Utils.toBengaliNumber(a.views)} বার
+                <div style="font-size: 13px; color: var(--text-muted); display: flex; flex-wrap: wrap; gap: 6px; align-items: center; margin-top: 2px;">
+                  <span>${a.author_designation || 'লেখক ও গবেষক'}</span>
+                  <span>•</span>
+                  <span><i class="far fa-clock"></i> ${Utils.timeAgo(a.published_at || a.created_at)}</span>
+                  <span>•</span>
+                  <span><i class="far fa-eye"></i> ${Utils.toBengaliNumber(a.views)} বার</span>
                 </div>
               </div>
             </div>
@@ -167,15 +172,15 @@
             </div>
 
             ${a.tags ? `
-              <div style="margin: 24px 0; display: flex; gap: 8px; flex-wrap: wrap; align-items: center;">
-                <span style="font-weight: 600; font-size: 14px; color: var(--text-muted);"><i class="fas fa-tags"></i> ট্যাগ:</span>
-                ${a.tags.split(',').map(t => `<span class="badge badge-secondary" style="font-size: 13px;">${t.trim()}</span>`).join('')}
+              <div style="margin: 20px 0; display: flex; gap: 8px; flex-wrap: wrap; align-items: center;">
+                <span style="font-weight: 600; font-size: 13px; color: var(--text-muted);"><i class="fas fa-tags"></i> ট্যাগ:</span>
+                ${a.tags.split(',').map(t => `<span class="badge badge-secondary" style="font-size: 12px;">${t.trim()}</span>`).join('')}
               </div>
             ` : ''}
 
             <!-- Social Share -->
-            <div style="border-top: 1px solid var(--border-color); padding: 18px 0; display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
-              <span style="font-weight: 600; font-size: 14px;">শেয়ার করুন:</span>
+            <div style="border-top: 1px solid var(--border-color); padding: 16px 0; display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
+              <span style="font-weight: 600; font-size: 13px;">শেয়ার করুন:</span>
               <button class="btn btn-sm btn-secondary" onclick="shareSocial('fb')"><i class="fab fa-facebook" style="color: #1877f2;"></i> ফেসবুক</button>
               <button class="btn btn-sm btn-secondary" onclick="shareSocial('twitter')"><i class="fab fa-twitter" style="color: #1da1f2;"></i> টুইটার</button>
               <button class="btn btn-sm btn-secondary" onclick="shareSocial('whatsapp')"><i class="fab fa-whatsapp" style="color: #25d366;"></i> হোয়াটসঅ্যাপ</button>
@@ -183,9 +188,9 @@
             </div>
 
             <!-- Comment Box -->
-            <div style="margin-top: 30px; border-top: 2px solid var(--border-color); padding-top: 24px;">
-              <h3 style="font-size: 20px; margin-bottom: 16px;"><i class="far fa-comments"></i> পাঠ প্রতিক্রিয়া ও মন্তব্য</h3>
-              <form id="comment-form" style="display: flex; flex-direction: column; gap: 12px; margin-bottom: 24px;">
+            <div style="margin-top: 26px; border-top: 2px solid var(--border-color); padding-top: 20px;">
+              <h3 style="font-size: 18px; margin-bottom: 14px;"><i class="far fa-comments"></i> পাঠ প্রতিক্রিয়া ও মন্তব্য</h3>
+              <form id="comment-form" style="display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px;">
                 <input type="text" id="comment-name" class="form-control" placeholder="আপনার নাম লিখুন" required>
                 <textarea id="comment-text" class="form-control" rows="3" placeholder="লেখা সম্পর্কে আপনার মূল্যায়ন বা মন্তব্য লিখুন..." required></textarea>
                 <div>
@@ -194,16 +199,16 @@
               </form>
 
               <!-- Comments List -->
-              <div id="comments-list" style="display: flex; flex-direction: column; gap: 12px;">
+              <div id="comments-list" style="display: flex; flex-direction: column; gap: 10px;">
                 ${res.comments && res.comments.length > 0 ? res.comments.map(c => `
-                  <div style="background: #f8fafc; padding: 12px 16px; border-radius: 6px; border: 1px solid var(--border-color);">
-                    <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
+                  <div style="background: #f8fafc; padding: 12px 14px; border-radius: 6px; border: 1px solid var(--border-color);">
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 4px; flex-wrap: wrap;">
                       <strong style="color: #0f172a;">${c.name}</strong>
                       <span style="font-size: 12px; color: var(--text-muted);">${Utils.timeAgo(c.created_at)}</span>
                     </div>
                     <p style="font-size: 14px; color: #334155;">${c.comment}</p>
                   </div>
-                `).join('') : '<p style="color: var(--text-muted); font-size: 14px;">এখনও কোনো মন্তব্য করা হয়নি। আপনিই প্রথম আপনার মূল্যবান মন্তব্য দিন!</p>'}
+                `).join('') : '<p style="color: var(--text-muted); font-size: 13px;">এখনও কোনো মন্তব্য করা হয়নি। আপনিই প্রথম আপনার মূল্যবান মন্তব্য দিন!</p>'}
               </div>
             </div>
 
@@ -230,10 +235,10 @@
         if (res.related && res.related.length > 0) {
           relatedList.innerHTML = res.related.map(r => `
             <div style="display: flex; gap: 10px; align-items: center;">
-              <img src="${r.image_url || 'https://images.unsplash.com/photo-1455390582262-044cdead277a?w=150'}" style="width: 75px; height: 55px; border-radius: 4px; object-fit: cover;">
+              <img src="${r.image_url || 'https://images.unsplash.com/photo-1455390582262-044cdead277a?w=150'}" style="width: 70px; height: 50px; border-radius: 4px; object-fit: cover; flex-shrink: 0;">
               <div>
-                <a href="/article.html?id=${r.id}" style="font-size: 14px; font-weight: 600; line-height: 1.35; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;">${r.title}</a>
-                <span style="font-size: 12px; color: var(--text-muted);">${Utils.timeAgo(r.published_at)}</span>
+                <a href="/article.html?id=${r.id}" style="font-size: 13px; font-weight: 600; line-height: 1.35; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;">${r.title}</a>
+                <span style="font-size: 11px; color: var(--text-muted);">${Utils.timeAgo(r.published_at)}</span>
               </div>
             </div>
           `).join('');
@@ -259,8 +264,8 @@
             <li class="popular-item">
               <div class="popular-rank">${Utils.toBengaliNumber(idx + 1)}</div>
               <div>
-                <a href="/article.html?id=${p.id}" style="font-size: 14px; font-weight: 600; line-height: 1.4; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;">${p.title}</a>
-                <div class="news-meta" style="margin-top: 4px;">
+                <a href="/article.html?id=${p.id}" style="font-size: 13px; font-weight: 600; line-height: 1.4; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;">${p.title}</a>
+                <div class="news-meta" style="margin-top: 4px; font-size: 11px;">
                   <span><i class="far fa-clock"></i> ${Utils.timeAgo(p.published_at)}</span>
                 </div>
               </div>

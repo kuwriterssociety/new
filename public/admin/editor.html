@@ -31,7 +31,7 @@
       background: #e2e8f0;
     }
     .editor-content-area {
-      min-height: 280px;
+      min-height: 260px;
       padding: 14px;
       border: 1px solid var(--border-color);
       border-radius: 0 0 6px 6px;
@@ -93,14 +93,14 @@
           <p id="rejection-note" style="color: #7f1d1d; font-size: 14px;"></p>
         </div>
 
-        <form id="article-form" style="display: grid; grid-template-columns: 2.2fr 1fr; gap: 24px;">
+        <form id="article-form" class="admin-editor-grid">
           
           <!-- Left Column: Title & Content -->
           <div>
             
             <div class="form-group">
               <label class="form-label" for="article-title">শিরোনাম (কবিতা/গল্প/কলাম/রিভিউ এর নাম) *</label>
-              <input type="text" id="article-title" class="form-control" placeholder="এখানে লেখার শিরোনাম লিখুন..." required style="font-size: 18px; font-weight: 600;">
+              <input type="text" id="article-title" class="form-control" placeholder="এখানে লেখার শিরোনাম লিখুন..." required style="font-size: 17px; font-weight: 600;">
             </div>
 
             <div class="form-group">
@@ -135,7 +135,7 @@
               </div>
             </div>
 
-            <div class="form-group" style="margin-top: 20px;">
+            <div class="form-group" style="margin-top: 18px;">
               <label class="form-label" for="article-tags">ট্যাগসমূহ (কমা দিয়ে আলাদা করুন)</label>
               <input type="text" id="article-tags" class="form-control" placeholder="যেমন: কবিতা, খুলনা বিশ্ববিদ্যালয়, সাহিত্য, হেমন্ত">
             </div>
@@ -146,18 +146,18 @@
           <div>
             
             <!-- Publishing Actions Card -->
-            <div style="background: #ffffff; padding: 20px; border-radius: 8px; border: 1px solid var(--border-color); margin-bottom: 20px;">
-              <h3 style="font-size: 16px; margin-bottom: 14px; border-bottom: 1px solid var(--border-color); padding-bottom: 8px;">
+            <div style="background: #ffffff; padding: 18px; border-radius: 8px; border: 1px solid var(--border-color); margin-bottom: 18px;">
+              <h3 style="font-size: 15px; margin-bottom: 12px; border-bottom: 1px solid var(--border-color); padding-bottom: 8px;">
                 <i class="fas fa-paper-plane"></i> প্রকাশনা ও অনুমোদন নিয়ন্ত্রণ
               </h3>
 
-              <div id="workflow-buttons" style="display: flex; flex-direction: column; gap: 10px;">
+              <div id="workflow-buttons" style="display: flex; flex-direction: column; gap: 8px;">
                 <!-- Filled dynamically according to user role -->
               </div>
             </div>
 
             <!-- Category Card -->
-            <div style="background: #ffffff; padding: 20px; border-radius: 8px; border: 1px solid var(--border-color); margin-bottom: 20px;">
+            <div style="background: #ffffff; padding: 18px; border-radius: 8px; border: 1px solid var(--border-color); margin-bottom: 18px;">
               <label class="form-label" for="article-category">সাহিত্যের বিভাগ নির্বাচন করুন *</label>
               <select id="article-category" class="form-control" required>
                 <option value="">-- বিভাগ নির্বাচন করুন --</option>
@@ -165,41 +165,41 @@
             </div>
 
             <!-- Image Upload Card -->
-            <div style="background: #ffffff; padding: 20px; border-radius: 8px; border: 1px solid var(--border-color); margin-bottom: 20px;">
+            <div style="background: #ffffff; padding: 18px; border-radius: 8px; border: 1px solid var(--border-color); margin-bottom: 18px;">
               <label class="form-label">ফিচার্ড ছবি / অলংকরণ (Cover Image)</label>
               
               <div style="margin-bottom: 10px;">
-                <input type="file" id="image-file-input" accept="image/*" class="form-control" style="font-size: 13px;">
-                <div style="font-size: 12px; color: var(--text-muted); margin-top: 4px;">কম্পিউটার থেকে ছবি আপলোড করুন</div>
+                <input type="file" id="image-file-input" accept="image/*" class="form-control" style="font-size: 12px;">
+                <div style="font-size: 11px; color: var(--text-muted); margin-top: 4px;">কম্পিউটার থেকে ছবি আপলোড করুন</div>
               </div>
 
-              <div style="text-align: center; margin: 8px 0; font-size: 12px; color: var(--text-muted);">— অথবা —</div>
+              <div style="text-align: center; margin: 6px 0; font-size: 12px; color: var(--text-muted);">— অথবা —</div>
 
               <input type="url" id="article-image-url" class="form-control" placeholder="ছবির অনলাইন লিংক (URL) লিখুন">
 
-              <div style="margin-top: 12px;">
+              <div style="margin-top: 10px;">
                 <label class="form-label" for="article-image-caption">ছবির ক্যাপশন / আলোকচিত্রীর নাম</label>
                 <input type="text" id="article-image-caption" class="form-control" placeholder="যেমন: অলংকরণ - কুয়েস প্রকাশনা বিভাগ">
               </div>
 
               <!-- Preview Image -->
-              <div id="image-preview-box" style="margin-top: 14px; display: none;">
+              <div id="image-preview-box" style="margin-top: 12px; display: none;">
                 <img id="preview-img" src="" style="width: 100%; height: 160px; object-fit: cover; border-radius: 4px;">
               </div>
             </div>
 
             <!-- Featured / Highlight Flags (Editor & IT Admin Only) -->
-            <div class="nav-editor" style="background: #ffffff; padding: 20px; border-radius: 8px; border: 1px solid var(--border-color);">
-              <h4 style="font-size: 14px; margin-bottom: 12px; color: #0f172a;">হোমপেজ প্রদর্শন সেটিংস:</h4>
+            <div class="nav-editor" style="background: #ffffff; padding: 18px; border-radius: 8px; border: 1px solid var(--border-color);">
+              <h4 style="font-size: 14px; margin-bottom: 10px; color: #0f172a;">হোমপেজ প্রদর্শন সেটিংস:</h4>
               
               <div style="display: flex; flex-direction: column; gap: 8px;">
-                <label style="display: flex; align-items: center; gap: 8px; font-size: 14px; cursor: pointer;">
+                <label style="display: flex; align-items: center; gap: 8px; font-size: 13px; cursor: pointer;">
                   <input type="checkbox" id="flag-lead"> <strong>প্রধান ফিচার্ড লেখা (Lead Story)</strong>
                 </label>
-                <label style="display: flex; align-items: center; gap: 8px; font-size: 14px; cursor: pointer;">
+                <label style="display: flex; align-items: center; gap: 8px; font-size: 13px; cursor: pointer;">
                   <input type="checkbox" id="flag-breaking"> <strong>সর্বশেষ লেখা স্ট্রিপে হাইলাইট করুন</strong>
                 </label>
-                <label style="display: flex; align-items: center; gap: 8px; font-size: 14px; cursor: pointer;">
+                <label style="display: flex; align-items: center; gap: 8px; font-size: 13px; cursor: pointer;">
                   <input type="checkbox" id="flag-featured"> <strong>সম্পাদকের পছন্দ (Editor's Pick)</strong>
                 </label>
               </div>
@@ -345,22 +345,22 @@
       if (role === 'sub_editor') {
         html = `
           <button type="button" class="btn btn-primary" onclick="submitArticle('pending')" style="padding: 12px;">
-            <i class="fas fa-paper-plane"></i> সম্পাদকের অনুমোদনের জন্য পাঠান (Submit for Review)
+            <i class="fas fa-paper-plane"></i> সম্পাদকের অনুমোদনের জন্য পাঠান
           </button>
           <button type="button" class="btn btn-secondary" onclick="submitArticle('draft')">
-            <i class="fas fa-save"></i> ড্রাফট হিসেবে সংরক্ষণ (Save Draft)
+            <i class="fas fa-save"></i> ড্রাফট সংরক্ষণ
           </button>
         `;
       } else {
         html = `
           <button type="button" class="btn btn-success" onclick="submitArticle('published')" style="padding: 12px;">
-            <i class="fas fa-check-circle"></i> সরাসরি প্রকাশ করুন (Publish Live)
+            <i class="fas fa-check-circle"></i> সরাসরি প্রকাশ করুন
           </button>
           <button type="button" class="btn btn-secondary" onclick="submitArticle('draft')">
-            <i class="fas fa-save"></i> ড্রাফট সংরক্ষণ (Save Draft)
+            <i class="fas fa-save"></i> ড্রাফট সংরক্ষণ
           </button>
           <button type="button" class="btn btn-secondary" onclick="submitArticle('pending')">
-            <i class="fas fa-hourglass-half"></i> পেন্ডিং রাখুন (Keep Pending)
+            <i class="fas fa-hourglass-half"></i> পেন্ডিং রাখুন
           </button>
         `;
       }

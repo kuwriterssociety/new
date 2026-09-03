@@ -13,7 +13,7 @@
   <div class="top-bar">
     <div class="container top-bar-inner">
       <div id="current-date"><i class="far fa-calendar-alt"></i> লোড হচ্ছে...</div>
-      <div style="display: flex; gap: 15px; align-items: center;">
+      <div style="display: flex; gap: 15px; align-items: center; flex-wrap: wrap;">
         <span style="color: #94a3b8; font-size: 13px;"><i class="fas fa-university"></i> খুলনা বিশ্ববিদ্যালয়</span>
         <a href="/admin/login" style="color: #f1f5f9; font-weight: 600;">
           <i class="fas fa-lock"></i> লেখক ও সম্পাদক প্যানেল (Login)
@@ -27,18 +27,18 @@
     <div class="container header-inner">
       <div class="brand-logo">
         <a href="/" style="display: flex; align-items: center; gap: 12px;">
-          <div style="width: 48px; height: 48px; background: #fee2e2; color: var(--primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 22px; flex-shrink: 0;">
+          <div style="width: 44px; height: 44px; background: #fee2e2; color: var(--primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 20px; flex-shrink: 0;">
             <i class="fas fa-feather-alt"></i>
           </div>
           <div>
-            <h1 id="site-name-display" style="font-size: 28px; font-weight: 800; color: var(--primary); margin: 0;">খুলনা বিশ্ববিদ্যালয় লেখক সংঘ</h1>
-            <p id="site-tagline-display" style="font-size: 14px; color: var(--text-muted); margin: 2px 0 0 0;">মুক্তচিন্তা ও সৃজনশীল সাহিত্যের উন্মুক্ত প্রাঙ্গণ</p>
+            <h1 id="site-name-display">খুলনা বিশ্ববিদ্যালয় লেখক সংঘ</h1>
+            <p id="site-tagline-display">মুক্তচিন্তা ও সৃজনশীল সাহিত্যের উন্মুক্ত প্রাঙ্গণ</p>
           </div>
         </a>
       </div>
-      <div style="display: flex; gap: 10px; align-items: center;">
-        <form id="search-form" action="/category.html" method="GET" style="display: flex; gap: 6px;">
-          <input type="text" name="search" placeholder="কবিতা, গল্প বা লেখক খুঁজুন..." class="form-control" style="width: 250px; padding: 8px 12px;">
+      <div style="display: flex; gap: 10px; align-items: center; width: 100%; max-width: 320px;">
+        <form id="search-form" class="header-search-form" action="/category.html" method="GET" style="width: 100%;">
+          <input type="text" name="search" placeholder="কবিতা, গল্প বা লেখক খুঁজুন..." class="form-control" style="width: 100%; padding: 8px 12px;">
           <button type="submit" class="btn btn-primary"><i class="fas fa-search"></i></button>
         </form>
       </div>
@@ -50,15 +50,14 @@
     <div class="container nav-inner">
       <ul class="nav-links" id="category-nav">
         <li class="active"><a href="/">প্রচ্ছদ</a></li>
-        <!-- Dynamically rendered literary categories: কবিতা, গল্প, কলাম, চিঠিপত্র, ছড়া, ফিচার, মতামত, বই পর্যালোচনা, ইভেন্টস -->
       </ul>
     </div>
   </nav>
 
-  <!-- Latest Writings Ticker (Replaced Breaking News) -->
+  <!-- Latest Writings Ticker -->
   <div class="container" style="margin-top: 14px;">
-    <div class="breaking-bar" style="border-left: 4px solid var(--primary); background: #ffffff;">
-      <div class="breaking-label" style="background: var(--primary); color: #fff;">
+    <div class="breaking-bar">
+      <div class="breaking-label">
         <i class="fas fa-pen-nib"></i> সর্বশেষ লেখা
       </div>
       <div class="breaking-marquee" id="latest-writings-ticker">
@@ -71,7 +70,7 @@
   <main class="container" style="margin-bottom: 40px;">
     
     <!-- Hero / Top Featured Literary Piece -->
-    <section style="display: grid; grid-template-columns: 2fr 1fr; gap: 24px; margin-bottom: 30px;" id="hero-grid">
+    <section class="main-two-col-grid" id="hero-grid">
       
       <!-- Lead / Featured Post -->
       <div id="lead-article-container">
@@ -98,8 +97,8 @@
       <!-- Latest writings cards -->
     </div>
 
-    <!-- Literary Specific Sections (কবিতা, গল্প, বই পর্যালোচনা, কলাম) -->
-    <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 24px; margin-top: 30px;">
+    <!-- Literary Specific Sections (কবিতা, গল্প, বই পর্যালোচনা, ইভেন্টস) -->
+    <div class="main-two-col-grid" style="margin-top: 30px;">
       
       <!-- Left Column: Category Blocks -->
       <div>
@@ -109,28 +108,28 @@
           <h2 class="section-title">কবিতা ও পঙক্তিমালা</h2>
           <a href="/category.html?category=poetry" class="btn btn-secondary btn-sm">সব কবিতা</a>
         </div>
-        <div class="news-card-grid" id="poetry-grid" style="grid-template-columns: 1fr 1fr;"></div>
+        <div class="category-sub-grid" id="poetry-grid"></div>
 
         <!-- গল্প (Stories) Section -->
         <div class="section-header" style="margin-top: 30px;">
           <h2 class="section-title">ছোটগল্প ও কথাসাহিত্য</h2>
           <a href="/category.html?category=stories" class="btn btn-secondary btn-sm">সব গল্প</a>
         </div>
-        <div class="news-card-grid" id="stories-grid" style="grid-template-columns: 1fr 1fr;"></div>
+        <div class="category-sub-grid" id="stories-grid"></div>
 
         <!-- বই পর্যালোচনা (Book Review) Section -->
         <div class="section-header" style="margin-top: 30px;">
           <h2 class="section-title">বই পর্যালোচনা ও পাঠ প্রতিক্রিয়া</h2>
           <a href="/category.html?category=book-review" class="btn btn-secondary btn-sm">সব পর্যালোচনা</a>
         </div>
-        <div class="news-card-grid" id="bookreview-grid" style="grid-template-columns: 1fr 1fr;"></div>
+        <div class="category-sub-grid" id="bookreview-grid"></div>
 
         <!-- ইভেন্টস ও কার্যক্রম (Events) Section -->
         <div class="section-header" style="margin-top: 30px;">
           <h2 class="section-title">ইভেন্টস ও সাহিত্য আড্ডা</h2>
           <a href="/category.html?category=events" class="btn btn-secondary btn-sm">সব ইভেন্ট</a>
         </div>
-        <div class="news-card-grid" id="events-grid" style="grid-template-columns: 1fr 1fr;"></div>
+        <div class="category-sub-grid" id="events-grid"></div>
 
       </div>
 
@@ -169,9 +168,9 @@
   <!-- Footer -->
   <footer style="background: #0f172a; color: #94a3b8; padding: 40px 0 20px 0; border-top: 4px solid var(--primary);">
     <div class="container">
-      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 30px; margin-bottom: 30px;">
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 24px; margin-bottom: 30px;">
         <div>
-          <h3 style="color: #ffffff; font-size: 20px; margin-bottom: 12px;" id="footer-site-name">খুলনা বিশ্ববিদ্যালয় লেখক সংঘ (KUWS)</h3>
+          <h3 style="color: #ffffff; font-size: 19px; margin-bottom: 12px;" id="footer-site-name">খুলনা বিশ্ববিদ্যালয় লেখক সংঘ (KUWS)</h3>
           <p style="font-size: 14px; line-height: 1.6;" id="footer-tagline">মুক্তচিন্তা ও সৃজনশীল সাহিত্যের উন্মুক্ত প্রাঙ্গণ। শব্দে শব্দে মানবিক বোধ ও সৃজনশীলতার জাগরণ।</p>
           <div style="margin-top: 14px; display: flex; gap: 12px; font-size: 18px;">
             <a href="#" style="color: #cbd5e1;"><i class="fab fa-facebook"></i></a>
