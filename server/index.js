@@ -1,4 +1,4 @@
-﻿const http = require('node:http');
+const http = require('node:http');
 const fs = require('node:fs');
 const path = require('node:path');
 const url = require('node:url');
@@ -119,7 +119,12 @@ const server = http.createServer(async (req, res) => {
         return sendError(res, 400, 'ইমেইল এবং পাসওয়ার্ড প্রদান করুন।');
       }
 
-      const user = db.prepare('SELECT * FROM users WHERE email = ?').get(email.toLowerCase().trim());
+      const inputEmail = email.toLowerCase().trim();
+      const altEmail = inputEmail.endsWith('@kuws.org.bd')
+        ? inputEmail.replace('@kuws.org.bd', '@news.com')
+        : inputEmail.replace('@news.com', '@kuws.org.bd');
+
+      const user = db.prepare('SELECT * FROM users WHERE email = ? OR email = ?').get(inputEmail, altEmail);
       if (!user) {
         return sendError(res, 401, 'ভুল ইমেইল অথবা পাসওয়ার্ড।');
       }
@@ -808,6 +813,203 @@ const server = http.createServer(async (req, res) => {
       }
     }
 
+    // 17. HONOR BOARD APIs
+    if (pathname === '/api/honorboard' && req.method === 'GET') {
+      const members = db.prepare(`
+        SELECT id, name, designation, session_year, bio, image_url, order_index
+        FROM honor_board
+        WHERE status = 'published'
+        ORDER BY order_index ASC, id ASC
+      `).all();
+      return sendJson(res, 200, { success: true, members });
+    }
+
+    if (pathname.startsWith('/api/admin/honorboard')) {
+      const authUser = authenticateRequest(req);
+      if (!authUser) return sendError(res, 401, 'Unauthorized');
+
+      // GET ALL
+      if (req.method === 'GET') {
+        const members = db.prepare(`
+          SELECT h.*, u.name as creator_name
+          FROM honor_board h
+          LEFT JOIN users u ON h.created_by = u.id
+          ORDER BY h.order_index ASC, h.id DESC
+        `).all();
+        return sendJson(res, 200, { success: true, members });
+      }
+
+      // CREATE
+      if (req.method === 'POST') {
+        const { name, designation, session_year, bio, image_url, order_index, status } = await parseBody(req);
+        if (!name || !designation) {
+          return sendError(res, 400, 'নাম ও পদবি দিন।');
+        }
+        let finalStatus = (authUser.role === 'sub_editor') ? 'pending' : (status || 'published');
+        const resInsert = db.prepare(`
+          INSERT INTO honor_board (name, designation, session_year, bio, image_url, status, order_index, created_by)
+          VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+        `).run(
+          name.trim(),
+          designation.trim(),
+          session_year || '',
+          bio || '',
+          image_url || '/images/President1.png',
+          finalStatus,
+          Number(order_index) || 0,
+          authUser.id
+        );
+        return sendJson(res, 201, {
+          success: true,
+          id: Number(resInsert.lastInsertRowid),
+          status: finalStatus,
+          message: finalStatus === 'pending' ? 'অনুমোদনের জন্য পাঠানো হয়েছে।' : 'সদস্য যুক্ত হয়েছে।'
+        });
+      }
+
+      // UPDATE
+      if (req.method === 'PUT' && pathname.match(/^\/api\/admin\/honorboard\/(\d+)$/)) {
+        const id = Number(pathname.split('/')[4]);
+        const current = db.prepare('SELECT * FROM honor_board WHERE id = ?').get(id);
+        if (!current) return sendError(res, 404, 'সদস্য পাওয়া যায়নি।');
+
+        const { name, designation, session_year, bio, image_url, order_index, status } = await parseBody(req);
+        let targetStatus = status || current.status;
+        if (authUser.role === 'sub_editor' && targetStatus === 'published' && current.status !== 'published') {
+          targetStatus = 'pending';
+        }
+
+        db.prepare(`
+          UPDATE honor_board SET
+            name = COALESCE(?, name),
+            designation = COALESCE(?, designation),
+            session_year = COALESCE(?, session_year),
+            bio = COALESCE(?, bio),
+            image_url = COALESCE(?, image_url),
+            status = ?,
+            order_index = COALESCE(?, order_index)
+          WHERE id = ?
+        `).run(
+          name ? name.trim() : null,
+          designation ? designation.trim() : null,
+          session_year !== undefined ? session_year : null,
+          bio !== undefined ? bio : null,
+          image_url !== undefined ? image_url : null,
+          targetStatus,
+          order_index !== undefined ? Number(order_index) : null,
+          id
+        );
+        return sendJson(res, 200, { success: true, message: 'সদস্য তথ্য আপডেট হয়েছে।' });
+      }
+
+      // DELETE
+      if (req.method === 'DELETE' && pathname.match(/^\/api\/admin\/honorboard\/(\d+)$/)) {
+        if (authUser.role === 'sub_editor') {
+          return sendError(res, 403, 'কেবল সম্পাদক বা আইটি এডমিন মুছতে পারবেন।');
+        }
+        const id = Number(pathname.split('/')[4]);
+        db.prepare('DELETE FROM honor_board WHERE id = ?').run(id);
+        return sendJson(res, 200, { success: true, message: 'সদস্য মুছে ফেলা হয়েছে।' });
+      }
+    }
+
+    // 18. GALLERY APIs
+    if (pathname === '/api/gallery' && req.method === 'GET') {
+      const photos = db.prepare(`
+        SELECT id, title, caption, category, image_url, order_index
+        FROM gallery
+        WHERE status = 'published'
+        ORDER BY order_index ASC, id DESC
+      `).all();
+      return sendJson(res, 200, { success: true, photos });
+    }
+
+    if (pathname.startsWith('/api/admin/gallery')) {
+      const authUser = authenticateRequest(req);
+      if (!authUser) return sendError(res, 401, 'Unauthorized');
+
+      // GET ALL
+      if (req.method === 'GET') {
+        const photos = db.prepare(`
+          SELECT g.*, u.name as creator_name
+          FROM gallery g
+          LEFT JOIN users u ON g.created_by = u.id
+          ORDER BY g.order_index ASC, g.id DESC
+        `).all();
+        return sendJson(res, 200, { success: true, photos });
+      }
+
+      // CREATE
+      if (req.method === 'POST') {
+        const { title, caption, category, image_url, order_index, status } = await parseBody(req);
+        if (!title || !image_url) {
+          return sendError(res, 400, 'শিরোনাম ও ছবির লিংক আবশ্যক।');
+        }
+        let finalStatus = (authUser.role === 'sub_editor') ? 'pending' : (status || 'published');
+        const resInsert = db.prepare(`
+          INSERT INTO gallery (title, caption, category, image_url, status, order_index, created_by)
+          VALUES (?, ?, ?, ?, ?, ?, ?)
+        `).run(
+          title.trim(),
+          caption || '',
+          category || 'General',
+          image_url.trim(),
+          finalStatus,
+          Number(order_index) || 0,
+          authUser.id
+        );
+        return sendJson(res, 201, {
+          success: true,
+          id: Number(resInsert.lastInsertRowid),
+          status: finalStatus,
+          message: finalStatus === 'pending' ? 'অনুমোদনের জন্য পাঠানো হয়েছে।' : 'ছবি যুক্ত হয়েছে।'
+        });
+      }
+
+      // UPDATE
+      if (req.method === 'PUT' && pathname.match(/^\/api\/admin\/gallery\/(\d+)$/)) {
+        const id = Number(pathname.split('/')[4]);
+        const current = db.prepare('SELECT * FROM gallery WHERE id = ?').get(id);
+        if (!current) return sendError(res, 404, 'ছবি পাওয়া যায়নি।');
+
+        const { title, caption, category, image_url, order_index, status } = await parseBody(req);
+        let targetStatus = status || current.status;
+        if (authUser.role === 'sub_editor' && targetStatus === 'published' && current.status !== 'published') {
+          targetStatus = 'pending';
+        }
+
+        db.prepare(`
+          UPDATE gallery SET
+            title = COALESCE(?, title),
+            caption = COALESCE(?, caption),
+            category = COALESCE(?, category),
+            image_url = COALESCE(?, image_url),
+            status = ?,
+            order_index = COALESCE(?, order_index)
+          WHERE id = ?
+        `).run(
+          title ? title.trim() : null,
+          caption !== undefined ? caption : null,
+          category !== undefined ? category : null,
+          image_url ? image_url.trim() : null,
+          targetStatus,
+          order_index !== undefined ? Number(order_index) : null,
+          id
+        );
+        return sendJson(res, 200, { success: true, message: 'ছবি আপডেট হয়েছে।' });
+      }
+
+      // DELETE
+      if (req.method === 'DELETE' && pathname.match(/^\/api\/admin\/gallery\/(\d+)$/)) {
+        if (authUser.role === 'sub_editor') {
+          return sendError(res, 403, 'কেবল সম্পাদক বা আইটি এডমিন ছবি মুছতে পারবেন।');
+        }
+        const id = Number(pathname.split('/')[4]);
+        db.prepare('DELETE FROM gallery WHERE id = ?').run(id);
+        return sendJson(res, 200, { success: true, message: 'ছবি মুছে ফেলা হয়েছে।' });
+      }
+    }
+
     // ==========================================
     // STATIC FILE SERVING & CLIENT ROUTES
     // ==========================================
@@ -831,6 +1033,12 @@ const server = http.createServer(async (req, res) => {
     if (pathname === '/admin/editor') {
       return serveStatic(res, path.join(PUBLIC_DIR, 'admin', 'editor.html'));
     }
+    if (pathname === '/admin/honorboard') {
+      return serveStatic(res, path.join(PUBLIC_DIR, 'admin', 'honorboard.html'));
+    }
+    if (pathname === '/admin/gallery') {
+      return serveStatic(res, path.join(PUBLIC_DIR, 'admin', 'gallery.html'));
+    }
     if (pathname === '/admin/users') {
       return serveStatic(res, path.join(PUBLIC_DIR, 'admin', 'users.html'));
     }
@@ -841,15 +1049,30 @@ const server = http.createServer(async (req, res) => {
       return serveStatic(res, path.join(PUBLIC_DIR, 'admin', 'settings.html'));
     }
 
-    // Public Pages
+    // Public Pages: Main Website & Literary Newsportal
     if (pathname === '/' || pathname === '/index.html') {
       return serveStatic(res, path.join(PUBLIC_DIR, 'index.html'));
+    }
+    if (pathname === '/portal' || pathname === '/portal.html' || pathname === '/writings') {
+      return serveStatic(res, path.join(PUBLIC_DIR, 'portal.html'));
     }
     if (pathname === '/article' || pathname === '/article.html') {
       return serveStatic(res, path.join(PUBLIC_DIR, 'article.html'));
     }
     if (pathname === '/category' || pathname === '/category.html') {
       return serveStatic(res, path.join(PUBLIC_DIR, 'category.html'));
+    }
+    if (pathname === '/ourstory' || pathname === '/ourstory.html') {
+      return serveStatic(res, path.join(PUBLIC_DIR, 'ourstory.html'));
+    }
+    if (pathname === '/honorboard' || pathname === '/honorboard.html') {
+      return serveStatic(res, path.join(PUBLIC_DIR, 'honorboard.html'));
+    }
+    if (pathname === '/verification' || pathname === '/verification.html') {
+      return serveStatic(res, path.join(PUBLIC_DIR, 'verification.html'));
+    }
+    if (pathname === '/Certificate Download.html' || pathname === '/certificate-download' || pathname === '/Certificate%20Download.html') {
+      return serveStatic(res, path.join(PUBLIC_DIR, 'Certificate Download.html'));
     }
 
     // General static asset serving from public directory
@@ -864,8 +1087,9 @@ const server = http.createServer(async (req, res) => {
 
 server.listen(PORT, () => {
   console.log(`====================================================`);
-  console.log(`🚀 News Portal Server is running at http://localhost:${PORT}`);
-  console.log(`📰 Public Portal: http://localhost:${PORT}`);
-  console.log(`🔒 Admin Panel:  http://localhost:${PORT}/admin`);
+  console.log(`🚀 KUWS Unified Server is running at http://localhost:${PORT}`);
+  console.log(`🏛️ Main Society Site: http://localhost:${PORT}`);
+  console.log(`📰 Literary Portal:   http://localhost:${PORT}/portal`);
+  console.log(`🔒 Admin Panel:       http://localhost:${PORT}/admin`);
   console.log(`====================================================`);
 });

@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="bn">
 <head>
   <meta charset="UTF-8">
@@ -13,10 +13,9 @@
   <div class="top-bar">
     <div class="container top-bar-inner">
       <div id="current-date"><i class="far fa-calendar-alt"></i> লোড হচ্ছে...</div>
-      <div>
-        <a href="/admin/login" style="color: #f1f5f9; font-weight: 600;">
-          <i class="fas fa-lock"></i> লেখক ও সম্পাদক প্যানেল
-        </a>
+      <div style="display: flex; gap: 15px; align-items: center;">
+        <span style="color: var(--accent); font-size: 13px; font-weight: 600;"><i class="fas fa-feather-alt"></i> সাহিত্য সাময়িকী ও প্রকাশনা পোর্টাল</span>
+        <span style="color: #94a3b8; font-size: 13px;"><i class="fas fa-university"></i> খুলনা বিশ্ববিদ্যালয়</span>
       </div>
     </div>
   </div>
@@ -25,13 +24,13 @@
   <header class="main-header">
     <div class="container header-inner">
       <div class="brand-logo">
-        <a href="/" style="display: flex; align-items: center; gap: 12px;">
-          <div style="width: 44px; height: 44px; background: #fee2e2; color: var(--primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 20px; flex-shrink: 0;">
-            <i class="fas fa-feather-alt"></i>
+        <a href="/" style="display: flex; align-items: center; gap: 14px;">
+          <div style="width: 48px; height: 48px; background: #fff3d6; color: var(--primary); border: 2px solid var(--accent); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 22px; flex-shrink: 0; box-shadow: 0 2px 6px rgba(0,0,0,0.08);">
+            <i class="fas fa-feather-alt" style="color: #e09f00;"></i>
           </div>
           <div>
-            <h1 id="site-name-display">খুলনা বিশ্ববিদ্যালয় লেখক সংঘ</h1>
-            <p id="site-tagline-display">মুক্তচিন্তা ও সৃজনশীল সাহিত্যের উন্মুক্ত প্রাঙ্গণ</p>
+            <h1 id="site-name-display" style="color: var(--primary); font-size: 26px; font-weight: 800;">খুলনা বিশ্ববিদ্যালয় লেখক সংঘ</h1>
+            <p id="site-tagline-display" style="color: var(--text-muted); font-size: 13px;">মুক্তচিন্তা ও সৃজনশীল সাহিত্যের উন্মুক্ত প্রাঙ্গণ</p>
           </div>
         </a>
       </div>
@@ -48,7 +47,8 @@
   <nav class="nav-bar">
     <div class="container nav-inner">
       <ul class="nav-links" id="category-nav">
-        <li><a href="/">প্রচ্ছদ</a></li>
+        <li style="background: rgba(255, 183, 3, 0.2); border-radius: 4px;"><a href="/" style="color: var(--accent); font-weight: 700;"><i class="fas fa-university"></i> আমাদের সম্পর্কে</a></li>
+        <li><a href="/portal">প্রচ্ছদ</a></li>
       </ul>
     </div>
   </nav>

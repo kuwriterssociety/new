@@ -1,4 +1,4 @@
-﻿// Unified API Client & Helper Utilities
+// Unified API Client & Helper Utilities
 
 const API_BASE = '/api';
 
@@ -196,6 +196,64 @@ const API = {
     return this.request('/settings', {
       method: 'POST',
       body: JSON.stringify(settings)
+    });
+  },
+
+  // Honor Board
+  async getHonorBoard() {
+    return this.request('/honorboard');
+  },
+
+  async getAdminHonorBoard() {
+    return this.request('/admin/honorboard');
+  },
+
+  async createAdminHonorBoard(data) {
+    return this.request('/admin/honorboard', {
+      method: 'POST',
+      body: JSON.stringify(data)
+    });
+  },
+
+  async updateAdminHonorBoard(id, data) {
+    return this.request(`/admin/honorboard/${id}`, {
+      method: 'PUT',
+      body: JSON.stringify(data)
+    });
+  },
+
+  async deleteAdminHonorBoard(id) {
+    return this.request(`/admin/honorboard/${id}`, {
+      method: 'DELETE'
+    });
+  },
+
+  // Gallery
+  async getGallery() {
+    return this.request('/gallery');
+  },
+
+  async getAdminGallery() {
+    return this.request('/admin/gallery');
+  },
+
+  async createAdminGallery(data) {
+    return this.request('/admin/gallery', {
+      method: 'POST',
+      body: JSON.stringify(data)
+    });
+  },
+
+  async updateAdminGallery(id, data) {
+    return this.request(`/admin/gallery/${id}`, {
+      method: 'PUT',
+      body: JSON.stringify(data)
+    });
+  },
+
+  async deleteAdminGallery(id) {
+    return this.request(`/admin/gallery/${id}`, {
+      method: 'DELETE'
     });
   }
 };
