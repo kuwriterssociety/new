@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>প্রতিদিনের সংবাদ | Daily Express News Portal</title>
+  <title>খুলনা বিশ্ববিদ্যালয় লেখক সংঘ | Khulna University Writers' Society (KUWS)</title>
   <link rel="stylesheet" href="/css/style.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
@@ -14,8 +14,9 @@
     <div class="container top-bar-inner">
       <div id="current-date"><i class="far fa-calendar-alt"></i> লোড হচ্ছে...</div>
       <div style="display: flex; gap: 15px; align-items: center;">
+        <span style="color: #94a3b8; font-size: 13px;"><i class="fas fa-university"></i> খুলনা বিশ্ববিদ্যালয়</span>
         <a href="/admin/login" style="color: #f1f5f9; font-weight: 600;">
-          <i class="fas fa-lock"></i> অ্যাডমিন লগইন (Admin Panel)
+          <i class="fas fa-lock"></i> লেখক ও সম্পাদক প্যানেল (Login)
         </a>
       </div>
     </div>
@@ -25,37 +26,42 @@
   <header class="main-header">
     <div class="container header-inner">
       <div class="brand-logo">
-        <a href="/">
-          <h1 id="site-name-display">প্রতিদিনের সংবাদ</h1>
-          <p id="site-tagline-display">সত্য ও নিষ্ঠার সাথে নিরপেক্ষ সংবাদ</p>
+        <a href="/" style="display: flex; align-items: center; gap: 12px;">
+          <div style="width: 48px; height: 48px; background: #fee2e2; color: var(--primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 22px; flex-shrink: 0;">
+            <i class="fas fa-feather-alt"></i>
+          </div>
+          <div>
+            <h1 id="site-name-display" style="font-size: 28px; font-weight: 800; color: var(--primary); margin: 0;">খুলনা বিশ্ববিদ্যালয় লেখক সংঘ</h1>
+            <p id="site-tagline-display" style="font-size: 14px; color: var(--text-muted); margin: 2px 0 0 0;">মুক্তচিন্তা ও সৃজনশীল সাহিত্যের উন্মুক্ত প্রাঙ্গণ</p>
+          </div>
         </a>
       </div>
       <div style="display: flex; gap: 10px; align-items: center;">
         <form id="search-form" action="/category.html" method="GET" style="display: flex; gap: 6px;">
-          <input type="text" name="search" placeholder="সংবাদ অনুসন্ধান করুন..." class="form-control" style="width: 240px; padding: 8px 12px;">
+          <input type="text" name="search" placeholder="কবিতা, গল্প বা লেখক খুঁজুন..." class="form-control" style="width: 250px; padding: 8px 12px;">
           <button type="submit" class="btn btn-primary"><i class="fas fa-search"></i></button>
         </form>
       </div>
     </div>
   </header>
 
-  <!-- Navigation Bar -->
+  <!-- Navigation Bar (Literary Categories) -->
   <nav class="nav-bar">
     <div class="container nav-inner">
       <ul class="nav-links" id="category-nav">
         <li class="active"><a href="/">প্রচ্ছদ</a></li>
-        <!-- Dynamic categories -->
+        <!-- Dynamically rendered literary categories: কবিতা, গল্প, কলাম, চিঠিপত্র, ছড়া, ফিচার, মতামত, বই পর্যালোচনা, ইভেন্টস -->
       </ul>
     </div>
   </nav>
 
-  <!-- Breaking News Bar -->
+  <!-- Latest Writings Ticker (Replaced Breaking News) -->
   <div class="container" style="margin-top: 14px;">
-    <div class="breaking-bar">
-      <div class="breaking-label">
-        <i class="fas fa-bolt"></i> ব্রেকিং নিউজ
+    <div class="breaking-bar" style="border-left: 4px solid var(--primary); background: #ffffff;">
+      <div class="breaking-label" style="background: var(--primary); color: #fff;">
+        <i class="fas fa-pen-nib"></i> সর্বশেষ লেখা
       </div>
-      <div class="breaking-marquee" id="breaking-news-list">
+      <div class="breaking-marquee" id="latest-writings-ticker">
         লোড হচ্ছে...
       </div>
     </div>
@@ -64,63 +70,96 @@
   <!-- Main Content Layout -->
   <main class="container" style="margin-bottom: 40px;">
     
-    <!-- Hero / Top Stories Section -->
+    <!-- Hero / Top Featured Literary Piece -->
     <section style="display: grid; grid-template-columns: 2fr 1fr; gap: 24px; margin-bottom: 30px;" id="hero-grid">
       
-      <!-- Lead Article -->
+      <!-- Lead / Featured Post -->
       <div id="lead-article-container">
-        <!-- Lead article rendered by main.js -->
         <div style="padding: 40px; text-align: center; background: #fff; border-radius: 8px;">
           <i class="fas fa-spinner fa-spin fa-2x" style="color: var(--primary);"></i>
         </div>
       </div>
 
-      <!-- Top Highlights Sidebar -->
+      <!-- Top Highlights / Editors Pick -->
       <div style="background: #ffffff; border-radius: 8px; padding: 18px; border: 1px solid var(--border-color);">
-        <div class="section-title" style="margin-top: 0; margin-bottom: 12px;">শীর্ষ সংবাদ</div>
+        <div class="section-title" style="margin-top: 0; margin-bottom: 12px;">সম্পাদকের পছন্দ</div>
         <div id="side-highlights" style="display: flex; flex-direction: column; gap: 14px;">
           <!-- Rendered by JS -->
         </div>
       </div>
     </section>
 
-    <!-- Latest News Grid -->
+    <!-- Recent Published Grid -->
     <div class="section-header">
-      <h2 class="section-title">সর্বশেষ সংবাদ</h2>
-      <a href="/category.html" class="btn btn-secondary btn-sm">সব দেখুন <i class="fas fa-arrow-right"></i></a>
+      <h2 class="section-title">সাম্প্রতিক সাহিত্যকর্ম ও প্রকাশনা</h2>
+      <a href="/category.html" class="btn btn-secondary btn-sm">সব লেখা দেখুন <i class="fas fa-arrow-right"></i></a>
     </div>
     <div class="news-card-grid" id="latest-news-grid">
-      <!-- Latest 6-8 news cards -->
+      <!-- Latest writings cards -->
     </div>
 
-    <!-- Categorized Sections (National, International, Sports, Tech) -->
+    <!-- Literary Specific Sections (কবিতা, গল্প, বই পর্যালোচনা, কলাম) -->
     <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 24px; margin-top: 30px;">
       
-      <!-- Left: Category blocks -->
+      <!-- Left Column: Category Blocks -->
       <div>
-        <!-- National Block -->
+        
+        <!-- কবিতা (Poetry) Section -->
         <div class="section-header">
-          <h2 class="section-title">জাতীয়</h2>
-          <a href="/category.html?category=national" class="btn btn-secondary btn-sm">আরও দেখুন</a>
+          <h2 class="section-title">কবিতা ও পঙক্তিমালা</h2>
+          <a href="/category.html?category=poetry" class="btn btn-secondary btn-sm">সব কবিতা</a>
         </div>
-        <div class="news-card-grid" id="national-news-grid" style="grid-template-columns: 1fr 1fr;"></div>
+        <div class="news-card-grid" id="poetry-grid" style="grid-template-columns: 1fr 1fr;"></div>
 
-        <!-- Tech Block -->
+        <!-- গল্প (Stories) Section -->
         <div class="section-header" style="margin-top: 30px;">
-          <h2 class="section-title">তথ্যপ্রযুক্তি</h2>
-          <a href="/category.html?category=technology" class="btn btn-secondary btn-sm">আরও দেখুন</a>
+          <h2 class="section-title">ছোটগল্প ও কথাসাহিত্য</h2>
+          <a href="/category.html?category=stories" class="btn btn-secondary btn-sm">সব গল্প</a>
         </div>
-        <div class="news-card-grid" id="tech-news-grid" style="grid-template-columns: 1fr 1fr;"></div>
+        <div class="news-card-grid" id="stories-grid" style="grid-template-columns: 1fr 1fr;"></div>
+
+        <!-- বই পর্যালোচনা (Book Review) Section -->
+        <div class="section-header" style="margin-top: 30px;">
+          <h2 class="section-title">বই পর্যালোচনা ও পাঠ প্রতিক্রিয়া</h2>
+          <a href="/category.html?category=book-review" class="btn btn-secondary btn-sm">সব পর্যালোচনা</a>
+        </div>
+        <div class="news-card-grid" id="bookreview-grid" style="grid-template-columns: 1fr 1fr;"></div>
+
+        <!-- ইভেন্টস ও কার্যক্রম (Events) Section -->
+        <div class="section-header" style="margin-top: 30px;">
+          <h2 class="section-title">ইভেন্টস ও সাহিত্য আড্ডা</h2>
+          <a href="/category.html?category=events" class="btn btn-secondary btn-sm">সব ইভেন্ট</a>
+        </div>
+        <div class="news-card-grid" id="events-grid" style="grid-template-columns: 1fr 1fr;"></div>
+
       </div>
 
-      <!-- Right: Most Read / Popular Sidebar -->
+      <!-- Right Column: Popular & Society Activities -->
       <div>
-        <div style="background: #ffffff; border-radius: 8px; padding: 20px; border: 1px solid var(--border-color); position: sticky; top: 70px;">
-          <div class="section-title" style="margin-top: 0; margin-bottom: 16px;">সর্বাধিক পঠিত</div>
+        
+        <!-- Popular Writings -->
+        <div style="background: #ffffff; border-radius: 8px; padding: 20px; border: 1px solid var(--border-color); margin-bottom: 24px;">
+          <div class="section-title" style="margin-top: 0; margin-bottom: 16px;">পাঠকপ্রিয় লেখা</div>
           <ul class="popular-list" id="popular-news-list">
             <!-- Rendered by JS with rank 1 to 5 -->
           </ul>
         </div>
+
+        <!-- About KUWS Box -->
+        <div style="background: linear-gradient(135deg, #1e293b, #0f172a); color: #ffffff; border-radius: 8px; padding: 22px; position: sticky; top: 70px;">
+          <h3 style="color: #ffffff; font-size: 18px; margin-bottom: 10px; display: flex; align-items: center; gap: 8px;">
+            <i class="fas fa-feather-alt" style="color: var(--accent);"></i> লেখক সংঘ সম্পর্কে
+          </h3>
+          <p style="font-size: 14px; line-height: 1.7; color: #cbd5e1;">
+            খুলনা বিশ্ববিদ্যালয় লেখক সংঘ (KUWS) ক্যাম্পাসের মুক্তচিন্তা, সাহিত্যচর্চা ও সৃজনশীলতার বিকাশ সাধনে নিরলস কাজ করে যাচ্ছে। আমাদের নিয়মিত সাহিত্য আড্ডা, কবিতা পাঠের আসর ও প্রকাশনায় আপনাকে স্বাগতম।
+          </p>
+          <div style="margin-top: 15px; border-top: 1px solid #334155; padding-top: 12px;">
+            <a href="/admin/login" class="btn btn-primary btn-sm" style="width: 100%; text-align: center;">
+              <i class="fas fa-pen"></i> লেখা জমা দিতে লগইন করুন
+            </a>
+          </div>
+        </div>
+
       </div>
 
     </div>
@@ -132,29 +171,29 @@
     <div class="container">
       <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 30px; margin-bottom: 30px;">
         <div>
-          <h3 style="color: #ffffff; font-size: 20px; margin-bottom: 12px;" id="footer-site-name">প্রতিদিনের সংবাদ</h3>
-          <p style="font-size: 14px; line-height: 1.6;" id="footer-tagline">সত্য ও নিষ্ঠার সাথে নিরপেক্ষ সংবাদ পরিবেশনে অঙ্গীকারবদ্ধ ডিজিটাল প্ল্যাটফর্ম।</p>
+          <h3 style="color: #ffffff; font-size: 20px; margin-bottom: 12px;" id="footer-site-name">খুলনা বিশ্ববিদ্যালয় লেখক সংঘ (KUWS)</h3>
+          <p style="font-size: 14px; line-height: 1.6;" id="footer-tagline">মুক্তচিন্তা ও সৃজনশীল সাহিত্যের উন্মুক্ত প্রাঙ্গণ। শব্দে শব্দে মানবিক বোধ ও সৃজনশীলতার জাগরণ।</p>
           <div style="margin-top: 14px; display: flex; gap: 12px; font-size: 18px;">
             <a href="#" style="color: #cbd5e1;"><i class="fab fa-facebook"></i></a>
-            <a href="#" style="color: #cbd5e1;"><i class="fab fa-twitter"></i></a>
             <a href="#" style="color: #cbd5e1;"><i class="fab fa-youtube"></i></a>
+            <a href="#" style="color: #cbd5e1;"><i class="fab fa-instagram"></i></a>
           </div>
         </div>
         <div>
-          <h4 style="color: #ffffff; margin-bottom: 12px;">প্রধান ক্যাটাগরি</h4>
+          <h4 style="color: #ffffff; margin-bottom: 12px;">সাহিত্যের বিভাগসমূহ</h4>
           <ul style="list-style: none; font-size: 14px; display: flex; flex-direction: column; gap: 8px;" id="footer-categories">
-            <!-- List -->
+            <!-- Category list -->
           </ul>
         </div>
         <div>
-          <h4 style="color: #ffffff; margin-bottom: 12px;">যোগাযোগ ও সম্পাদকীয়</h4>
-          <p style="font-size: 14px; margin-bottom: 6px;" id="footer-address"><i class="fas fa-map-marker-alt"></i> কাওরান বাজার, ঢাকা-১২১৫</p>
-          <p style="font-size: 14px; margin-bottom: 6px;" id="footer-email"><i class="fas fa-envelope"></i> contact@dailynewsportal.com</p>
+          <h4 style="color: #ffffff; margin-bottom: 12px;">যোগাযোগ ও ঠিকানা</h4>
+          <p style="font-size: 14px; margin-bottom: 6px;" id="footer-address"><i class="fas fa-map-marker-alt"></i> খুলনা বিশ্ববিদ্যালয়, খুলনা-৯২০৮</p>
+          <p style="font-size: 14px; margin-bottom: 6px;" id="footer-email"><i class="fas fa-envelope"></i> kuwriterssociety@gmail.com</p>
           <p style="font-size: 14px; margin-bottom: 6px;" id="footer-phone"><i class="fas fa-phone"></i> +880 1700-000000</p>
         </div>
       </div>
       <div style="text-align: center; border-top: 1px solid #1e293b; padding-top: 20px; font-size: 13px;" id="footer-copyright">
-        © 2026 Daily Express News Portal. সর্বস্বত্ব সংরক্ষিত।
+        © 2026 Khulna University Writers' Society (KUWS). সর্বস্বত্ব সংরক্ষিত।
       </div>
     </div>
   </footer>

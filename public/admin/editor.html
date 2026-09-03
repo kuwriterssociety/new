@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>সংবাদ সম্পাদক | News Composer & Editor</title>
+  <title>সাহিত্যকর্ম সম্পাদক | KUWS Literary Editor</title>
   <link rel="stylesheet" href="/css/style.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
@@ -38,7 +38,7 @@
       background: #ffffff;
       outline: none;
       font-size: 16px;
-      line-height: 1.7;
+      line-height: 1.8;
     }
     .editor-content-area:focus {
       border-color: var(--primary);
@@ -52,16 +52,16 @@
     <!-- Sidebar -->
     <aside class="admin-sidebar">
       <div class="admin-sidebar-header">
-        <h2 style="font-size: 18px; color: #fff;"><i class="fas fa-newspaper" style="color: var(--primary);"></i> নিউজ কন্ট্রোল</h2>
-        <div style="font-size: 12px; color: #94a3b8; margin-top: 4px;">এডমিন ম্যানেজমেন্ট প্যানেল</div>
+        <h2 style="font-size: 17px; color: #fff;"><i class="fas fa-feather-alt" style="color: var(--primary);"></i> KUWS কন্ট্রোল</h2>
+        <div style="font-size: 12px; color: #94a3b8; margin-top: 4px;">খুলনা বিশ্ববিদ্যালয় লেখক সংঘ</div>
       </div>
 
       <ul class="admin-nav">
         <li><a href="/admin"><i class="fas fa-chart-line"></i> ড্যাশবোর্ড</a></li>
-        <li><a href="/admin/articles"><i class="fas fa-file-alt"></i> সংবাদ ব্যবস্থাপনা</a></li>
-        <li class="active"><a href="/admin/editor"><i class="fas fa-plus-circle"></i> নতুন সংবাদ লিখুন</a></li>
-        <li class="nav-editor"><a href="/admin/categories"><i class="fas fa-folder"></i> ক্যাটাগরি</a></li>
-        <li class="nav-it-admin"><a href="/admin/users"><i class="fas fa-users-cog"></i> ইউজার কন্ট্রোল (IT Admin)</a></li>
+        <li><a href="/admin/articles"><i class="fas fa-file-alt"></i> সাহিত্যকর্ম ব্যবস্থাপনা</a></li>
+        <li class="active"><a href="/admin/editor"><i class="fas fa-plus-circle"></i> নতুন লেখা প্রকাশ</a></li>
+        <li class="nav-editor"><a href="/admin/categories"><i class="fas fa-folder"></i> সাহিত্যের বিভাগসমূহ</a></li>
+        <li class="nav-it-admin"><a href="/admin/users"><i class="fas fa-users-cog"></i> লেখক ও ইউজার কন্ট্রোল</a></li>
         <li class="nav-it-admin"><a href="/admin/settings"><i class="fas fa-cogs"></i> সাইট সেটিংস</a></li>
         <li style="margin-top: 20px;"><a href="/" target="_blank"><i class="fas fa-external-link-alt"></i> মূল পোর্টাল দেখুন</a></li>
         <li><a href="javascript:void(0)" onclick="logout()" style="color: #f87171;"><i class="fas fa-sign-out-alt"></i> লগআউট</a></li>
@@ -74,7 +74,7 @@
       <!-- Topbar -->
       <div class="admin-topbar">
         <div>
-          <h2 style="font-size: 20px; font-weight: 700;" id="page-heading">নতুন সংবাদ রচনা করুন</h2>
+          <h2 style="font-size: 20px; font-weight: 700;" id="page-heading">নতুন সাহিত্যকর্ম রচনা ও জমা দিন</h2>
         </div>
         <div style="display: flex; align-items: center; gap: 14px;">
           <img id="admin-user-avatar" src="" style="width: 36px; height: 36px; border-radius: 50%; object-fit: cover;">
@@ -89,7 +89,7 @@
       <div class="admin-content">
         
         <div id="rejection-alert" style="display: none; background: #fee2e2; border-left: 4px solid #b91c1c; padding: 12px 18px; margin-bottom: 20px; border-radius: 4px;">
-          <h4 style="color: #b91c1c; margin-bottom: 4px;"><i class="fas fa-exclamation-circle"></i> সংবাদটি পূর্বে প্রত্যাখ্যাত করা হয়েছিল:</h4>
+          <h4 style="color: #b91c1c; margin-bottom: 4px;"><i class="fas fa-exclamation-circle"></i> লেখাটি পূর্বে পর্যালোচনায় সংশোধনের জন্য ফেরত পাঠানো হয়েছিল:</h4>
           <p id="rejection-note" style="color: #7f1d1d; font-size: 14px;"></p>
         </div>
 
@@ -99,8 +99,8 @@
           <div>
             
             <div class="form-group">
-              <label class="form-label" for="article-title">সংবাদের শিরোনাম (Headline) *</label>
-              <input type="text" id="article-title" class="form-control" placeholder="এখানে আকর্ষণীয় শিরোনাম লিখুন..." required style="font-size: 18px; font-weight: 600;">
+              <label class="form-label" for="article-title">শিরোনাম (কবিতা/গল্প/কলাম/রিভিউ এর নাম) *</label>
+              <input type="text" id="article-title" class="form-control" placeholder="এখানে লেখার শিরোনাম লিখুন..." required style="font-size: 18px; font-weight: 600;">
             </div>
 
             <div class="form-group">
@@ -109,12 +109,12 @@
             </div>
 
             <div class="form-group">
-              <label class="form-label" for="article-summary">সংবাদের সারসংক্ষেপ (Short Summary / Lead Paragraph)</label>
-              <textarea id="article-summary" class="form-control" rows="3" placeholder="সংবাদের মূল অংশ ২-৩ বাক্যে সংক্ষেপে লিখুন..."></textarea>
+              <label class="form-label" for="article-summary">সংক্ষিপ্ত ভূমিকা / সারসংক্ষেপ (Short Excerpt)</label>
+              <textarea id="article-summary" class="form-control" rows="3" placeholder="লেখার মূলভাব বা প্রারম্ভিক দুই-এক লাইন লিখুন..."></textarea>
             </div>
 
             <div class="form-group">
-              <label class="form-label">বিস্তারিত সংবাদের বিষয়বস্তু (Full Body Content) *</label>
+              <label class="form-label">মূল লেখা / বিষয়বস্তু (Full Body) *</label>
               
               <!-- Formatting Toolbar -->
               <div class="editor-toolbar">
@@ -131,13 +131,13 @@
 
               <!-- Editable Area -->
               <div id="editor-body" class="editor-content-area" contenteditable="true">
-                <p>এখানে সম্পূর্ণ সংবাদ বিস্তারিত লিখুন...</p>
+                <p>এখানে সম্পূর্ণ কবিতা, গল্প বা প্রবন্ধ লিখুন...</p>
               </div>
             </div>
 
             <div class="form-group" style="margin-top: 20px;">
-              <label class="form-label" for="article-tags">ট্যাগসমূহ (কমা দিয়ে পৃথক করুন)</label>
-              <input type="text" id="article-tags" class="form-control" placeholder="যেমন: বাংলাদেশ, রাজনীতি, ক্রিকেট, টেকনোলজি">
+              <label class="form-label" for="article-tags">ট্যাগসমূহ (কমা দিয়ে আলাদা করুন)</label>
+              <input type="text" id="article-tags" class="form-control" placeholder="যেমন: কবিতা, খুলনা বিশ্ববিদ্যালয়, সাহিত্য, হেমন্ত">
             </div>
 
           </div>
@@ -158,7 +158,7 @@
 
             <!-- Category Card -->
             <div style="background: #ffffff; padding: 20px; border-radius: 8px; border: 1px solid var(--border-color); margin-bottom: 20px;">
-              <label class="form-label" for="article-category">বিভাগ / ক্যাটাগরি নির্বাচন করুন *</label>
+              <label class="form-label" for="article-category">সাহিত্যের বিভাগ নির্বাচন করুন *</label>
               <select id="article-category" class="form-control" required>
                 <option value="">-- বিভাগ নির্বাচন করুন --</option>
               </select>
@@ -166,7 +166,7 @@
 
             <!-- Image Upload Card -->
             <div style="background: #ffffff; padding: 20px; border-radius: 8px; border: 1px solid var(--border-color); margin-bottom: 20px;">
-              <label class="form-label">ফিচার্ড ছবি (Featured Image)</label>
+              <label class="form-label">ফিচার্ড ছবি / অলংকরণ (Cover Image)</label>
               
               <div style="margin-bottom: 10px;">
                 <input type="file" id="image-file-input" accept="image/*" class="form-control" style="font-size: 13px;">
@@ -178,8 +178,8 @@
               <input type="url" id="article-image-url" class="form-control" placeholder="ছবির অনলাইন লিংক (URL) লিখুন">
 
               <div style="margin-top: 12px;">
-                <label class="form-label" for="article-image-caption">ছবির ক্যাপশন</label>
-                <input type="text" id="article-image-caption" class="form-control" placeholder="ছবির ক্যাপশন / ফটোগ্রাফারের নাম">
+                <label class="form-label" for="article-image-caption">ছবির ক্যাপশন / আলোকচিত্রীর নাম</label>
+                <input type="text" id="article-image-caption" class="form-control" placeholder="যেমন: অলংকরণ - কুয়েস প্রকাশনা বিভাগ">
               </div>
 
               <!-- Preview Image -->
@@ -188,19 +188,19 @@
               </div>
             </div>
 
-            <!-- Featured / Breaking Flags (Editor & IT Admin Only) -->
+            <!-- Featured / Highlight Flags (Editor & IT Admin Only) -->
             <div class="nav-editor" style="background: #ffffff; padding: 20px; border-radius: 8px; border: 1px solid var(--border-color);">
               <h4 style="font-size: 14px; margin-bottom: 12px; color: #0f172a;">হোমপেজ প্রদর্শন সেটিংস:</h4>
               
               <div style="display: flex; flex-direction: column; gap: 8px;">
                 <label style="display: flex; align-items: center; gap: 8px; font-size: 14px; cursor: pointer;">
-                  <input type="checkbox" id="flag-lead"> <strong>প্রধান লিড সংবাদ (Lead Story)</strong>
+                  <input type="checkbox" id="flag-lead"> <strong>প্রধান ফিচার্ড লেখা (Lead Story)</strong>
                 </label>
                 <label style="display: flex; align-items: center; gap: 8px; font-size: 14px; cursor: pointer;">
-                  <input type="checkbox" id="flag-breaking"> <strong>ব্রেকিং নিউজ স্ক্রলারে যুক্ত করুন</strong>
+                  <input type="checkbox" id="flag-breaking"> <strong>সর্বশেষ লেখা স্ট্রিপে হাইলাইট করুন</strong>
                 </label>
                 <label style="display: flex; align-items: center; gap: 8px; font-size: 14px; cursor: pointer;">
-                  <input type="checkbox" id="flag-featured"> <strong>ফিচার্ড সেকশনে প্রদর্শন</strong>
+                  <input type="checkbox" id="flag-featured"> <strong>সম্পাদকের পছন্দ (Editor's Pick)</strong>
                 </label>
               </div>
             </div>
@@ -244,7 +244,7 @@
       editingArticleId = params.get('id');
 
       if (editingArticleId) {
-        document.getElementById('page-heading').innerText = `সংবাদ সম্পাদনা (#${editingArticleId})`;
+        document.getElementById('page-heading').innerText = `লেখা সম্পাদনা (#${editingArticleId})`;
         loadExistingArticle(editingArticleId);
       } else {
         renderWorkflowButtons();
@@ -270,7 +270,6 @@
           const base64 = reader.result;
           showImagePreview(base64);
 
-          // Upload to server
           try {
             Utils.showToast('ছবি আপলোড করা হচ্ছে...', 'info');
             const res = await API.uploadImage(file.name, base64);
@@ -332,7 +331,7 @@
         renderWorkflowButtons();
 
       } catch (err) {
-        Utils.showToast('সংবাদ লোড করতে ব্যর্থ: ' + err.message, 'error');
+        Utils.showToast('লেখা লোড করতে ব্যর্থ: ' + err.message, 'error');
       }
     }
 
@@ -346,14 +345,13 @@
       if (role === 'sub_editor') {
         html = `
           <button type="button" class="btn btn-primary" onclick="submitArticle('pending')" style="padding: 12px;">
-            <i class="fas fa-paper-plane"></i> অনুমোদনের জন্য পাঠান (Submit for Review)
+            <i class="fas fa-paper-plane"></i> সম্পাদকের অনুমোদনের জন্য পাঠান (Submit for Review)
           </button>
           <button type="button" class="btn btn-secondary" onclick="submitArticle('draft')">
-            <i class="fas fa-save"></i> ড্রাফট হিসেবে সংরক্ষণ করুন (Save Draft)
+            <i class="fas fa-save"></i> ড্রাফট হিসেবে সংরক্ষণ (Save Draft)
           </button>
         `;
       } else {
-        // IT Admin & Editor
         html = `
           <button type="button" class="btn btn-success" onclick="submitArticle('published')" style="padding: 12px;">
             <i class="fas fa-check-circle"></i> সরাসরি প্রকাশ করুন (Publish Live)
@@ -386,16 +384,16 @@
       const is_featured = document.getElementById('flag-featured') ? document.getElementById('flag-featured').checked : false;
 
       if (!title) {
-        Utils.showToast('সংবাদের শিরোনাম দিন!', 'error');
+        Utils.showToast('শিরোনাম দিন!', 'error');
         document.getElementById('article-title').focus();
         return;
       }
       if (!category_id) {
-        Utils.showToast('ক্যাটাগরি নির্বাচন করুন!', 'error');
+        Utils.showToast('বিভাগ নির্বাচন করুন!', 'error');
         return;
       }
-      if (!content || content === '<p><br></p>' || content === '<p>এখানে সম্পূর্ণ সংবাদ বিস্তারিত লিখুন...</p>') {
-        Utils.showToast('সংবাদের বিষয়বস্তু লিখুন!', 'error');
+      if (!content || content === '<p><br></p>' || content === '<p>এখানে সম্পূর্ণ কবিতা, গল্প বা প্রবন্ধ লিখুন...</p>') {
+        Utils.showToast('লেখার বিষয়বস্তু লিখুন!', 'error');
         return;
       }
 
@@ -417,10 +415,10 @@
       try {
         if (editingArticleId) {
           const res = await API.updateAdminArticle(editingArticleId, payload);
-          Utils.showToast(res.message || 'সংবাদ সফলভাবে আপডেট হয়েছে!', 'success');
+          Utils.showToast(res.message || 'লেখা সফলভাবে আপডেট হয়েছে!', 'success');
         } else {
           const res = await API.createAdminArticle(payload);
-          Utils.showToast(res.message || 'সংবাদ তৈরি হয়েছে!', 'success');
+          Utils.showToast(res.message || 'লেখাটি সংরক্ষিত হয়েছে!', 'success');
         }
 
         setTimeout(() => {

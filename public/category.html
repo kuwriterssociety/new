@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ক্যাটাগরি ও অনুসন্ধান | Daily Express News</title>
+  <title>বিভাগ ও অনুসন্ধান | খুলনা বিশ্ববিদ্যালয় লেখক সংঘ (KUWS)</title>
   <link rel="stylesheet" href="/css/style.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
@@ -15,7 +15,7 @@
       <div id="current-date"><i class="far fa-calendar-alt"></i> লোড হচ্ছে...</div>
       <div>
         <a href="/admin/login" style="color: #f1f5f9; font-weight: 600;">
-          <i class="fas fa-lock"></i> অ্যাডমিন প্যানেল
+          <i class="fas fa-lock"></i> লেখক ও সম্পাদক প্যানেল
         </a>
       </div>
     </div>
@@ -25,13 +25,18 @@
   <header class="main-header">
     <div class="container header-inner">
       <div class="brand-logo">
-        <a href="/">
-          <h1 id="site-name-display">প্রতিদিনের সংবাদ</h1>
-          <p id="site-tagline-display">সত্য ও নিষ্ঠার সাথে নিরপেক্ষ সংবাদ</p>
+        <a href="/" style="display: flex; align-items: center; gap: 12px;">
+          <div style="width: 44px; height: 44px; background: #fee2e2; color: var(--primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 20px; flex-shrink: 0;">
+            <i class="fas fa-feather-alt"></i>
+          </div>
+          <div>
+            <h1 id="site-name-display" style="font-size: 26px; font-weight: 800; color: var(--primary); margin: 0;">খুলনা বিশ্ববিদ্যালয় লেখক সংঘ</h1>
+            <p id="site-tagline-display" style="font-size: 13px; color: var(--text-muted); margin: 2px 0 0 0;">মুক্তচিন্তা ও সৃজনশীল সাহিত্যের উন্মুক্ত প্রাঙ্গণ</p>
+          </div>
         </a>
       </div>
       <form action="/category.html" method="GET" style="display: flex; gap: 6px;">
-        <input type="text" name="search" id="header-search-input" placeholder="অনুসন্ধান করুন..." class="form-control" style="width: 240px; padding: 8px 12px;">
+        <input type="text" name="search" id="header-search-input" placeholder="কবিতা, গল্প বা লেখক খুঁজুন..." class="form-control" style="width: 240px; padding: 8px 12px;">
         <button type="submit" class="btn btn-primary"><i class="fas fa-search"></i></button>
       </form>
     </div>
@@ -50,7 +55,7 @@
   <main class="container" style="margin-top: 24px; margin-bottom: 50px;">
     
     <div class="section-header" style="margin-top: 0;">
-      <h1 class="section-title" id="page-title">সংবাদ তালিকা</h1>
+      <h1 class="section-title" id="page-title">সাহিত্যের সংকলন</h1>
       <span id="results-count" class="badge badge-secondary" style="font-size: 14px;"></span>
     </div>
 
@@ -58,7 +63,7 @@
     <div class="news-card-grid" id="category-articles-grid" style="grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));">
       <div style="grid-column: 1 / -1; padding: 40px; text-align: center; background: #fff; border-radius: 8px;">
         <i class="fas fa-spinner fa-spin fa-2x" style="color: var(--primary);"></i>
-        <p style="margin-top: 10px; color: var(--text-muted);">সংবাদ লোড হচ্ছে...</p>
+        <p style="margin-top: 10px; color: var(--text-muted);">লেখা লোড হচ্ছে...</p>
       </div>
     </div>
 
@@ -67,7 +72,7 @@
   <!-- Footer -->
   <footer style="background: #0f172a; color: #94a3b8; padding: 30px 0 20px 0; border-top: 4px solid var(--primary);">
     <div class="container" style="text-align: center; font-size: 14px;">
-      <p>© 2026 Daily Express News Portal. সর্বস্বত্ব সংরক্ষিত।</p>
+      <p>© 2026 Khulna University Writers' Society (KUWS). সর্বস্বত্ব সংরক্ষিত।</p>
     </div>
   </footer>
 
@@ -116,20 +121,20 @@
         if (!res.articles || res.articles.length === 0) {
           grid.innerHTML = `
             <div style="grid-column: 1 / -1; padding: 50px; text-align: center; background: #fff; border-radius: 8px;">
-              <i class="far fa-newspaper fa-3x" style="color: var(--text-muted); margin-bottom: 15px;"></i>
-              <h3>কোনো সংবাদ পাওয়া যায়নি।</h3>
-              <p style="color: var(--text-muted); margin-top: 6px;">ভিন্ন কীওয়ার্ড দিয়ে অনুসন্ধান করুন অথবা প্রচ্ছদে ফিরে যান।</p>
+              <i class="fas fa-feather fa-3x" style="color: var(--text-muted); margin-bottom: 15px;"></i>
+              <h3>কোনো লেখা পাওয়া যায়নি।</h3>
+              <p style="color: var(--text-muted); margin-top: 6px;">ভিন্ন শিরোনাম বা লেখকের নাম দিয়ে অনুসন্ধান করুন অথবা প্রচ্ছদে ফিরে যান।</p>
               <a href="/" class="btn btn-primary" style="margin-top: 15px;">হোমপেজ</a>
             </div>
           `;
           return;
         }
 
-        document.getElementById('results-count').innerText = `মোট ${Utils.toBengaliNumber(res.articles.length)} টি সংবাদ`;
+        document.getElementById('results-count').innerText = `মোট ${Utils.toBengaliNumber(res.articles.length)} টি লেখা`;
 
         grid.innerHTML = res.articles.map(a => `
           <div class="news-card">
-            <img src="${a.image_url || 'https://images.unsplash.com/photo-1504711434969-e33886168f5c?w=600'}" alt="${a.title}" class="news-card-img">
+            <img src="${a.image_url || 'https://images.unsplash.com/photo-1455390582262-044cdead277a?w=600'}" alt="${a.title}" class="news-card-img">
             <div class="news-card-body">
               <span class="badge badge-primary" style="align-self: flex-start; margin-bottom: 6px;">${a.category_name_bn}</span>
               <h3 style="font-size: 18px; margin-bottom: 8px; line-height: 1.4;">
@@ -139,7 +144,7 @@
                 ${a.summary || ''}
               </p>
               <div class="news-meta">
-                <span><i class="fas fa-user-edit"></i> ${a.author_name}</span>
+                <span><i class="fas fa-pen-nib"></i> ${a.author_name}</span>
                 <span><i class="far fa-clock"></i> ${Utils.timeAgo(a.published_at)}</span>
               </div>
             </div>

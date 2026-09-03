@@ -1,4 +1,4 @@
-﻿// Public News Portal Dynamic Engine
+﻿// KUWS Literary Portal Dynamic Engine
 
 document.addEventListener('DOMContentLoaded', async () => {
   // Set Bengali Date
@@ -7,13 +7,13 @@ document.addEventListener('DOMContentLoaded', async () => {
     dateEl.innerHTML = `<i class="far fa-calendar-alt"></i> ${Utils.getCurrentBengaliDate()}`;
   }
 
-  // 1. Fetch Site Settings
+  // 1. Fetch Site Settings & Branding
   try {
     const settingsRes = await API.getSettings();
     if (settingsRes.settings) {
       const s = settingsRes.settings;
       if (s.site_name) {
-        document.title = `${s.site_name} | Daily Express News`;
+        document.title = `${s.site_name} | সাহিত্যের উন্মুক্ত প্রাঙ্গণ`;
         const sn = document.getElementById('site-name-display');
         if (sn) sn.innerText = s.site_name;
         const fsn = document.getElementById('footer-site-name');
@@ -22,6 +22,8 @@ document.addEventListener('DOMContentLoaded', async () => {
       if (s.tagline) {
         const st = document.getElementById('site-tagline-display');
         if (st) st.innerText = s.tagline;
+        const fst = document.getElementById('footer-tagline');
+        if (fst) fst.innerText = s.tagline;
       }
       if (s.address) {
         const fa = document.getElementById('footer-address');
@@ -44,7 +46,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     console.error('Settings load error:', e);
   }
 
-  // 2. Fetch Categories
+  // 2. Fetch Literary Categories
   try {
     const catRes = await API.getCategories();
     if (catRes.categories) {
@@ -68,26 +70,28 @@ document.addEventListener('DOMContentLoaded', async () => {
     console.error('Categories load error:', e);
   }
 
-  // 3. Fetch Breaking News & Articles
+  // 3. Fetch Recent Writings & Articles
   try {
-    const res = await API.getArticles({ limit: 20 });
+    const res = await API.getArticles({ limit: 25 });
     const articles = res.articles || [];
 
-    // Breaking Ticker
-    const breakingTicker = document.getElementById('breaking-news-list');
-    const breakingArticles = articles.filter(a => a.is_breaking === 1);
-    if (breakingArticles.length > 0 && breakingTicker) {
-      breakingTicker.innerHTML = breakingArticles.map(a => `
-        <span style="margin-right: 30px;">
-          <i class="fas fa-circle" style="font-size: 8px; color: var(--primary); vertical-align: middle; margin-right: 6px;"></i>
-          <a href="/article.html?id=${a.id}" style="color: #0f172a; font-weight: 600;">${a.title}</a>
-        </span>
-      `).join('');
-    } else if (breakingTicker) {
-      breakingTicker.innerHTML = '<span>সর্বশেষ সব খবর সবার আগে পেতে আমাদের সাথেই থাকুন...</span>';
+    // Latest Writings Dynamic Ticker (All Recent Published Items)
+    const writingsTicker = document.getElementById('latest-writings-ticker');
+    if (writingsTicker) {
+      if (articles.length > 0) {
+        writingsTicker.innerHTML = articles.slice(0, 10).map(a => `
+          <span style="margin-right: 32px;">
+            <i class="fas fa-feather-alt" style="font-size: 11px; color: var(--primary); vertical-align: middle; margin-right: 6px;"></i>
+            <span class="badge badge-secondary" style="font-size: 11px; margin-right: 6px;">${a.category_name_bn}</span>
+            <a href="/article.html?id=${a.id}" style="color: #0f172a; font-weight: 600;">${a.title}</a>
+          </span>
+        `).join('');
+      } else {
+        writingsTicker.innerHTML = '<span>খুলনা বিশ্ববিদ্যালয় লেখক সংঘের সাথে সাহিত্যচর্চায় যুক্ত থাকুন...</span>';
+      }
     }
 
-    // Lead News & Side Highlights
+    // Lead Featured Story & Editors Picks
     const leadContainer = document.getElementById('lead-article-container');
     const sideHighlights = document.getElementById('side-highlights');
 
@@ -95,17 +99,17 @@ document.addEventListener('DOMContentLoaded', async () => {
       const lead = articles.find(a => a.is_lead === 1) || articles[0];
       leadContainer.innerHTML = `
         <div class="lead-card">
-          <img src="${lead.image_url || 'https://images.unsplash.com/photo-1504711434969-e33886168f5c?w=900'}" alt="${lead.title}" class="lead-img">
+          <img src="${lead.image_url || 'https://images.unsplash.com/photo-1455390582262-044cdead277a?w=900'}" alt="${lead.title}" class="lead-img">
           <div style="padding: 20px;">
             <span class="badge badge-primary" style="margin-bottom: 8px;">${lead.category_name_bn}</span>
-            <h2 style="font-size: 26px; margin-bottom: 10px; line-height: 1.35;">
+            <h2 style="font-size: 24px; margin-bottom: 10px; line-height: 1.35;">
               <a href="/article.html?id=${lead.id}">${lead.title}</a>
             </h2>
             <p style="font-size: 15px; color: #475569; margin-bottom: 12px; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;">
               ${lead.summary || ''}
             </p>
             <div class="news-meta">
-              <span><i class="fas fa-user-edit"></i> ${lead.author_name}</span>
+              <span><i class="fas fa-pen-nib"></i> ${lead.author_name}</span>
               <span><i class="far fa-clock"></i> ${Utils.timeAgo(lead.published_at)}</span>
               <span><i class="far fa-eye"></i> ${Utils.toBengaliNumber(lead.views)} বার পঠিত</span>
             </div>
@@ -118,9 +122,10 @@ document.addEventListener('DOMContentLoaded', async () => {
       if (sideHighlights) {
         sideHighlights.innerHTML = remainingForSide.map(a => `
           <div style="display: flex; gap: 12px; padding-bottom: 12px; border-bottom: 1px solid var(--border-color);">
-            <img src="${a.image_url || 'https://images.unsplash.com/photo-1504711434969-e33886168f5c?w=200'}" alt="${a.title}" style="width: 85px; height: 65px; border-radius: 4px; object-fit: cover; flex-shrink: 0;">
+            <img src="${a.image_url || 'https://images.unsplash.com/photo-1455390582262-044cdead277a?w=200'}" alt="${a.title}" style="width: 85px; height: 65px; border-radius: 4px; object-fit: cover; flex-shrink: 0;">
             <div>
-              <a href="/article.html?id=${a.id}" style="font-size: 14px; font-weight: 600; line-height: 1.35; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;">${a.title}</a>
+              <span class="badge badge-secondary" style="font-size: 10px; padding: 2px 6px;">${a.category_name_bn}</span>
+              <a href="/article.html?id=${a.id}" style="font-size: 14px; font-weight: 600; line-height: 1.35; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; margin-top: 3px;">${a.title}</a>
               <div class="news-meta" style="margin-top: 4px; font-size: 12px;">
                 <span>${Utils.timeAgo(a.published_at)}</span>
               </div>
@@ -130,13 +135,13 @@ document.addEventListener('DOMContentLoaded', async () => {
       }
     }
 
-    // Latest News Grid
+    // Recent Published Grid
     const latestGrid = document.getElementById('latest-news-grid');
     if (latestGrid) {
       const latestItems = articles.slice(0, 6);
       latestGrid.innerHTML = latestItems.map(a => `
         <div class="news-card">
-          <img src="${a.image_url || 'https://images.unsplash.com/photo-1504711434969-e33886168f5c?w=600'}" alt="${a.title}" class="news-card-img">
+          <img src="${a.image_url || 'https://images.unsplash.com/photo-1455390582262-044cdead277a?w=600'}" alt="${a.title}" class="news-card-img">
           <div class="news-card-body">
             <span class="badge badge-primary" style="align-self: flex-start; margin-bottom: 6px;">${a.category_name_bn}</span>
             <h3 style="font-size: 17px; margin-bottom: 8px; line-height: 1.35;">
@@ -146,6 +151,7 @@ document.addEventListener('DOMContentLoaded', async () => {
               ${a.summary || ''}
             </p>
             <div class="news-meta">
+              <span><i class="fas fa-pen-nib"></i> ${a.author_name}</span>
               <span><i class="far fa-clock"></i> ${Utils.timeAgo(a.published_at)}</span>
             </div>
           </div>
@@ -153,11 +159,11 @@ document.addEventListener('DOMContentLoaded', async () => {
       `).join('');
     }
 
-    // National Section Grid
-    const nationalGrid = document.getElementById('national-news-grid');
-    if (nationalGrid) {
-      const nationalItems = articles.filter(a => a.category_slug === 'national').slice(0, 4);
-      nationalGrid.innerHTML = (nationalItems.length > 0 ? nationalItems : articles.slice(1, 3)).map(a => `
+    // 1. কবিতা (Poetry Grid)
+    const poetryGrid = document.getElementById('poetry-grid');
+    if (poetryGrid) {
+      const poetryItems = articles.filter(a => a.category_slug === 'poetry');
+      poetryGrid.innerHTML = (poetryItems.length > 0 ? poetryItems : articles.slice(0, 2)).map(a => `
         <div class="news-card">
           <img src="${a.image_url}" alt="${a.title}" class="news-card-img" style="height: 140px;">
           <div class="news-card-body">
@@ -165,6 +171,7 @@ document.addEventListener('DOMContentLoaded', async () => {
               <a href="/article.html?id=${a.id}">${a.title}</a>
             </h4>
             <div class="news-meta" style="font-size: 12px;">
+              <span><i class="fas fa-user-edit"></i> ${a.author_name}</span>
               <span>${Utils.timeAgo(a.published_at)}</span>
             </div>
           </div>
@@ -172,11 +179,51 @@ document.addEventListener('DOMContentLoaded', async () => {
       `).join('');
     }
 
-    // Tech Section Grid
-    const techGrid = document.getElementById('tech-news-grid');
-    if (techGrid) {
-      const techItems = articles.filter(a => a.category_slug === 'technology').slice(0, 4);
-      techGrid.innerHTML = (techItems.length > 0 ? techItems : articles.slice(2, 4)).map(a => `
+    // 2. গল্প (Stories Grid)
+    const storiesGrid = document.getElementById('stories-grid');
+    if (storiesGrid) {
+      const storiesItems = articles.filter(a => a.category_slug === 'stories');
+      storiesGrid.innerHTML = (storiesItems.length > 0 ? storiesItems : articles.slice(1, 3)).map(a => `
+        <div class="news-card">
+          <img src="${a.image_url}" alt="${a.title}" class="news-card-img" style="height: 140px;">
+          <div class="news-card-body">
+            <h4 style="font-size: 15px; margin-bottom: 6px;">
+              <a href="/article.html?id=${a.id}">${a.title}</a>
+            </h4>
+            <div class="news-meta" style="font-size: 12px;">
+              <span><i class="fas fa-user-edit"></i> ${a.author_name}</span>
+              <span>${Utils.timeAgo(a.published_at)}</span>
+            </div>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    // 3. বই পর্যালোচনা (Book Review Grid)
+    const bookreviewGrid = document.getElementById('bookreview-grid');
+    if (bookreviewGrid) {
+      const bookItems = articles.filter(a => a.category_slug === 'book-review');
+      bookreviewGrid.innerHTML = (bookItems.length > 0 ? bookItems : articles.slice(2, 4)).map(a => `
+        <div class="news-card">
+          <img src="${a.image_url}" alt="${a.title}" class="news-card-img" style="height: 140px;">
+          <div class="news-card-body">
+            <h4 style="font-size: 15px; margin-bottom: 6px;">
+              <a href="/article.html?id=${a.id}">${a.title}</a>
+            </h4>
+            <div class="news-meta" style="font-size: 12px;">
+              <span><i class="fas fa-user-edit"></i> ${a.author_name}</span>
+              <span>${Utils.timeAgo(a.published_at)}</span>
+            </div>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    // 4. ইভেন্টস (Events Grid)
+    const eventsGrid = document.getElementById('events-grid');
+    if (eventsGrid) {
+      const eventItems = articles.filter(a => a.category_slug === 'events');
+      eventsGrid.innerHTML = (eventItems.length > 0 ? eventItems : articles.slice(0, 2)).map(a => `
         <div class="news-card">
           <img src="${a.image_url}" alt="${a.title}" class="news-card-img" style="height: 140px;">
           <div class="news-card-body">
@@ -199,6 +246,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         <li class="popular-item">
           <div class="popular-rank">${Utils.toBengaliNumber(idx + 1)}</div>
           <div>
+            <span class="badge badge-secondary" style="font-size: 10px; margin-bottom: 2px;">${p.category_name_bn}</span>
             <a href="/article.html?id=${p.id}" style="font-size: 14px; font-weight: 600; line-height: 1.4; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;">${p.title}</a>
             <div class="news-meta" style="margin-top: 4px;">
               <span><i class="far fa-eye"></i> ${Utils.toBengaliNumber(p.views)} বার</span>
