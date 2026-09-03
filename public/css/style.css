@@ -699,7 +699,24 @@ a:hover {
    RESPONSIVE MEDIA QUERIES (STRICTLY FOR MOBILE & TABLETS)
    ======================================================== */
 
-@media (max-width: 768px) {
+/* Tablet & Intermediate Screens (580px to 860px) */
+@media (min-width: 581px) and (max-width: 860px) {
+  .main-two-col-grid {
+    grid-template-columns: 1.6fr 1fr;
+    gap: 18px;
+  }
+  .news-card-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+  }
+  .category-sub-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 14px;
+  }
+}
+
+/* Small Mobile Screens Only (max-width: 580px) */
+@media (max-width: 580px) {
   .admin-layout {
     flex-direction: column;
   }
@@ -726,7 +743,7 @@ a:hover {
     border-bottom-color: var(--accent);
   }
 
-  /* Collapse into 1 column ONLY on mobile screens */
+  /* Collapse into 1 column ONLY on mobile phones */
   .main-two-col-grid,
   .article-grid-layout,
   .admin-editor-grid {
