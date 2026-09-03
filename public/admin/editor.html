@@ -1,0 +1,449 @@
+﻿<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>সংবাদ সম্পাদক | News Composer & Editor</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    .editor-toolbar {
+      display: flex;
+      gap: 6px;
+      padding: 8px 12px;
+      background: #f1f5f9;
+      border: 1px solid var(--border-color);
+      border-bottom: none;
+      border-radius: 6px 6px 0 0;
+      flex-wrap: wrap;
+    }
+    .editor-toolbar button {
+      background: #ffffff;
+      border: 1px solid #cbd5e1;
+      border-radius: 4px;
+      padding: 5px 10px;
+      cursor: pointer;
+      font-size: 13px;
+      font-weight: 600;
+      color: #334155;
+    }
+    .editor-toolbar button:hover {
+      background: #e2e8f0;
+    }
+    .editor-content-area {
+      min-height: 280px;
+      padding: 14px;
+      border: 1px solid var(--border-color);
+      border-radius: 0 0 6px 6px;
+      background: #ffffff;
+      outline: none;
+      font-size: 16px;
+      line-height: 1.7;
+    }
+    .editor-content-area:focus {
+      border-color: var(--primary);
+    }
+  </style>
+</head>
+<body>
+
+  <div class="admin-layout">
+    
+    <!-- Sidebar -->
+    <aside class="admin-sidebar">
+      <div class="admin-sidebar-header">
+        <h2 style="font-size: 18px; color: #fff;"><i class="fas fa-newspaper" style="color: var(--primary);"></i> নিউজ কন্ট্রোল</h2>
+        <div style="font-size: 12px; color: #94a3b8; margin-top: 4px;">এডমিন ম্যানেজমেন্ট প্যানেল</div>
+      </div>
+
+      <ul class="admin-nav">
+        <li><a href="/admin"><i class="fas fa-chart-line"></i> ড্যাশবোর্ড</a></li>
+        <li><a href="/admin/articles"><i class="fas fa-file-alt"></i> সংবাদ ব্যবস্থাপনা</a></li>
+        <li class="active"><a href="/admin/editor"><i class="fas fa-plus-circle"></i> নতুন সংবাদ লিখুন</a></li>
+        <li class="nav-editor"><a href="/admin/categories"><i class="fas fa-folder"></i> ক্যাটাগরি</a></li>
+        <li class="nav-it-admin"><a href="/admin/users"><i class="fas fa-users-cog"></i> ইউজার কন্ট্রোল (IT Admin)</a></li>
+        <li class="nav-it-admin"><a href="/admin/settings"><i class="fas fa-cogs"></i> সাইট সেটিংস</a></li>
+        <li style="margin-top: 20px;"><a href="/" target="_blank"><i class="fas fa-external-link-alt"></i> মূল পোর্টাল দেখুন</a></li>
+        <li><a href="javascript:void(0)" onclick="logout()" style="color: #f87171;"><i class="fas fa-sign-out-alt"></i> লগআউট</a></li>
+      </ul>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="admin-main">
+      
+      <!-- Topbar -->
+      <div class="admin-topbar">
+        <div>
+          <h2 style="font-size: 20px; font-weight: 700;" id="page-heading">নতুন সংবাদ রচনা করুন</h2>
+        </div>
+        <div style="display: flex; align-items: center; gap: 14px;">
+          <img id="admin-user-avatar" src="" style="width: 36px; height: 36px; border-radius: 50%; object-fit: cover;">
+          <div>
+            <div id="admin-user-name" style="font-weight: 700; font-size: 14px;">লোড হচ্ছে...</div>
+            <div id="admin-user-role" style="font-size: 12px;"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Editor Form Area -->
+      <div class="admin-content">
+        
+        <div id="rejection-alert" style="display: none; background: #fee2e2; border-left: 4px solid #b91c1c; padding: 12px 18px; margin-bottom: 20px; border-radius: 4px;">
+          <h4 style="color: #b91c1c; margin-bottom: 4px;"><i class="fas fa-exclamation-circle"></i> সংবাদটি পূর্বে প্রত্যাখ্যাত করা হয়েছিল:</h4>
+          <p id="rejection-note" style="color: #7f1d1d; font-size: 14px;"></p>
+        </div>
+
+        <form id="article-form" style="display: grid; grid-template-columns: 2.2fr 1fr; gap: 24px;">
+          
+          <!-- Left Column: Title & Content -->
+          <div>
+            
+            <div class="form-group">
+              <label class="form-label" for="article-title">সংবাদের শিরোনাম (Headline) *</label>
+              <input type="text" id="article-title" class="form-control" placeholder="এখানে আকর্ষণীয় শিরোনাম লিখুন..." required style="font-size: 18px; font-weight: 600;">
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="article-slug">ইউআরএল স্লাগ (Slug)</label>
+              <input type="text" id="article-slug" class="form-control" placeholder="auto-generated-slug" style="font-size: 13px; color: #64748b;">
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="article-summary">সংবাদের সারসংক্ষেপ (Short Summary / Lead Paragraph)</label>
+              <textarea id="article-summary" class="form-control" rows="3" placeholder="সংবাদের মূল অংশ ২-৩ বাক্যে সংক্ষেপে লিখুন..."></textarea>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">বিস্তারিত সংবাদের বিষয়বস্তু (Full Body Content) *</label>
+              
+              <!-- Formatting Toolbar -->
+              <div class="editor-toolbar">
+                <button type="button" onclick="formatDoc('bold')" title="Bold"><i class="fas fa-bold"></i></button>
+                <button type="button" onclick="formatDoc('italic')" title="Italic"><i class="fas fa-italic"></i></button>
+                <button type="button" onclick="formatDoc('formatBlock', '<h2>')" title="Heading 2">H2</button>
+                <button type="button" onclick="formatDoc('formatBlock', '<h3>')" title="Heading 3">H3</button>
+                <button type="button" onclick="formatDoc('formatBlock', '<blockquote>')" title="Quote"><i class="fas fa-quote-left"></i></button>
+                <button type="button" onclick="formatDoc('insertUnorderedList')" title="Bullet List"><i class="fas fa-list-ul"></i></button>
+                <button type="button" onclick="formatDoc('insertOrderedList')" title="Numbered List"><i class="fas fa-list-ol"></i></button>
+                <button type="button" onclick="addLink()" title="Insert Link"><i class="fas fa-link"></i></button>
+                <button type="button" onclick="formatDoc('removeFormat')" title="Clear Format"><i class="fas fa-eraser"></i></button>
+              </div>
+
+              <!-- Editable Area -->
+              <div id="editor-body" class="editor-content-area" contenteditable="true">
+                <p>এখানে সম্পূর্ণ সংবাদ বিস্তারিত লিখুন...</p>
+              </div>
+            </div>
+
+            <div class="form-group" style="margin-top: 20px;">
+              <label class="form-label" for="article-tags">ট্যাগসমূহ (কমা দিয়ে পৃথক করুন)</label>
+              <input type="text" id="article-tags" class="form-control" placeholder="যেমন: বাংলাদেশ, রাজনীতি, ক্রিকেট, টেকনোলজি">
+            </div>
+
+          </div>
+
+          <!-- Right Column: Meta, Image & Publishing Workflow -->
+          <div>
+            
+            <!-- Publishing Actions Card -->
+            <div style="background: #ffffff; padding: 20px; border-radius: 8px; border: 1px solid var(--border-color); margin-bottom: 20px;">
+              <h3 style="font-size: 16px; margin-bottom: 14px; border-bottom: 1px solid var(--border-color); padding-bottom: 8px;">
+                <i class="fas fa-paper-plane"></i> প্রকাশনা ও অনুমোদন নিয়ন্ত্রণ
+              </h3>
+
+              <div id="workflow-buttons" style="display: flex; flex-direction: column; gap: 10px;">
+                <!-- Filled dynamically according to user role -->
+              </div>
+            </div>
+
+            <!-- Category Card -->
+            <div style="background: #ffffff; padding: 20px; border-radius: 8px; border: 1px solid var(--border-color); margin-bottom: 20px;">
+              <label class="form-label" for="article-category">বিভাগ / ক্যাটাগরি নির্বাচন করুন *</label>
+              <select id="article-category" class="form-control" required>
+                <option value="">-- বিভাগ নির্বাচন করুন --</option>
+              </select>
+            </div>
+
+            <!-- Image Upload Card -->
+            <div style="background: #ffffff; padding: 20px; border-radius: 8px; border: 1px solid var(--border-color); margin-bottom: 20px;">
+              <label class="form-label">ফিচার্ড ছবি (Featured Image)</label>
+              
+              <div style="margin-bottom: 10px;">
+                <input type="file" id="image-file-input" accept="image/*" class="form-control" style="font-size: 13px;">
+                <div style="font-size: 12px; color: var(--text-muted); margin-top: 4px;">কম্পিউটার থেকে ছবি আপলোড করুন</div>
+              </div>
+
+              <div style="text-align: center; margin: 8px 0; font-size: 12px; color: var(--text-muted);">— অথবা —</div>
+
+              <input type="url" id="article-image-url" class="form-control" placeholder="ছবির অনলাইন লিংক (URL) লিখুন">
+
+              <div style="margin-top: 12px;">
+                <label class="form-label" for="article-image-caption">ছবির ক্যাপশন</label>
+                <input type="text" id="article-image-caption" class="form-control" placeholder="ছবির ক্যাপশন / ফটোগ্রাফারের নাম">
+              </div>
+
+              <!-- Preview Image -->
+              <div id="image-preview-box" style="margin-top: 14px; display: none;">
+                <img id="preview-img" src="" style="width: 100%; height: 160px; object-fit: cover; border-radius: 4px;">
+              </div>
+            </div>
+
+            <!-- Featured / Breaking Flags (Editor & IT Admin Only) -->
+            <div class="nav-editor" style="background: #ffffff; padding: 20px; border-radius: 8px; border: 1px solid var(--border-color);">
+              <h4 style="font-size: 14px; margin-bottom: 12px; color: #0f172a;">হোমপেজ প্রদর্শন সেটিংস:</h4>
+              
+              <div style="display: flex; flex-direction: column; gap: 8px;">
+                <label style="display: flex; align-items: center; gap: 8px; font-size: 14px; cursor: pointer;">
+                  <input type="checkbox" id="flag-lead"> <strong>প্রধান লিড সংবাদ (Lead Story)</strong>
+                </label>
+                <label style="display: flex; align-items: center; gap: 8px; font-size: 14px; cursor: pointer;">
+                  <input type="checkbox" id="flag-breaking"> <strong>ব্রেকিং নিউজ স্ক্রলারে যুক্ত করুন</strong>
+                </label>
+                <label style="display: flex; align-items: center; gap: 8px; font-size: 14px; cursor: pointer;">
+                  <input type="checkbox" id="flag-featured"> <strong>ফিচার্ড সেকশনে প্রদর্শন</strong>
+                </label>
+              </div>
+            </div>
+
+          </div>
+
+        </form>
+
+      </div>
+
+    </main>
+  </div>
+
+  <script src="/js/api.js"></script>
+  <script src="/js/admin.js"></script>
+  <script>
+    let editingArticleId = null;
+    let editingCurrentStatus = 'draft';
+
+    document.addEventListener('DOMContentLoaded', async () => {
+      await initAdmin();
+
+      // Load Categories dropdown
+      try {
+        const catRes = await API.getCategories();
+        const catSelect = document.getElementById('article-category');
+        if (catRes.categories) {
+          catRes.categories.forEach(c => {
+            const opt = document.createElement('option');
+            opt.value = c.id;
+            opt.innerText = `${c.name_bn} (${c.name})`;
+            catSelect.appendChild(opt);
+          });
+        }
+      } catch (e) {
+        console.error(e);
+      }
+
+      // Check if we are editing an existing article
+      const params = new URLSearchParams(window.location.search);
+      editingArticleId = params.get('id');
+
+      if (editingArticleId) {
+        document.getElementById('page-heading').innerText = `সংবাদ সম্পাদনা (#${editingArticleId})`;
+        loadExistingArticle(editingArticleId);
+      } else {
+        renderWorkflowButtons();
+      }
+
+      // Auto Slug Generator from Title
+      document.getElementById('article-title').addEventListener('input', (e) => {
+        if (!editingArticleId) {
+          const val = e.target.value.trim().toLowerCase()
+            .replace(/[^a-z0-9\u0980-\u09FF]+/g, '-')
+            .replace(/(^-|-$)/g, '');
+          document.getElementById('article-slug').value = val;
+        }
+      });
+
+      // Handle Image File Input
+      document.getElementById('image-file-input').addEventListener('change', async (e) => {
+        const file = e.target.files[0];
+        if (!file) return;
+
+        const reader = new FileReader();
+        reader.onload = async () => {
+          const base64 = reader.result;
+          showImagePreview(base64);
+
+          // Upload to server
+          try {
+            Utils.showToast('ছবি আপলোড করা হচ্ছে...', 'info');
+            const res = await API.uploadImage(file.name, base64);
+            if (res.url) {
+              document.getElementById('article-image-url').value = res.url;
+              Utils.showToast('ছবি আপলোড সম্পন্ন!', 'success');
+            }
+          } catch (err) {
+            Utils.showToast('আপলোডে সমস্যা: ' + err.message, 'error');
+          }
+        };
+        reader.readAsDataURL(file);
+      });
+
+      // Handle Image URL change
+      document.getElementById('article-image-url').addEventListener('input', (e) => {
+        if (e.target.value) {
+          showImagePreview(e.target.value);
+        }
+      });
+
+    });
+
+    function showImagePreview(src) {
+      const box = document.getElementById('image-preview-box');
+      const img = document.getElementById('preview-img');
+      img.src = src;
+      box.style.display = 'block';
+    }
+
+    async function loadExistingArticle(id) {
+      try {
+        const res = await API.getAdminArticle(id);
+        const a = res.article;
+        editingCurrentStatus = a.status;
+
+        document.getElementById('article-title').value = a.title;
+        document.getElementById('article-slug').value = a.slug;
+        document.getElementById('article-summary').value = a.summary || '';
+        document.getElementById('editor-body').innerHTML = a.content || '';
+        document.getElementById('article-category').value = a.category_id;
+        document.getElementById('article-tags').value = a.tags || '';
+        document.getElementById('article-image-url').value = a.image_url || '';
+        document.getElementById('article-image-caption').value = a.image_caption || '';
+
+        if (a.image_url) {
+          showImagePreview(a.image_url);
+        }
+
+        if (a.is_lead) document.getElementById('flag-lead').checked = true;
+        if (a.is_breaking) document.getElementById('flag-breaking').checked = true;
+        if (a.is_featured) document.getElementById('flag-featured').checked = true;
+
+        if (a.status === 'rejected' && a.rejection_reason) {
+          document.getElementById('rejection-alert').style.display = 'block';
+          document.getElementById('rejection-note').innerText = a.rejection_reason;
+        }
+
+        renderWorkflowButtons();
+
+      } catch (err) {
+        Utils.showToast('সংবাদ লোড করতে ব্যর্থ: ' + err.message, 'error');
+      }
+    }
+
+    // Render Buttons based on User Role & Status
+    function renderWorkflowButtons() {
+      const btnContainer = document.getElementById('workflow-buttons');
+      const role = currentUser ? currentUser.role : 'sub_editor';
+
+      let html = '';
+
+      if (role === 'sub_editor') {
+        html = `
+          <button type="button" class="btn btn-primary" onclick="submitArticle('pending')" style="padding: 12px;">
+            <i class="fas fa-paper-plane"></i> অনুমোদনের জন্য পাঠান (Submit for Review)
+          </button>
+          <button type="button" class="btn btn-secondary" onclick="submitArticle('draft')">
+            <i class="fas fa-save"></i> ড্রাফট হিসেবে সংরক্ষণ করুন (Save Draft)
+          </button>
+        `;
+      } else {
+        // IT Admin & Editor
+        html = `
+          <button type="button" class="btn btn-success" onclick="submitArticle('published')" style="padding: 12px;">
+            <i class="fas fa-check-circle"></i> সরাসরি প্রকাশ করুন (Publish Live)
+          </button>
+          <button type="button" class="btn btn-secondary" onclick="submitArticle('draft')">
+            <i class="fas fa-save"></i> ড্রাফট সংরক্ষণ (Save Draft)
+          </button>
+          <button type="button" class="btn btn-secondary" onclick="submitArticle('pending')">
+            <i class="fas fa-hourglass-half"></i> পেন্ডিং রাখুন (Keep Pending)
+          </button>
+        `;
+      }
+
+      btnContainer.innerHTML = html;
+    }
+
+    // Submit Article handler
+    async function submitArticle(targetStatus) {
+      const title = document.getElementById('article-title').value.trim();
+      const slug = document.getElementById('article-slug').value.trim();
+      const summary = document.getElementById('article-summary').value.trim();
+      const content = document.getElementById('editor-body').innerHTML;
+      const category_id = document.getElementById('article-category').value;
+      const tags = document.getElementById('article-tags').value.trim();
+      const image_url = document.getElementById('article-image-url').value.trim();
+      const image_caption = document.getElementById('article-image-caption').value.trim();
+
+      const is_lead = document.getElementById('flag-lead') ? document.getElementById('flag-lead').checked : false;
+      const is_breaking = document.getElementById('flag-breaking') ? document.getElementById('flag-breaking').checked : false;
+      const is_featured = document.getElementById('flag-featured') ? document.getElementById('flag-featured').checked : false;
+
+      if (!title) {
+        Utils.showToast('সংবাদের শিরোনাম দিন!', 'error');
+        document.getElementById('article-title').focus();
+        return;
+      }
+      if (!category_id) {
+        Utils.showToast('ক্যাটাগরি নির্বাচন করুন!', 'error');
+        return;
+      }
+      if (!content || content === '<p><br></p>' || content === '<p>এখানে সম্পূর্ণ সংবাদ বিস্তারিত লিখুন...</p>') {
+        Utils.showToast('সংবাদের বিষয়বস্তু লিখুন!', 'error');
+        return;
+      }
+
+      const payload = {
+        title,
+        slug,
+        summary,
+        content,
+        category_id,
+        tags,
+        image_url,
+        image_caption,
+        status: targetStatus,
+        is_lead,
+        is_breaking,
+        is_featured
+      };
+
+      try {
+        if (editingArticleId) {
+          const res = await API.updateAdminArticle(editingArticleId, payload);
+          Utils.showToast(res.message || 'সংবাদ সফলভাবে আপডেট হয়েছে!', 'success');
+        } else {
+          const res = await API.createAdminArticle(payload);
+          Utils.showToast(res.message || 'সংবাদ তৈরি হয়েছে!', 'success');
+        }
+
+        setTimeout(() => {
+          window.location.href = '/admin/articles';
+        }, 1000);
+
+      } catch (err) {
+        Utils.showToast('ত্রুটি: ' + err.message, 'error');
+      }
+    }
+
+    // Document format toolbar actions
+    function formatDoc(cmd, val = null) {
+      document.execCommand(cmd, false, val);
+      document.getElementById('editor-body').focus();
+    }
+
+    function addLink() {
+      const url = prompt('লিংক URL লিখুন (https://...):', 'https://');
+      if (url) {
+        formatDoc('createLink', url);
+      }
+    }
+  </script>
+</body>
+</html>

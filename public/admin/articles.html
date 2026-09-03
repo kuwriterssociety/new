@@ -1,0 +1,239 @@
+﻿<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>সংবাদ ব্যবস্থাপনা | News Articles Manager</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+  <div class="admin-layout">
+    
+    <!-- Sidebar -->
+    <aside class="admin-sidebar">
+      <div class="admin-sidebar-header">
+        <h2 style="font-size: 18px; color: #fff;"><i class="fas fa-newspaper" style="color: var(--primary);"></i> নিউজ কন্ট্রোল</h2>
+        <div style="font-size: 12px; color: #94a3b8; margin-top: 4px;">এডমিন ম্যানেজমেন্ট প্যানেল</div>
+      </div>
+
+      <ul class="admin-nav">
+        <li><a href="/admin"><i class="fas fa-chart-line"></i> ড্যাশবোর্ড</a></li>
+        <li class="active"><a href="/admin/articles"><i class="fas fa-file-alt"></i> সংবাদ ব্যবস্থাপনা</a></li>
+        <li><a href="/admin/editor"><i class="fas fa-plus-circle"></i> নতুন সংবাদ লিখুন</a></li>
+        <li class="nav-editor"><a href="/admin/categories"><i class="fas fa-folder"></i> ক্যাটাগরি</a></li>
+        <li class="nav-it-admin"><a href="/admin/users"><i class="fas fa-users-cog"></i> ইউজার কন্ট্রোল (IT Admin)</a></li>
+        <li class="nav-it-admin"><a href="/admin/settings"><i class="fas fa-cogs"></i> সাইট সেটিংস</a></li>
+        <li style="margin-top: 20px;"><a href="/" target="_blank"><i class="fas fa-external-link-alt"></i> মূল পোর্টাল দেখুন</a></li>
+        <li><a href="javascript:void(0)" onclick="logout()" style="color: #f87171;"><i class="fas fa-sign-out-alt"></i> লগআউট</a></li>
+      </ul>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="admin-main">
+      
+      <!-- Topbar -->
+      <div class="admin-topbar">
+        <div>
+          <h2 style="font-size: 20px; font-weight: 700;">সংবাদ ব্যবস্থাপনা ও রিভিউ ওয়ার্কফ্লো</h2>
+        </div>
+        <div style="display: flex; align-items: center; gap: 14px;">
+          <img id="admin-user-avatar" src="" style="width: 36px; height: 36px; border-radius: 50%; object-fit: cover;">
+          <div>
+            <div id="admin-user-name" style="font-weight: 700; font-size: 14px;">লোড হচ্ছে...</div>
+            <div id="admin-user-role" style="font-size: 12px;"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Content Area -->
+      <div class="admin-content">
+        
+        <!-- Filter Controls -->
+        <div style="background: #ffffff; padding: 18px; border-radius: 8px; border: 1px solid var(--border-color); margin-bottom: 20px;">
+          <div style="display: flex; flex-wrap: wrap; gap: 15px; align-items: center; justify-content: space-between;">
+            
+            <!-- Tabs -->
+            <div style="display: flex; gap: 8px; flex-wrap: wrap;" id="status-tabs">
+              <button class="btn btn-primary btn-sm" onclick="filterStatus('all')">সব সংবাদ</button>
+              <button class="btn btn-secondary btn-sm" onclick="filterStatus('pending')">⏳ রিভিউ এর অপেক্ষায় (Pending)</button>
+              <button class="btn btn-secondary btn-sm" onclick="filterStatus('published')">✅ প্রকাশিত (Live)</button>
+              <button class="btn btn-secondary btn-sm" onclick="filterStatus('draft')">📝 ড্রাফট</button>
+              <button class="btn btn-secondary btn-sm" onclick="filterStatus('rejected')">❌ প্রত্যাখ্যাত</button>
+            </div>
+
+            <!-- Search & Actions -->
+            <div style="display: flex; gap: 10px; align-items: center;">
+              <input type="text" id="table-search" placeholder="শিরোনাম খুঁজুন..." class="form-control" style="width: 220px; padding: 6px 10px; font-size: 14px;">
+              <button class="btn btn-secondary btn-sm" onclick="loadArticles()"><i class="fas fa-search"></i></button>
+              <a href="/admin/editor" class="btn btn-primary btn-sm"><i class="fas fa-plus"></i> সংবাদ লিখুন</a>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Articles Table -->
+        <div class="table-responsive">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>আইডি</th>
+                <th>ছবি ও শিরোনাম</th>
+                <th>বিভাগ</th>
+                <th>লেখক ও রোল</th>
+                <th>স্ট্যাটাস</th>
+                <th>ভিউ</th>
+                <th>তারিখ</th>
+                <th style="text-align: right;">অ্যাকশন</th>
+              </tr>
+            </thead>
+            <tbody id="articles-table-body">
+              <tr>
+                <td colspan="8" style="text-align: center; padding: 40px;">
+                  <i class="fas fa-spinner fa-spin fa-2x" style="color: var(--primary);"></i>
+                  <p style="margin-top: 10px; color: var(--text-muted);">লোড হচ্ছে...</p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+      </div>
+
+    </main>
+  </div>
+
+  <script src="/js/api.js"></script>
+  <script src="/js/admin.js"></script>
+  <script>
+    let currentFilterStatus = 'all';
+
+    document.addEventListener('DOMContentLoaded', async () => {
+      await initAdmin();
+      loadArticles();
+    });
+
+    function filterStatus(status) {
+      currentFilterStatus = status;
+      const tabs = document.querySelectorAll('#status-tabs button');
+      tabs.forEach(btn => {
+        btn.className = 'btn btn-secondary btn-sm';
+      });
+      event.target.className = 'btn btn-primary btn-sm';
+      loadArticles();
+    }
+
+    async function loadArticles() {
+      const search = document.getElementById('table-search').value;
+      const tbody = document.getElementById('articles-table-body');
+      tbody.innerHTML = `<tr><td colspan="8" style="text-align: center; padding: 30px;"><i class="fas fa-spinner fa-spin"></i> লোড হচ্ছে...</td></tr>`;
+
+      try {
+        const res = await API.getAdminArticles({
+          status: currentFilterStatus,
+          search: search
+        });
+
+        if (!res.articles || res.articles.length === 0) {
+          tbody.innerHTML = `<tr><td colspan="8" style="text-align: center; padding: 30px; color: var(--text-muted);">কোনো সংবাদ পাওয়া যায়নি।</td></tr>`;
+          return;
+        }
+
+        tbody.innerHTML = res.articles.map(a => `
+          <tr>
+            <td>#${Utils.toBengaliNumber(a.id)}</td>
+            <td style="max-width: 320px;">
+              <div style="display: flex; gap: 10px; align-items: center;">
+                <img src="${a.image_url || 'https://images.unsplash.com/photo-1504711434969-e33886168f5c?w=100'}" style="width: 50px; height: 38px; border-radius: 4px; object-fit: cover; flex-shrink: 0;">
+                <div>
+                  <a href="/admin/editor?id=${a.id}" style="font-weight: 600; color: #0f172a; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;">
+                    ${a.title}
+                  </a>
+                  ${a.is_lead ? '<span class="badge badge-warning" style="font-size: 10px;">লিড নিউজ</span>' : ''}
+                  ${a.is_breaking ? '<span class="badge badge-danger" style="font-size: 10px;">ব্রেকিং</span>' : ''}
+                </div>
+              </div>
+            </td>
+            <td><span class="badge badge-secondary">${a.category_name_bn}</span></td>
+            <td>
+              <div style="font-weight: 600;">${a.author_name}</div>
+              <div style="font-size: 11px;">${Utils.getRoleBadge(a.author_role)}</div>
+            </td>
+            <td>
+              ${Utils.getStatusBadge(a.status)}
+              ${a.status === 'rejected' && a.rejection_reason ? `<div style="font-size: 11px; color: #b91c1c; margin-top: 2px;">নোট: ${a.rejection_reason}</div>` : ''}
+            </td>
+            <td><i class="far fa-eye"></i> ${Utils.toBengaliNumber(a.views || 0)}</td>
+            <td>${Utils.timeAgo(a.updated_at)}</td>
+            <td style="text-align: right;">
+              <div style="display: inline-flex; gap: 6px;">
+                
+                <!-- Quick Approval & Reject for Editor / IT Admin -->
+                ${(currentUser.role === 'editor' || currentUser.role === 'it_admin') && a.status === 'pending' ? `
+                  <button class="btn btn-success btn-sm" onclick="quickApprove(${a.id})" title="অনুমোদন ও সরাসরি প্রকাশ করুন">
+                    <i class="fas fa-check"></i> অনুমোদন
+                  </button>
+                  <button class="btn btn-danger btn-sm" onclick="promptReject(${a.id})" title="প্রত্যাখ্যান করুন">
+                    <i class="fas fa-times"></i> রিজেক্ট
+                  </button>
+                ` : ''}
+
+                <a href="/admin/editor?id=${a.id}" class="btn btn-secondary btn-sm" title="সম্পাদনা">
+                  <i class="fas fa-edit"></i>
+                </a>
+
+                ${(currentUser.role === 'editor' || currentUser.role === 'it_admin' || a.author_id === currentUser.id) ? `
+                  <button class="btn btn-secondary btn-sm" onclick="confirmDelete(${a.id})" style="color: #ef4444;" title="ডিলিট">
+                    <i class="fas fa-trash-alt"></i>
+                  </button>
+                ` : ''}
+
+              </div>
+            </td>
+          </tr>
+        `).join('');
+
+      } catch (err) {
+        tbody.innerHTML = `<tr><td colspan="8" style="text-align: center; color: red;">ত্রুটি: ${err.message}</td></tr>`;
+      }
+    }
+
+    // Quick Approve
+    async function quickApprove(id) {
+      if (!confirm('আপনি কি এই সংবাদটি অনুমোদন করে অবিলম্বে ওয়েবসাইটে লাইভ প্রকাশ করতে চান?')) return;
+      try {
+        await API.updateArticleStatus(id, 'published');
+        Utils.showToast('সংবাদটি সফলভাবে প্রকাশিত হয়েছে!', 'success');
+        loadArticles();
+      } catch (err) {
+        Utils.showToast(err.message, 'error');
+      }
+    }
+
+    // Reject with reason modal
+    function promptReject(id) {
+      const reason = prompt('প্রত্যাখ্যানের কারণ লিখুন (Sub-editor দেখতে পাবেন):', 'তথ্য যাচাই প্রয়োজন / সংশোধনের পর পুনরায় পাঠান');
+      if (reason === null) return;
+      API.updateArticleStatus(id, 'rejected', reason)
+        .then(() => {
+          Utils.showToast('সংবাদটি প্রত্যাখ্যাত করা হয়েছে।', 'info');
+          loadArticles();
+        })
+        .catch(err => Utils.showToast(err.message, 'error'));
+    }
+
+    // Delete
+    async function confirmDelete(id) {
+      if (!confirm('আপনি কি নিশ্চিত যে এই সংবাদটি স্থায়ীভাবে মুছে ফেলতে চান?')) return;
+      try {
+        await API.deleteAdminArticle(id);
+        Utils.showToast('সংবাদ মুছে ফেলা হয়েছে।', 'success');
+        loadArticles();
+      } catch (err) {
+        Utils.showToast(err.message, 'error');
+      }
+    }
+  </script>
+</body>
+</html>

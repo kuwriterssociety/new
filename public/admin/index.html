@@ -1,0 +1,170 @@
+﻿<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ড্যাশবোর্ড | News Admin Panel</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+  <div class="admin-layout">
+    
+    <!-- Sidebar -->
+    <aside class="admin-sidebar">
+      <div class="admin-sidebar-header">
+        <h2 style="font-size: 18px; color: #fff;"><i class="fas fa-newspaper" style="color: var(--primary);"></i> নিউজ কন্ট্রোল</h2>
+        <div style="font-size: 12px; color: #94a3b8; margin-top: 4px;">এডমিন ম্যানেজমেন্ট প্যানেল</div>
+      </div>
+
+      <ul class="admin-nav">
+        <li class="active"><a href="/admin"><i class="fas fa-chart-line"></i> ড্যাশবোর্ড</a></li>
+        <li><a href="/admin/articles"><i class="fas fa-file-alt"></i> সংবাদ ব্যবস্থাপনা</a></li>
+        <li><a href="/admin/editor"><i class="fas fa-plus-circle"></i> নতুন সংবাদ লিখুন</a></li>
+        <li class="nav-editor"><a href="/admin/categories"><i class="fas fa-folder"></i> ক্যাটাগরি</a></li>
+        <li class="nav-it-admin"><a href="/admin/users"><i class="fas fa-users-cog"></i> ইউজার কন্ট্রোল (IT Admin)</a></li>
+        <li class="nav-it-admin"><a href="/admin/settings"><i class="fas fa-cogs"></i> সাইট সেটিংস</a></li>
+        <li style="margin-top: 20px;"><a href="/" target="_blank"><i class="fas fa-external-link-alt"></i> মূল পোর্টাল দেখুন</a></li>
+        <li><a href="javascript:void(0)" onclick="logout()" style="color: #f87171;"><i class="fas fa-sign-out-alt"></i> লগআউট</a></li>
+      </ul>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="admin-main">
+      
+      <!-- Topbar -->
+      <div class="admin-topbar">
+        <div>
+          <h2 style="font-size: 20px; font-weight: 700;">ড্যাশবোর্ড ওভারভিউ</h2>
+        </div>
+        <div style="display: flex; align-items: center; gap: 14px;">
+          <img id="admin-user-avatar" src="" style="width: 36px; height: 36px; border-radius: 50%; object-fit: cover;">
+          <div>
+            <div id="admin-user-name" style="font-weight: 700; font-size: 14px;">লোড হচ্ছে...</div>
+            <div id="admin-user-role" style="font-size: 12px;"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Content Area -->
+      <div class="admin-content">
+        
+        <div id="role-banner"></div>
+
+        <!-- Metric Stat Cards -->
+        <div class="stat-grid" id="stats-container">
+          <div class="stat-card">
+            <div style="color: var(--text-muted); font-size: 13px;"><i class="fas fa-newspaper"></i> মোট সংবাদ</div>
+            <div class="stat-value" id="stat-total">...</div>
+          </div>
+          <div class="stat-card">
+            <div style="color: #15803d; font-size: 13px;"><i class="fas fa-check-circle"></i> প্রকাশিত (Live)</div>
+            <div class="stat-value" id="stat-published" style="color: #15803d;">...</div>
+          </div>
+          <div class="stat-card">
+            <div style="color: #b45309; font-size: 13px;"><i class="fas fa-hourglass-half"></i> পর্যালোচনায় (Pending Review)</div>
+            <div class="stat-value" id="stat-pending" style="color: #b45309;">...</div>
+          </div>
+          <div class="stat-card">
+            <div style="color: var(--text-muted); font-size: 13px;"><i class="fas fa-pencil-ruler"></i> ড্রাফট</div>
+            <div class="stat-value" id="stat-draft">...</div>
+          </div>
+          <div class="stat-card">
+            <div style="color: #0369a1; font-size: 13px;"><i class="fas fa-eye"></i> সর্বমোট ভিউ</div>
+            <div class="stat-value" id="stat-views" style="color: #0369a1;">...</div>
+          </div>
+          <div class="stat-card nav-it-admin">
+            <div style="color: #4338ca; font-size: 13px;"><i class="fas fa-users"></i> মোট ইউজার</div>
+            <div class="stat-value" id="stat-users" style="color: #4338ca;">...</div>
+          </div>
+        </div>
+
+        <!-- Quick Actions & Recent Articles -->
+        <div style="display: flex; justify-content: space-between; align-items: center; margin: 30px 0 16px 0;">
+          <h3 style="font-size: 18px; font-weight: 700;">সাম্প্রতিক সংবাদসমূহ</h3>
+          <div style="display: flex; gap: 10px;">
+            <a href="/admin/editor" class="btn btn-primary"><i class="fas fa-plus"></i> নতুন সংবাদ তৈরি করুন</a>
+            <a href="/admin/articles" class="btn btn-secondary">সব সংবাদ দেখুন</a>
+          </div>
+        </div>
+
+        <!-- Recent Articles Table -->
+        <div class="table-responsive">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>আইডি</th>
+                <th>শিরোনাম</th>
+                <th>বিভাগ</th>
+                <th>লেখক</th>
+                <th>স্ট্যাটাস</th>
+                <th>ভিউ</th>
+                <th>তারিখ</th>
+                <th>অ্যাকশন</th>
+              </tr>
+            </thead>
+            <tbody id="recent-articles-table">
+              <tr>
+                <td colspan="8" style="text-align: center; padding: 30px;">
+                  <i class="fas fa-spinner fa-spin"></i> ডাটা লোড হচ্ছে...
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+      </div>
+
+    </main>
+  </div>
+
+  <script src="/js/api.js"></script>
+  <script src="/js/admin.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', async () => {
+      await initAdmin();
+
+      try {
+        const res = await API.getAdminStats();
+        if (res.success && res.stats) {
+          const s = res.stats;
+          document.getElementById('stat-total').innerText = Utils.toBengaliNumber(s.totalArticles);
+          document.getElementById('stat-published').innerText = Utils.toBengaliNumber(s.publishedCount);
+          document.getElementById('stat-pending').innerText = Utils.toBengaliNumber(s.pendingCount);
+          document.getElementById('stat-draft').innerText = Utils.toBengaliNumber(s.draftCount);
+          document.getElementById('stat-views').innerText = Utils.toBengaliNumber(s.totalViews);
+          
+          const su = document.getElementById('stat-users');
+          if (su) su.innerText = Utils.toBengaliNumber(s.totalUsers);
+        }
+
+        // Render Recent Table
+        const tbody = document.getElementById('recent-articles-table');
+        if (res.recentArticles && res.recentArticles.length > 0) {
+          tbody.innerHTML = res.recentArticles.map(a => `
+            <tr>
+              <td>#${Utils.toBengaliNumber(a.id)}</td>
+              <td>
+                <strong style="color: #0f172a;">${a.title}</strong>
+              </td>
+              <td><span class="badge badge-secondary">${a.category_name}</span></td>
+              <td>${a.author_name}</td>
+              <td>${Utils.getStatusBadge(a.status)}</td>
+              <td><i class="far fa-eye"></i> ${Utils.toBengaliNumber(a.views || 0)}</td>
+              <td>${Utils.timeAgo(a.updated_at)}</td>
+              <td>
+                <a href="/admin/editor?id=${a.id}" class="btn btn-secondary btn-sm"><i class="fas fa-edit"></i> এডিট</a>
+              </td>
+            </tr>
+          `).join('');
+        } else {
+          tbody.innerHTML = `<tr><td colspan="8" style="text-align: center;">কোনো সাম্প্রতিক সংবাদ নেই।</td></tr>`;
+        }
+      } catch (err) {
+        console.error('Stats error:', err);
+      }
+    });
+  </script>
+</body>
+</html>

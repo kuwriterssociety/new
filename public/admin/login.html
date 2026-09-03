@@ -1,0 +1,112 @@
+﻿<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>নিউজ পোর্টাল অ্যাডমিন লগইন | Admin Authentication</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body style="background: #0f172a; min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 20px;">
+
+  <div style="background: #ffffff; border-radius: 12px; width: 100%; max-width: 440px; padding: 32px; box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.3);">
+    
+    <div style="text-align: center; margin-bottom: 24px;">
+      <div style="width: 56px; height: 56px; background: #fee2e2; color: var(--primary); border-radius: 12px; display: inline-flex; align-items: center; justify-content: center; font-size: 26px; margin-bottom: 12px;">
+        <i class="fas fa-newspaper"></i>
+      </div>
+      <h2 style="font-size: 24px; font-weight: 800; color: #0f172a;">অ্যাডমিন কন্ট্রোল প্যানেল</h2>
+      <p style="font-size: 14px; color: var(--text-muted); margin-top: 4px;">আপনার ক্রেডেনশিয়াল দিয়ে প্রবেশ করুন</p>
+    </div>
+
+    <!-- Alert Box -->
+    <div id="login-alert" style="display: none; padding: 12px; border-radius: 6px; font-size: 14px; margin-bottom: 18px;"></div>
+
+    <form id="login-form">
+      <div class="form-group">
+        <label class="form-label" for="login-email"><i class="fas fa-envelope"></i> ইমেইল ঠিকানা</label>
+        <input type="email" id="login-email" class="form-control" placeholder="name@news.com" required>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="login-password"><i class="fas fa-lock"></i> পাসওয়ার্ড</label>
+        <input type="password" id="login-password" class="form-control" placeholder="••••••••" required>
+      </div>
+
+      <button type="submit" id="btn-submit-login" class="btn btn-primary" style="width: 100%; padding: 12px; font-size: 16px; margin-top: 8px;">
+        <i class="fas fa-sign-in-alt"></i> লগইন করুন
+      </button>
+    </form>
+
+    <!-- Quick Demo Logins -->
+    <div style="margin-top: 24px; padding-top: 20px; border-top: 1px solid var(--border-color);">
+      <p style="font-size: 13px; font-weight: 600; color: #475569; margin-bottom: 10px; text-align: center;">
+        <i class="fas fa-bolt" style="color: var(--accent);"></i> দ্রুত ডেমো লগইন নির্বাচন করুন:
+      </p>
+      
+      <div style="display: flex; flex-direction: column; gap: 8px;">
+        <button type="button" class="btn btn-secondary btn-sm" onclick="setDemo('admin@news.com', 'admin123')" style="justify-content: flex-start;">
+          🛡️ <strong>IT Admin</strong> (admin@news.com)
+        </button>
+        <button type="button" class="btn btn-secondary btn-sm" onclick="setDemo('editor@news.com', 'editor123')" style="justify-content: flex-start;">
+          ✍️ <strong>Editor</strong> (editor@news.com)
+        </button>
+        <button type="button" class="btn btn-secondary btn-sm" onclick="setDemo('subeditor@news.com', 'subeditor123')" style="justify-content: flex-start;">
+          📝 <strong>Sub-Editor</strong> (subeditor@news.com)
+        </button>
+      </div>
+    </div>
+
+    <div style="text-align: center; margin-top: 20px;">
+      <a href="/" style="font-size: 14px; color: var(--text-muted);"><i class="fas fa-arrow-left"></i> নিউজ পোর্টালে ফিরে যান</a>
+    </div>
+
+  </div>
+
+  <script src="/js/api.js"></script>
+  <script>
+    // Auto redirect if already logged in
+    if (API.getToken()) {
+      window.location.href = '/admin';
+    }
+
+    function setDemo(email, pass) {
+      document.getElementById('login-email').value = email;
+      document.getElementById('login-password').value = pass;
+      document.getElementById('login-form').dispatchEvent(new Event('submit'));
+    }
+
+    document.getElementById('login-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const email = document.getElementById('login-email').value;
+      const password = document.getElementById('login-password').value;
+      const btn = document.getElementById('btn-submit-login');
+      const alertBox = document.getElementById('login-alert');
+
+      btn.disabled = true;
+      btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> যাচাই করা হচ্ছে...';
+      alertBox.style.display = 'none';
+
+      try {
+        const res = await API.login(email, password);
+        if (res.success) {
+          alertBox.style.display = 'block';
+          alertBox.style.background = '#dcfce7';
+          alertBox.style.color = '#15803d';
+          alertBox.innerHTML = '<i class="fas fa-check-circle"></i> লগইন সফল হয়েছে! ড্যাশবোর্ডে নিয়ে যাওয়া হচ্ছে...';
+          setTimeout(() => {
+            window.location.href = '/admin';
+          }, 600);
+        }
+      } catch (err) {
+        alertBox.style.display = 'block';
+        alertBox.style.background = '#fee2e2';
+        alertBox.style.color = '#b91c1c';
+        alertBox.innerHTML = `<i class="fas fa-exclamation-triangle"></i> ${err.message}`;
+        btn.disabled = false;
+        btn.innerHTML = '<i class="fas fa-sign-in-alt"></i> লগইন করুন';
+      }
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,165 @@
+﻿<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>প্রতিদিনের সংবাদ | Daily Express News Portal</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+  <!-- Top Bar -->
+  <div class="top-bar">
+    <div class="container top-bar-inner">
+      <div id="current-date"><i class="far fa-calendar-alt"></i> লোড হচ্ছে...</div>
+      <div style="display: flex; gap: 15px; align-items: center;">
+        <a href="/admin/login" style="color: #f1f5f9; font-weight: 600;">
+          <i class="fas fa-lock"></i> অ্যাডমিন লগইন (Admin Panel)
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Header -->
+  <header class="main-header">
+    <div class="container header-inner">
+      <div class="brand-logo">
+        <a href="/">
+          <h1 id="site-name-display">প্রতিদিনের সংবাদ</h1>
+          <p id="site-tagline-display">সত্য ও নিষ্ঠার সাথে নিরপেক্ষ সংবাদ</p>
+        </a>
+      </div>
+      <div style="display: flex; gap: 10px; align-items: center;">
+        <form id="search-form" action="/category.html" method="GET" style="display: flex; gap: 6px;">
+          <input type="text" name="search" placeholder="সংবাদ অনুসন্ধান করুন..." class="form-control" style="width: 240px; padding: 8px 12px;">
+          <button type="submit" class="btn btn-primary"><i class="fas fa-search"></i></button>
+        </form>
+      </div>
+    </div>
+  </header>
+
+  <!-- Navigation Bar -->
+  <nav class="nav-bar">
+    <div class="container nav-inner">
+      <ul class="nav-links" id="category-nav">
+        <li class="active"><a href="/">প্রচ্ছদ</a></li>
+        <!-- Dynamic categories -->
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Breaking News Bar -->
+  <div class="container" style="margin-top: 14px;">
+    <div class="breaking-bar">
+      <div class="breaking-label">
+        <i class="fas fa-bolt"></i> ব্রেকিং নিউজ
+      </div>
+      <div class="breaking-marquee" id="breaking-news-list">
+        লোড হচ্ছে...
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Content Layout -->
+  <main class="container" style="margin-bottom: 40px;">
+    
+    <!-- Hero / Top Stories Section -->
+    <section style="display: grid; grid-template-columns: 2fr 1fr; gap: 24px; margin-bottom: 30px;" id="hero-grid">
+      
+      <!-- Lead Article -->
+      <div id="lead-article-container">
+        <!-- Lead article rendered by main.js -->
+        <div style="padding: 40px; text-align: center; background: #fff; border-radius: 8px;">
+          <i class="fas fa-spinner fa-spin fa-2x" style="color: var(--primary);"></i>
+        </div>
+      </div>
+
+      <!-- Top Highlights Sidebar -->
+      <div style="background: #ffffff; border-radius: 8px; padding: 18px; border: 1px solid var(--border-color);">
+        <div class="section-title" style="margin-top: 0; margin-bottom: 12px;">শীর্ষ সংবাদ</div>
+        <div id="side-highlights" style="display: flex; flex-direction: column; gap: 14px;">
+          <!-- Rendered by JS -->
+        </div>
+      </div>
+    </section>
+
+    <!-- Latest News Grid -->
+    <div class="section-header">
+      <h2 class="section-title">সর্বশেষ সংবাদ</h2>
+      <a href="/category.html" class="btn btn-secondary btn-sm">সব দেখুন <i class="fas fa-arrow-right"></i></a>
+    </div>
+    <div class="news-card-grid" id="latest-news-grid">
+      <!-- Latest 6-8 news cards -->
+    </div>
+
+    <!-- Categorized Sections (National, International, Sports, Tech) -->
+    <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 24px; margin-top: 30px;">
+      
+      <!-- Left: Category blocks -->
+      <div>
+        <!-- National Block -->
+        <div class="section-header">
+          <h2 class="section-title">জাতীয়</h2>
+          <a href="/category.html?category=national" class="btn btn-secondary btn-sm">আরও দেখুন</a>
+        </div>
+        <div class="news-card-grid" id="national-news-grid" style="grid-template-columns: 1fr 1fr;"></div>
+
+        <!-- Tech Block -->
+        <div class="section-header" style="margin-top: 30px;">
+          <h2 class="section-title">তথ্যপ্রযুক্তি</h2>
+          <a href="/category.html?category=technology" class="btn btn-secondary btn-sm">আরও দেখুন</a>
+        </div>
+        <div class="news-card-grid" id="tech-news-grid" style="grid-template-columns: 1fr 1fr;"></div>
+      </div>
+
+      <!-- Right: Most Read / Popular Sidebar -->
+      <div>
+        <div style="background: #ffffff; border-radius: 8px; padding: 20px; border: 1px solid var(--border-color); position: sticky; top: 70px;">
+          <div class="section-title" style="margin-top: 0; margin-bottom: 16px;">সর্বাধিক পঠিত</div>
+          <ul class="popular-list" id="popular-news-list">
+            <!-- Rendered by JS with rank 1 to 5 -->
+          </ul>
+        </div>
+      </div>
+
+    </div>
+
+  </main>
+
+  <!-- Footer -->
+  <footer style="background: #0f172a; color: #94a3b8; padding: 40px 0 20px 0; border-top: 4px solid var(--primary);">
+    <div class="container">
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 30px; margin-bottom: 30px;">
+        <div>
+          <h3 style="color: #ffffff; font-size: 20px; margin-bottom: 12px;" id="footer-site-name">প্রতিদিনের সংবাদ</h3>
+          <p style="font-size: 14px; line-height: 1.6;" id="footer-tagline">সত্য ও নিষ্ঠার সাথে নিরপেক্ষ সংবাদ পরিবেশনে অঙ্গীকারবদ্ধ ডিজিটাল প্ল্যাটফর্ম।</p>
+          <div style="margin-top: 14px; display: flex; gap: 12px; font-size: 18px;">
+            <a href="#" style="color: #cbd5e1;"><i class="fab fa-facebook"></i></a>
+            <a href="#" style="color: #cbd5e1;"><i class="fab fa-twitter"></i></a>
+            <a href="#" style="color: #cbd5e1;"><i class="fab fa-youtube"></i></a>
+          </div>
+        </div>
+        <div>
+          <h4 style="color: #ffffff; margin-bottom: 12px;">প্রধান ক্যাটাগরি</h4>
+          <ul style="list-style: none; font-size: 14px; display: flex; flex-direction: column; gap: 8px;" id="footer-categories">
+            <!-- List -->
+          </ul>
+        </div>
+        <div>
+          <h4 style="color: #ffffff; margin-bottom: 12px;">যোগাযোগ ও সম্পাদকীয়</h4>
+          <p style="font-size: 14px; margin-bottom: 6px;" id="footer-address"><i class="fas fa-map-marker-alt"></i> কাওরান বাজার, ঢাকা-১২১৫</p>
+          <p style="font-size: 14px; margin-bottom: 6px;" id="footer-email"><i class="fas fa-envelope"></i> contact@dailynewsportal.com</p>
+          <p style="font-size: 14px; margin-bottom: 6px;" id="footer-phone"><i class="fas fa-phone"></i> +880 1700-000000</p>
+        </div>
+      </div>
+      <div style="text-align: center; border-top: 1px solid #1e293b; padding-top: 20px; font-size: 13px;" id="footer-copyright">
+        © 2026 Daily Express News Portal. সর্বস্বত্ব সংরক্ষিত।
+      </div>
+    </div>
+  </footer>
+
+  <script src="/js/api.js"></script>
+  <script src="/js/main.js"></script>
+</body>
+</html>

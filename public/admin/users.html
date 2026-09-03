@@ -1,0 +1,316 @@
+﻿<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ইউজার ম্যানেজমেন্ট (IT Admin) | News Admin Panel</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+  <div class="admin-layout">
+    
+    <!-- Sidebar -->
+    <aside class="admin-sidebar">
+      <div class="admin-sidebar-header">
+        <h2 style="font-size: 18px; color: #fff;"><i class="fas fa-newspaper" style="color: var(--primary);"></i> নিউজ কন্ট্রোল</h2>
+        <div style="font-size: 12px; color: #94a3b8; margin-top: 4px;">এডমিন ম্যানেজমেন্ট প্যানেল</div>
+      </div>
+
+      <ul class="admin-nav">
+        <li><a href="/admin"><i class="fas fa-chart-line"></i> ড্যাশবোর্ড</a></li>
+        <li><a href="/admin/articles"><i class="fas fa-file-alt"></i> সংবাদ ব্যবস্থাপনা</a></li>
+        <li><a href="/admin/editor"><i class="fas fa-plus-circle"></i> নতুন সংবাদ লিখুন</a></li>
+        <li class="nav-editor"><a href="/admin/categories"><i class="fas fa-folder"></i> ক্যাটাগরি</a></li>
+        <li class="nav-it-admin active"><a href="/admin/users"><i class="fas fa-users-cog"></i> ইউজার কন্ট্রোল (IT Admin)</a></li>
+        <li class="nav-it-admin"><a href="/admin/settings"><i class="fas fa-cogs"></i> সাইট সেটিংস</a></li>
+        <li style="margin-top: 20px;"><a href="/" target="_blank"><i class="fas fa-external-link-alt"></i> মূল পোর্টাল দেখুন</a></li>
+        <li><a href="javascript:void(0)" onclick="logout()" style="color: #f87171;"><i class="fas fa-sign-out-alt"></i> লগআউট</a></li>
+      </ul>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="admin-main">
+      
+      <!-- Topbar -->
+      <div class="admin-topbar">
+        <div>
+          <h2 style="font-size: 20px; font-weight: 700;">ইউজার ম্যানেজমেন্ট ও রোল পারমিশন (IT Admin)</h2>
+        </div>
+        <div style="display: flex; align-items: center; gap: 14px;">
+          <img id="admin-user-avatar" src="" style="width: 36px; height: 36px; border-radius: 50%; object-fit: cover;">
+          <div>
+            <div id="admin-user-name" style="font-weight: 700; font-size: 14px;">লোড হচ্ছে...</div>
+            <div id="admin-user-role" style="font-size: 12px;"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Content -->
+      <div class="admin-content">
+        
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+          <div>
+            <h3 style="font-size: 18px; font-weight: 700;">সকল সিস্টেম ইউজার ও পদবী</h3>
+            <p style="font-size: 13px; color: var(--text-muted);">IT Admin, Editor এবং Sub-Editor তৈরি ও নিয়ন্ত্রণ করুন</p>
+          </div>
+          <button class="btn btn-primary" onclick="openCreateUserModal()">
+            <i class="fas fa-user-plus"></i> নতুন ইউজার তৈরি করুন
+          </button>
+        </div>
+
+        <!-- Users Table -->
+        <div class="table-responsive">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>আইডি</th>
+                <th>ইউজার</th>
+                <th>ইমেইল</th>
+                <th>রোল (Role)</th>
+                <th>পদবী (Designation)</th>
+                <th>স্ট্যাটাস</th>
+                <th>যোগদানের তারিখ</th>
+                <th style="text-align: right;">অ্যাকশন</th>
+              </tr>
+            </thead>
+            <tbody id="users-table-body">
+              <tr>
+                <td colspan="8" style="text-align: center; padding: 30px;"><i class="fas fa-spinner fa-spin"></i> লোড হচ্ছে...</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+      </div>
+
+    </main>
+  </div>
+
+  <!-- Create / Edit User Modal Container -->
+  <div id="modal-container"></div>
+
+  <script src="/js/api.js"></script>
+  <script src="/js/admin.js"></script>
+  <script>
+    let usersList = [];
+
+    document.addEventListener('DOMContentLoaded', async () => {
+      await initAdmin();
+
+      if (currentUser.role !== 'it_admin') {
+        alert('আপনার কাছে এই পেজটি দেখার অনুমতি নেই। কেবল IT Admin এক্সেস করতে পারেন।');
+        window.location.href = '/admin';
+        return;
+      }
+
+      loadUsers();
+    });
+
+    async function loadUsers() {
+      const tbody = document.getElementById('users-table-body');
+      tbody.innerHTML = `<tr><td colspan="8" style="text-align: center; padding: 30px;"><i class="fas fa-spinner fa-spin"></i> লোড হচ্ছে...</td></tr>`;
+
+      try {
+        const res = await API.getUsers();
+        usersList = res.users || [];
+
+        if (usersList.length === 0) {
+          tbody.innerHTML = `<tr><td colspan="8" style="text-align: center;">কোনো ইউজার নেই।</td></tr>`;
+          return;
+        }
+
+        tbody.innerHTML = usersList.map(u => `
+          <tr>
+            <td>#${Utils.toBengaliNumber(u.id)}</td>
+            <td>
+              <div style="display: flex; gap: 10px; align-items: center;">
+                <img src="${u.avatar || 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=100'}" style="width: 38px; height: 38px; border-radius: 50%; object-fit: cover;">
+                <strong style="color: #0f172a;">${u.name}</strong>
+              </div>
+            </td>
+            <td>${u.email}</td>
+            <td>${Utils.getRoleBadge(u.role)}</td>
+            <td>${u.designation || '-'}</td>
+            <td>
+              <span class="badge ${u.status === 'active' ? 'badge-success' : 'badge-danger'}">
+                ${u.status === 'active' ? 'একটিভ' : 'নিষ্ক্রিয়'}
+              </span>
+            </td>
+            <td>${Utils.timeAgo(u.created_at)}</td>
+            <td style="text-align: right;">
+              <div style="display: inline-flex; gap: 6px;">
+                <button class="btn btn-secondary btn-sm" onclick="openEditUserModal(${u.id})">
+                  <i class="fas fa-edit"></i>
+                </button>
+                ${u.id !== currentUser.id ? `
+                  <button class="btn btn-secondary btn-sm" onclick="deleteUserPrompt(${u.id})" style="color: #ef4444;">
+                    <i class="fas fa-trash-alt"></i>
+                  </button>
+                ` : ''}
+              </div>
+            </td>
+          </tr>
+        `).join('');
+
+      } catch (err) {
+        tbody.innerHTML = `<tr><td colspan="8" style="text-align: center; color: red;">ত্রুটি: ${err.message}</td></tr>`;
+      }
+    }
+
+    // Modal: Create User
+    function openCreateUserModal() {
+      const container = document.getElementById('modal-container');
+      container.innerHTML = `
+        <div class="modal-overlay" id="user-modal">
+          <div class="modal-card">
+            <div class="modal-header">
+              <h3 style="font-size: 18px; font-weight: 700;"><i class="fas fa-user-plus"></i> নতুন ইউজার তৈরি</h3>
+              <button class="btn btn-secondary btn-sm" onclick="closeModal('user-modal')">&times;</button>
+            </div>
+            <form id="create-user-form">
+              <div class="modal-body">
+                <div class="form-group">
+                  <label class="form-label">পূর্ণ নাম *</label>
+                  <input type="text" id="new-user-name" class="form-control" placeholder="যেমন: মো. কামরুল হাসান" required>
+                </div>
+                <div class="form-group">
+                  <label class="form-label">ইমেইল ঠিকানা *</label>
+                  <input type="email" id="new-user-email" class="form-control" placeholder="user@news.com" required>
+                </div>
+                <div class="form-group">
+                  <label class="form-label">পাসওয়ার্ড *</label>
+                  <input type="password" id="new-user-pass" class="form-control" placeholder="কমপক্ষে ৬ ডিজিটের পাসওয়ার্ড" required>
+                </div>
+                <div class="form-group">
+                  <label class="form-label">রোল (Role & Permissions) *</label>
+                  <select id="new-user-role" class="form-control" required>
+                    <option value="sub_editor">📝 Sub-Editor (নিউজ লেখক ও ড্রাফটার)</option>
+                    <option value="editor">✍️ Editor (নিউজ রিভিউয়ার ও অনুমোদনকারী)</option>
+                    <option value="it_admin">🛡️ IT Admin (সুপার অ্যাডমিন)</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label class="form-label">পদবী (Designation)</label>
+                  <input type="text" id="new-user-desig" class="form-control" placeholder="যেমন: সিনিয়র স্টাফ রিপোর্টার">
+                </div>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" onclick="closeModal('user-modal')">বাতিল</button>
+                <button type="submit" class="btn btn-primary">ইউজার তৈরি করুন</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      `;
+
+      document.getElementById('create-user-form').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const name = document.getElementById('new-user-name').value.trim();
+        const email = document.getElementById('new-user-email').value.trim();
+        const password = document.getElementById('new-user-pass').value.trim();
+        const role = document.getElementById('new-user-role').value;
+        const designation = document.getElementById('new-user-desig').value.trim();
+
+        try {
+          await API.createUser({ name, email, password, role, designation });
+          Utils.showToast('ইউজার সফলভাবে তৈরি হয়েছে!', 'success');
+          closeModal('user-modal');
+          loadUsers();
+        } catch (err) {
+          Utils.showToast('ত্রুটি: ' + err.message, 'error');
+        }
+      });
+    }
+
+    // Modal: Edit User
+    function openEditUserModal(userId) {
+      const u = usersList.find(x => x.id === userId);
+      if (!u) return;
+
+      const container = document.getElementById('modal-container');
+      container.innerHTML = `
+        <div class="modal-overlay" id="user-modal">
+          <div class="modal-card">
+            <div class="modal-header">
+              <h3 style="font-size: 18px; font-weight: 700;"><i class="fas fa-user-edit"></i> ইউজার তথ্য সম্পাদন (#${u.id})</h3>
+              <button class="btn btn-secondary btn-sm" onclick="closeModal('user-modal')">&times;</button>
+            </div>
+            <form id="edit-user-form">
+              <div class="modal-body">
+                <div class="form-group">
+                  <label class="form-label">নাম</label>
+                  <input type="text" id="edit-user-name" class="form-control" value="${u.name}" required>
+                </div>
+                <div class="form-group">
+                  <label class="form-label">ইমেইল</label>
+                  <input type="email" id="edit-user-email" class="form-control" value="${u.email}" required>
+                </div>
+                <div class="form-group">
+                  <label class="form-label">নতুন পাসওয়ার্ড (পরিবর্তন করতে চাইলে লিখুন)</label>
+                  <input type="password" id="edit-user-pass" class="form-control" placeholder="অপরিবর্তিত রাখতে খালি রাখুন">
+                </div>
+                <div class="form-group">
+                  <label class="form-label">রোল</label>
+                  <select id="edit-user-role" class="form-control">
+                    <option value="sub_editor" ${u.role === 'sub_editor' ? 'selected' : ''}>📝 Sub-Editor</option>
+                    <option value="editor" ${u.role === 'editor' ? 'selected' : ''}>✍️ Editor</option>
+                    <option value="it_admin" ${u.role === 'it_admin' ? 'selected' : ''}>🛡️ IT Admin</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label class="form-label">পদবী</label>
+                  <input type="text" id="edit-user-desig" class="form-control" value="${u.designation || ''}">
+                </div>
+                <div class="form-group">
+                  <label class="form-label">অ্যাকাউন্ট স্ট্যাটাস</label>
+                  <select id="edit-user-status" class="form-control">
+                    <option value="active" ${u.status === 'active' ? 'selected' : ''}>Active (সক্রিয়)</option>
+                    <option value="inactive" ${u.status === 'inactive' ? 'selected' : ''}>Inactive (নিষ্ক্রিয়)</option>
+                  </select>
+                </div>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" onclick="closeModal('user-modal')">বাতিল</button>
+                <button type="submit" class="btn btn-primary">তথ্য সংরক্ষণ করুন</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      `;
+
+      document.getElementById('edit-user-form').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const name = document.getElementById('edit-user-name').value.trim();
+        const email = document.getElementById('edit-user-email').value.trim();
+        const password = document.getElementById('edit-user-pass').value.trim();
+        const role = document.getElementById('edit-user-role').value;
+        const designation = document.getElementById('edit-user-desig').value.trim();
+        const status = document.getElementById('edit-user-status').value;
+
+        try {
+          await API.updateUser(userId, { name, email, password, role, designation, status });
+          Utils.showToast('ইউজার তথ্য আপডেট হয়েছে!', 'success');
+          closeModal('user-modal');
+          loadUsers();
+        } catch (err) {
+          Utils.showToast('ত্রুটি: ' + err.message, 'error');
+        }
+      });
+    }
+
+    // Delete User
+    async function deleteUserPrompt(userId) {
+      if (!confirm('আপনি কি নিশ্চিত যে এই ইউজারকে মুছে ফেলতে চান?')) return;
+      try {
+        await API.deleteUser(userId);
+        Utils.showToast('ইউজার ডিলিট করা হয়েছে।', 'success');
+        loadUsers();
+      } catch (err) {
+        Utils.showToast(err.message, 'error');
+      }
+    }
+  </script>
+</body>
+</html>
