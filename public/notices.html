@@ -491,6 +491,12 @@
 
     // Fetch and Load Categories for Navbar
     async function loadNavCategories() {
+      // Set Bengali Date in topbar
+      const dateEl = document.getElementById('current-date');
+      if (dateEl) {
+        dateEl.innerHTML = '<i class="far fa-calendar-alt"></i> ' + new Date().toLocaleDateString('bn-BD', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+      }
+
       try {
         const catRes = await API.getCategories();
         if (catRes && catRes.categories) {
@@ -502,13 +508,14 @@
           });
 
           const extraNavItems = [
-            { title: 'নোটিশ', url: '/notices' },
+            { title: 'নোটিশ', url: '/notices', active: true },
             { title: 'অনার বোর্ড', url: '/honorboard' },
             { title: 'গ্যালারি', url: '/gallery' },
             { title: 'সার্টিফিকেট', url: '/verification' }
           ];
           extraNavItems.forEach(item => {
             const li = document.createElement('li');
+            if (item.active) li.className = 'active';
             li.innerHTML = '<a href="' + item.url + '">' + item.title + '</a>';
             nav.appendChild(li);
           });
@@ -708,8 +715,7 @@
       const url = getNoticeShareUrl(id);
       if (navigator.clipboard) {
         navigator.clipboard.writeText(url).then(() => {
-          alert('নোটিশের লিঙ্ক ক্লিপবোর্ডে কপি হয়েছে!
-' + url);
+          alert('নোটিশের লিঙ্ক ক্লিপবোর্ডে কপি হয়েছে!\\n' + url);
         }).catch(() => {
           prompt('নোটিশের লিঙ্ক:', url);
         });
