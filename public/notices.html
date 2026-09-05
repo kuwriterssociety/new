@@ -1,0 +1,770 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>নোটিশ ও সাম্প্রতিক কার্যক্রম | Khulna University Writers' Society (KUWS)</title>
+  <link rel="icon" type="image/png" href="favicon.png">
+  <link rel="stylesheet" href="/css/style.css?v=3.5">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;400;500;600;700&family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+  
+  <style>
+    body {
+      font-family: 'Hind Siliguri', 'Inter', -apple-system, sans-serif;
+      background-color: #f8fafc;
+      color: #1e293b;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    .notices-hero-banner {
+      background: linear-gradient(135deg, #0f233a 0%, #1a3a60 100%);
+      color: #ffffff;
+      padding: 45px 20px;
+      border-bottom: 4px solid #ffb703;
+      text-align: center;
+      position: relative;
+    }
+    .notices-hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(255, 183, 3, 0.18);
+      color: #ffb703;
+      border: 1px solid rgba(255, 183, 3, 0.4);
+      padding: 6px 18px;
+      border-radius: 9999px;
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      margin-bottom: 12px;
+    }
+    .notices-hero-title {
+      font-size: 34px;
+      font-weight: 800;
+      color: #ffffff;
+      margin: 0 0 10px 0;
+      line-height: 1.3;
+    }
+    .notices-hero-subtitle {
+      font-size: 15px;
+      color: #cbd5e1;
+      max-width: 720px;
+      margin: 0 auto;
+      line-height: 1.6;
+    }
+
+    /* Controls & Filter Toolbar */
+    .notices-toolbar {
+      background: #ffffff;
+      border-radius: 12px;
+      padding: 16px 20px;
+      border: 1px solid #e2e8f0;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+      margin-top: -24px;
+      position: relative;
+      z-index: 10;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .notice-search-box {
+      flex: 1;
+      min-width: 260px;
+      position: relative;
+    }
+    .notice-search-box input {
+      width: 100%;
+      padding: 10px 14px 10px 38px;
+      border-radius: 8px;
+      border: 1px solid #cbd5e1;
+      font-size: 14px;
+      font-family: inherit;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    .notice-search-box input:focus {
+      border-color: #1a3a60;
+      box-shadow: 0 0 0 3px rgba(26, 58, 96, 0.1);
+    }
+    .notice-search-box i {
+      position: absolute;
+      left: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #94a3b8;
+    }
+
+    .filter-pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .filter-pill {
+      background: #f1f5f9;
+      border: 1px solid #e2e8f0;
+      color: #475569;
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .filter-pill:hover {
+      background: #e2e8f0;
+      color: #1e293b;
+    }
+    .filter-pill.active {
+      background: #1a3a60;
+      color: #ffffff;
+      border-color: #1a3a60;
+    }
+
+    /* Notice Cards Grid */
+    .notices-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+      gap: 22px;
+      margin-top: 28px;
+      margin-bottom: 50px;
+    }
+    @media (max-width: 640px) {
+      .notices-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .notice-card {
+      background: #ffffff;
+      border-radius: 14px;
+      border: 1px solid #e2e8f0;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.04);
+      padding: 22px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+      position: relative;
+      overflow: hidden;
+    }
+    .notice-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 24px rgba(26, 58, 96, 0.09);
+      border-color: #cbd5e1;
+    }
+    .notice-card.pinned {
+      border-top: 4px solid #ffb703;
+      background: linear-gradient(180deg, #fffdf8 0%, #ffffff 100%);
+    }
+    .notice-card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 10px;
+      margin-bottom: 12px;
+    }
+    .notice-date-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 12px;
+      color: #64748b;
+      font-weight: 500;
+    }
+    .notice-title {
+      font-size: 18px;
+      font-weight: 700;
+      color: #0f233a;
+      line-height: 1.4;
+      margin: 0 0 6px 0;
+    }
+    .notice-title-en {
+      font-size: 13px;
+      color: #64748b;
+      font-weight: 500;
+      margin-bottom: 10px;
+      font-family: 'Inter', sans-serif;
+    }
+    .notice-desc {
+      font-size: 14px;
+      color: #475569;
+      line-height: 1.6;
+      margin-bottom: 18px;
+      flex-grow: 1;
+      display: -webkit-box;
+      -webkit-line-clamp: 4;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+    .notice-card-footer {
+      border-top: 1px solid #f1f5f9;
+      padding-top: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .notice-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    /* Modal Styling */
+    .notice-modal-backdrop {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(15, 35, 58, 0.7);
+      backdrop-filter: blur(4px);
+      z-index: 9999;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+    .notice-modal-box {
+      background: #ffffff;
+      border-radius: 16px;
+      max-width: 680px;
+      width: 100%;
+      max-height: 90vh;
+      overflow-y: auto;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
+      border-top: 5px solid #ffb703;
+      position: relative;
+      animation: modalSlideUp 0.25s ease-out;
+    }
+    @keyframes modalSlideUp {
+      from { transform: translateY(20px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+    .modal-header-section {
+      padding: 24px 28px 16px 28px;
+      border-bottom: 1px solid #e2e8f0;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 16px;
+    }
+    .modal-body-section {
+      padding: 24px 28px;
+      font-size: 15px;
+      line-height: 1.7;
+      color: #334155;
+    }
+    .modal-footer-section {
+      padding: 16px 28px 24px 28px;
+      border-top: 1px solid #e2e8f0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .badge-primary { background: #e0f2fe; color: #0284c7; }
+    .badge-secondary { background: #f1f5f9; color: #475569; }
+    .badge-warning { background: #fef3c7; color: #d97706; }
+    .badge-info { background: #e0e7ff; color: #4338ca; }
+    .badge-success { background: #dcfce7; color: #16a34a; }
+    .badge-gold { background: rgba(255, 183, 3, 0.2); color: #b45309; border: 1px solid rgba(255, 183, 3, 0.4); }
+  </style>
+</head>
+<body>
+
+  <!-- Site Header & Navigation -->
+    <!-- Fixed Sticky Header Wrapper -->
+  <div class="site-header-wrapper">
+    <!-- Top Bar -->
+    <div class="top-bar">
+      <div class="container top-bar-inner">
+        <div id="current-date"><i class="far fa-calendar-alt"></i> লোড হচ্ছে...</div>
+        <div style="display: flex; gap: 15px; align-items: center; flex-wrap: wrap;">
+          <span style="color: var(--accent); font-size: 13px; font-weight: 600;"><i class="fas fa-university"></i> খুলনা বিশ্ববিদ্যালয় লেখক সংঘ</span>
+          <span style="color: #94a3b8; font-size: 13px;"><i class="fas fa-feather-alt"></i> মুক্তচিন্তা ও সৃজনশীল সাহিত্য</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Main Header -->
+    <header class="main-header">
+      <div class="container header-inner">
+        <div class="brand-logo">
+          <a href="/" style="display: flex; align-items: center; gap: 14px; text-decoration: none;">
+            <div style="width: 48px; height: 48px; background: #fff3d6; color: var(--primary); border: 2px solid var(--accent); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 22px; flex-shrink: 0; box-shadow: 0 2px 6px rgba(0,0,0,0.08);">
+              <i class="fas fa-feather-alt" style="color: #e09f00;"></i>
+            </div>
+            <div>
+              <h1 id="site-name-display" style="color: var(--primary); font-size: 26px; font-weight: 800; margin: 0; line-height: 1.2;">খুলনা বিশ্ববিদ্যালয় লেখক সংঘ</h1>
+              <p id="site-tagline-display" style="color: var(--text-muted); font-size: 13px; margin: 2px 0 0 0;">মুক্তচিন্তা ও সৃজনশীল সাহিত্যের উন্মুক্ত প্রাঙ্গণ</p>
+            </div>
+          </a>
+        </div>
+        <div style="display: flex; gap: 10px; align-items: center; width: 100%; max-width: 320px;">
+          <form id="search-form" class="header-search-form" action="/category" method="GET" style="width: 100%;">
+            <input type="text" name="search" placeholder="কবিতা, গল্প বা লেখক খুঁজুন..." class="form-control" style="width: 100%; padding: 8px 12px;">
+            <button type="submit" class="btn btn-primary" style="background: var(--primary); border-color: var(--primary);"><i class="fas fa-search"></i></button>
+          </form>
+        </div>
+      </div>
+    </header>
+
+    <!-- Navigation Bar -->
+    <nav class="nav-bar">
+      <div class="container nav-inner">
+        <ul class="nav-links" id="category-nav">
+          <li><a href="/"><i class="fas fa-university"></i> আমাদের সম্পর্কে</a></li>
+          <li><a href="/portal">প্রচ্ছদ</a></li>
+        </ul>
+      </div>
+    </nav>
+  </div>
+
+  <!-- Hero Header -->
+  <section class="notices-hero-banner">
+    <div class="container">
+      <div class="notices-hero-badge">
+        <i class="fas fa-bullhorn"></i> খুলনা বিশ্ববিদ্যালয় লেখক সংঘ
+      </div>
+      <h1 class="notices-hero-title">নোটিশ ও সাম্প্রতিক কার্যক্রম</h1>
+      <p class="notices-hero-subtitle">
+        খুলনা বিশ্ববিদ্যালয় লেখক সংঘের সকল আনুষ্ঠানিক নোটিশ, জরুরি ঘোষণা, কর্মশালা, প্রতিযোগিতা ও সাহিত্য কার্যক্রমের নিয়মিত হালনাগাদ তালিকা।
+      </p>
+    </div>
+  </section>
+
+  <!-- Main Content Area -->
+  <main class="container" style="flex: 1;">
+    
+    <!-- Controls Toolbar -->
+    <div class="notices-toolbar">
+      <div class="notice-search-box">
+        <i class="fas fa-search"></i>
+        <input type="text" id="notice-search-input" placeholder="শিরোনাম বা বিষয়বস্তু দিয়ে নোটিশ খুঁজুন...">
+      </div>
+
+      <div class="filter-pills" id="filter-pills">
+        <button class="filter-pill active" data-filter="all">সকল নোটিশ</button>
+        <button class="filter-pill" data-filter="pinned"><i class="fas fa-thumbtack text-gold"></i> পিন করা</button>
+        <button class="filter-pill" data-filter="event"><i class="fas fa-calendar-check"></i> ইভেন্ট ও আয়োজন</button>
+        <button class="filter-pill" data-filter="call"><i class="fas fa-pen-nib"></i> লেখা আহ্বান</button>
+        <button class="filter-pill" data-filter="membership"><i class="fas fa-users"></i> সদস্যপদ</button>
+      </div>
+    </div>
+
+    <!-- Status & Count -->
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 24px; color: #64748b; font-size: 14px;">
+      <span id="notices-count-text">নোটিশ লোড হচ্ছে...</span>
+      <span style="font-size: 13px;"><i class="fas fa-info-circle"></i> নোটিশ ক্লিক করে বিস্তারিত দেখুন</span>
+    </div>
+
+    <!-- Notices Container Grid -->
+    <div id="notices-container" class="notices-grid">
+      <div style="grid-column: 1 / -1; text-align: center; padding: 60px 20px; color: #64748b;">
+        <i class="fas fa-spinner fa-spin fa-2x" style="color: #ffb703; margin-bottom: 12px;"></i>
+        <p>নোটিশ লোড করা হচ্ছে...</p>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- Notice Detail Modal -->
+  <div id="notice-modal-backdrop" class="notice-modal-backdrop" onclick="handleBackdropClick(event)">
+    <div class="notice-modal-box" id="notice-modal-box">
+      <div class="modal-header-section">
+        <div>
+          <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 8px; flex-wrap: wrap;">
+            <span id="modal-badge" class="badge badge-primary">নোটিশ</span>
+            <span id="modal-pinned-badge" class="badge badge-gold" style="display: none;"><i class="fas fa-thumbtack"></i> পিন করা নোটিশ</span>
+            <span id="modal-date" class="notice-date-badge"><i class="far fa-calendar-alt"></i> তারিখ</span>
+          </div>
+          <h2 id="modal-title" style="font-size: 22px; font-weight: 800; color: #0f233a; margin: 0; line-height: 1.35;">শিরোনাম</h2>
+          <div id="modal-title-en" style="font-size: 14px; color: #64748b; font-family: 'Inter', sans-serif; margin-top: 4px; display: none;">English Title</div>
+        </div>
+        <button onclick="closeNoticeModal()" style="background: #f1f5f9; border: none; width: 34px; height: 34px; border-radius: 50%; font-size: 16px; cursor: pointer; color: #64748b; display: flex; align-items: center; justify-content: center;">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+
+      <div class="modal-body-section">
+        <div id="modal-description" style="white-space: pre-line; margin-bottom: 16px;">
+          নোটিশের বিস্তারিত বিবরণ...
+        </div>
+        <div id="modal-description-en-box" style="display: none; background: #f8fafc; border-left: 3px solid #ffb703; padding: 12px 16px; border-radius: 4px; margin-top: 16px;">
+          <strong style="display: block; font-size: 12px; color: #64748b; text-transform: uppercase; margin-bottom: 4px; font-family: 'Inter', sans-serif;">English Note:</strong>
+          <div id="modal-description-en" style="font-family: 'Inter', sans-serif; font-size: 14px; color: #475569; white-space: pre-line;"></div>
+        </div>
+      </div>
+
+      <div class="modal-footer-section">
+        <div style="display: flex; gap: 8px; align-items: center;">
+          <button onclick="copyNoticeLink()" class="btn btn-secondary btn-sm" style="display: inline-flex; align-items: center; gap: 6px;">
+            <i class="fas fa-share-alt"></i> লিঙ্ক কপি করুন
+          </button>
+          <button onclick="shareOnFacebook()" class="btn btn-secondary btn-sm" style="display: inline-flex; align-items: center; gap: 6px; background: #1877f2; color: #fff; border-color: #1877f2;">
+            <i class="fab fa-facebook"></i> শেয়ার
+          </button>
+        </div>
+        <div id="modal-link-btn-container">
+          <!-- Dynamic action link button -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Universal Footer -->
+    <!-- Universal Footer -->
+  <footer style="background-color: #1a3a60; color: #ffffff; padding: 40px 0 20px 0; border-top: 4px solid #ffb703; margin-top: auto;">
+    <div class="container">
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 30px; margin-bottom: 30px;">
+        
+        <!-- Logo / Name -->
+        <div>
+          <span style="font-size: 20px; font-weight: 700; color: #ffb703; display: block; margin-bottom: 8px;">Khulna University Writers' Society</span>
+          <p style="font-size: 14px; line-height: 1.6; color: #cbd5e1; margin: 0;">
+            Powered by the passion of Khulna University students. মুক্তচিন্তা ও সৃজনশীল সাহিত্যের উন্মুক্ত প্রাঙ্গণ।
+          </p>
+        </div>
+
+        <!-- Quick Links -->
+        <div>
+          <h4 style="font-size: 16px; font-weight: 600; color: #ffffff; margin: 0 0 12px 0;">Quick Links</h4>
+          <ul style="list-style: none; padding: 0; margin: 0; font-size: 14px; display: flex; flex-direction: column; gap: 8px;">
+            <li><a href="/ourstory" style="color: #cbd5e1; text-decoration: none;" onmouseover="this.style.color='#ffb703'" onmouseout="this.style.color='#cbd5e1'">Our Story</a></li>
+            <li><a href="/notices" style="color: #cbd5e1; text-decoration: none;" onmouseover="this.style.color='#ffb703'" onmouseout="this.style.color='#cbd5e1'">Notices & Activities</a></li>
+            <li><a href="/portal" style="color: #cbd5e1; text-decoration: none;" onmouseover="this.style.color='#ffb703'" onmouseout="this.style.color='#cbd5e1'">Read Member Work</a></li>
+            <li><a href="/honorboard" style="color: #cbd5e1; text-decoration: none;" onmouseover="this.style.color='#ffb703'" onmouseout="this.style.color='#cbd5e1'">Honor Board</a></li>
+            <li><a href="/gallery" style="color: #cbd5e1; text-decoration: none;" onmouseover="this.style.color='#ffb703'" onmouseout="this.style.color='#cbd5e1'">Gallery</a></li>
+            <li><a href="/verification" style="color: #cbd5e1; text-decoration: none;" onmouseover="this.style.color='#ffb703'" onmouseout="this.style.color='#cbd5e1'">Verify Certificate</a></li>
+          </ul>
+        </div>
+
+        <!-- Resources -->
+        <div>
+          <h4 style="font-size: 16px; font-weight: 600; color: #ffffff; margin: 0 0 12px 0;">Resources</h4>
+          <ul style="list-style: none; padding: 0; margin: 0; font-size: 14px; display: flex; flex-direction: column; gap: 8px;">
+            <li><a href="/portal" style="color: #cbd5e1; text-decoration: none;" onmouseover="this.style.color='#ffb703'" onmouseout="this.style.color='#cbd5e1'">KUWS Literary Portal</a></li>
+            <li><a href="/notices" style="color: #cbd5e1; text-decoration: none;" onmouseover="this.style.color='#ffb703'" onmouseout="this.style.color='#cbd5e1'">All Announcements</a></li>
+            <li><a href="/honorboard" style="color: #cbd5e1; text-decoration: none;" onmouseover="this.style.color='#ffb703'" onmouseout="this.style.color='#cbd5e1'">Honor Board</a></li>
+            <li><a href="/gallery" style="color: #cbd5e1; text-decoration: none;" onmouseover="this.style.color='#ffb703'" onmouseout="this.style.color='#cbd5e1'">Photo Gallery</a></li>
+            <li><a href="/verification" style="color: #cbd5e1; text-decoration: none;" onmouseover="this.style.color='#ffb703'" onmouseout="this.style.color='#cbd5e1'">Verify Certificate</a></li>
+            <li><a href="https://ku.ac.bd" target="_blank" style="color: #cbd5e1; text-decoration: none;" onmouseover="this.style.color='#ffb703'" onmouseout="this.style.color='#cbd5e1'">KU Official Site</a></li>
+          </ul>
+        </div>
+
+        <!-- Contact Info -->
+        <div>
+          <h4 style="font-size: 16px; font-weight: 600; color: #ffffff; margin: 0 0 12px 0;">Get In Touch</h4>
+          <p style="font-size: 14px; color: #cbd5e1; margin: 0 0 6px 0;">Email: kuwriterssociety@gmail.com</p>
+          <p style="font-size: 14px; color: #cbd5e1; margin: 0 0 12px 0;">Khulna University, Khulna-9208</p>
+          <div style="display: flex; gap: 14px; font-size: 18px;">
+            <a href="https://www.facebook.com/KUWritersSociety/" target="_blank" style="color: #ffb703;"><i class="fab fa-facebook"></i></a>
+            <a href="https://www.facebook.com/groups/kuws2024" target="_blank" style="color: #ffb703;"><i class="fab fa-users"></i></a>
+            <a href="mailto:kuwriterssociety@gmail.com" style="color: #ffb703;"><i class="fas fa-envelope"></i></a>
+          </div>
+        </div>
+
+      </div>
+
+      <div style="border-top: 1px solid rgba(255, 183, 3, 0.3); padding-top: 18px; text-align: center; font-size: 13px; color: #94a3b8;">
+        &copy; 2026 Khulna University Writers' Society (KUWS). All rights reserved.
+      </div>
+    </div>
+  </footer>
+
+  <script src="/js/api.js"></script>
+  <script>
+    let allNotices = [];
+    let currentFilter = 'all';
+    let currentSearch = '';
+    let currentActiveNotice = null;
+
+    // Fetch and Load Categories for Navbar
+    async function loadNavCategories() {
+      try {
+        const catRes = await API.getCategories();
+        if (catRes && catRes.categories) {
+          const nav = document.getElementById('category-nav');
+          catRes.categories.forEach(c => {
+            const li = document.createElement('li');
+            li.innerHTML = '<a href="/category?category=' + c.slug + '">' + c.name_bn + '</a>';
+            nav.appendChild(li);
+          });
+
+          const extraNavItems = [
+            { title: 'নোটিশ', url: '/notices' },
+            { title: 'অনার বোর্ড', url: '/honorboard' },
+            { title: 'গ্যালারি', url: '/gallery' },
+            { title: 'সার্টিফিকেট', url: '/verification' }
+          ];
+          extraNavItems.forEach(item => {
+            const li = document.createElement('li');
+            li.innerHTML = '<a href="' + item.url + '">' + item.title + '</a>';
+            nav.appendChild(li);
+          });
+        }
+      } catch (e) {
+        console.error('Navbar category load error:', e);
+      }
+    }
+
+    // Load All Notices
+    async function loadNotices() {
+      try {
+        const res = await fetch('/api/notices?limit=100');
+        const data = await res.json();
+        
+        if (data && data.success && data.notices) {
+          allNotices = data.notices;
+          renderNotices();
+
+          // Check if URL has ?id=X
+          const urlParams = new URLSearchParams(window.location.search);
+          const targetId = urlParams.get('id');
+          if (targetId) {
+            const targetNotice = allNotices.find(n => n.id == targetId);
+            if (targetNotice) {
+              openNoticeModal(targetNotice);
+            }
+          }
+        } else {
+          document.getElementById('notices-container').innerHTML = '<div style="grid-column: 1 / -1; text-align: center; padding: 50px 20px; color: #64748b;"><p>কোনো নোটিশ পাওয়া যায়নি।</p></div>';
+          document.getElementById('notices-count-text').innerText = 'মোট ০ টি নোটিশ';
+        }
+      } catch (err) {
+        console.error('Error fetching notices:', err);
+        document.getElementById('notices-container').innerHTML = '<div style="grid-column: 1 / -1; text-align: center; padding: 50px 20px; color: #ef4444;"><p><i class="fas fa-exclamation-triangle"></i> নোটিশ লোড করতে সমস্যা হয়েছে। অনুগ্রহ করে পৃষ্ঠাটি রিফ্রেশ করুন।</p></div>';
+        document.getElementById('notices-count-text').innerText = 'ত্রুটি';
+      }
+    }
+
+    // Filter Logic
+    function getFilteredNotices() {
+      return allNotices.filter(notice => {
+        // Search Matching
+        const s = currentSearch.toLowerCase();
+        const matchSearch = !s || 
+          (notice.title && notice.title.toLowerCase().includes(s)) ||
+          (notice.title_en && notice.title_en.toLowerCase().includes(s)) ||
+          (notice.description && notice.description.toLowerCase().includes(s)) ||
+          (notice.description_en && notice.description_en.toLowerCase().includes(s)) ||
+          (notice.badge_text && notice.badge_text.toLowerCase().includes(s));
+
+        if (!matchSearch) return false;
+
+        // Category / Filter matching
+        if (currentFilter === 'all') return true;
+        if (currentFilter === 'pinned') return notice.is_pinned == 1;
+        if (currentFilter === 'event') {
+          const text = (notice.badge_text + ' ' + notice.title).toLowerCase();
+          return text.includes('ইভেন্ট') || text.includes('আয়োজন') || text.includes('উৎসব') || text.includes('কর্মশালা') || text.includes('event');
+        }
+        if (currentFilter === 'call') {
+          const text = (notice.badge_text + ' ' + notice.title).toLowerCase();
+          return text.includes('আহ্বান') || text.includes('লেখা') || text.includes('পত্রিকা') || text.includes('ম্যাগাজিন') || text.includes('submission') || text.includes('call');
+        }
+        if (currentFilter === 'membership') {
+          const text = (notice.badge_text + ' ' + notice.title).toLowerCase();
+          return text.includes('সদস্য') || text.includes('রেজিস্ট্রেশন') || text.includes('ফরম') || text.includes('member') || text.includes('recruit');
+        }
+
+        return true;
+      });
+    }
+
+    // Render Cards
+    function renderNotices() {
+      const container = document.getElementById('notices-container');
+      const filtered = getFilteredNotices();
+
+      document.getElementById('notices-count-text').innerText = 'মোট ' + filtered.length + ' টি নোটিশ প্রদর্শিত হচ্ছে';
+
+      if (filtered.length === 0) {
+        container.innerHTML = '<div style="grid-column: 1 / -1; text-align: center; padding: 60px 20px; background: #ffffff; border-radius: 12px; border: 1px dashed #cbd5e1; color: #64748b;"><i class="fas fa-folder-open fa-3x" style="color: #cbd5e1; margin-bottom: 12px;"></i><h3 style="font-size: 18px; color: #1e293b; margin: 0 0 6px 0;">কোনো নোটিশ পাওয়া যায়নি</h3><p style="font-size: 14px; margin: 0;">আপনার ফিল্টার বা সার্চ শব্দের সাথে মিল রয়েছে এমন কোনো নোটিশ নেই।</p></div>';
+        return;
+      }
+
+      container.innerHTML = filtered.map(n => {
+        const isPinned = n.is_pinned == 1;
+        const badgeClass = 'badge-' + (n.badge_type || 'primary');
+        const dateDisplay = n.date_text || (n.created_at ? new Date(n.created_at).toLocaleDateString('bn-BD', { year: 'numeric', month: 'long', day: 'numeric' }) : 'হালনাগাদ');
+        
+        return '<div class="notice-card ' + (isPinned ? 'pinned' : '') + '" id="notice-card-' + n.id + '">' +
+          '<div>' +
+            '<div class="notice-card-header">' +
+              '<div style="display: flex; gap: 6px; align-items: center; flex-wrap: wrap;">' +
+                '<span class="badge ' + badgeClass + '">' + escapeHtml(n.badge_text || 'নোটিশ') + '</span>' +
+                (isPinned ? '<span class="badge badge-gold"><i class="fas fa-thumbtack"></i> পিন করা</span>' : '') +
+              '</div>' +
+              '<div class="notice-date-badge">' +
+                '<i class="far fa-calendar-alt"></i> ' + escapeHtml(dateDisplay) +
+              '</div>' +
+            '</div>' +
+
+            '<h3 class="notice-title">' + escapeHtml(n.title) + '</h3>' +
+            (n.title_en ? '<div class="notice-title-en">' + escapeHtml(n.title_en) + '</div>' : '') +
+            
+            '<div class="notice-desc">' + escapeHtml(n.description || n.description_en || 'বিস্তারিত জানতে নিচে দেখুন...') + '</div>' +
+          '</div>' +
+
+          '<div class="notice-card-footer">' +
+            '<button onclick="openNoticeModalById(' + n.id + ')" class="btn btn-primary btn-sm" style="font-size: 13px; font-weight: 600; padding: 6px 14px;">' +
+              '<i class="fas fa-book-reader"></i> বিস্তারিত পড়ুন' +
+            '</button>' +
+
+            '<div class="notice-actions">' +
+              (n.link_url ? '<a href="' + escapeHtml(n.link_url) + '" ' + (n.link_url.startsWith('http') ? 'target="_blank"' : '') + ' class="btn btn-secondary btn-sm" style="font-size: 12px; padding: 6px 12px;" title="সরাসরি পেইজে যান"><i class="fas fa-external-link-alt"></i> লিঙ্ক</a>' : '') +
+              '<button onclick="shareNotice(' + n.id + ')" class="btn btn-secondary btn-sm" style="font-size: 12px; padding: 6px 10px;" title="লিঙ্ক শেয়ার করুন">' +
+                '<i class="fas fa-share-alt"></i>' +
+              '</button>' +
+            '</div>' +
+          '</div>' +
+        '</div>';
+      }).join('');
+    }
+
+    // Open Modal
+    function openNoticeModalById(id) {
+      const notice = allNotices.find(n => n.id == id);
+      if (notice) openNoticeModal(notice);
+    }
+
+    function openNoticeModal(notice) {
+      currentActiveNotice = notice;
+      const dateDisplay = notice.date_text || (notice.created_at ? new Date(notice.created_at).toLocaleDateString('bn-BD', { year: 'numeric', month: 'long', day: 'numeric' }) : 'হালনাগাদ');
+      
+      document.getElementById('modal-badge').className = 'badge badge-' + (notice.badge_type || 'primary');
+      document.getElementById('modal-badge').innerText = notice.badge_text || 'নোটিশ';
+      
+      const pinnedBadge = document.getElementById('modal-pinned-badge');
+      if (notice.is_pinned == 1) {
+        pinnedBadge.style.display = 'inline-flex';
+      } else {
+        pinnedBadge.style.display = 'none';
+      }
+
+      document.getElementById('modal-date').innerHTML = '<i class="far fa-calendar-alt"></i> ' + escapeHtml(dateDisplay);
+      document.getElementById('modal-title').innerText = notice.title;
+      
+      const titleEn = document.getElementById('modal-title-en');
+      if (notice.title_en) {
+        titleEn.innerText = notice.title_en;
+        titleEn.style.display = 'block';
+      } else {
+        titleEn.style.display = 'none';
+      }
+
+      document.getElementById('modal-description').innerText = notice.description || 'কোনো বিবরণ দেওয়া হয়নি।';
+
+      const descEnBox = document.getElementById('modal-description-en-box');
+      const descEn = document.getElementById('modal-description-en');
+      if (notice.description_en) {
+        descEn.innerText = notice.description_en;
+        descEnBox.style.display = 'block';
+      } else {
+        descEnBox.style.display = 'none';
+      }
+
+      const linkContainer = document.getElementById('modal-link-btn-container');
+      if (notice.link_url) {
+        linkContainer.innerHTML = '<a href="' + escapeHtml(notice.link_url) + '" ' + (notice.link_url.startsWith('http') ? 'target="_blank"' : '') + ' class="btn btn-primary btn-sm" style="font-size: 13px; font-weight: 600; display: inline-flex; align-items: center; gap: 6px;"><i class="fas fa-external-link-alt"></i> সংশ্লিষ্ট লিংক / ফরম ওপেন করুন &rarr;</a>';
+      } else {
+        linkContainer.innerHTML = '';
+      }
+
+      document.getElementById('notice-modal-backdrop').style.display = 'flex';
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeNoticeModal() {
+      document.getElementById('notice-modal-backdrop').style.display = 'none';
+      document.body.style.overflow = '';
+      currentActiveNotice = null;
+    }
+
+    function handleBackdropClick(e) {
+      if (e.target.id === 'notice-modal-backdrop') {
+        closeNoticeModal();
+      }
+    }
+
+    // Share Helpers
+    function getNoticeShareUrl(id) {
+      const origin = window.location.origin;
+      return origin + '/notices?id=' + (id || (currentActiveNotice ? currentActiveNotice.id : ''));
+    }
+
+    function copyNoticeLink(id) {
+      const url = getNoticeShareUrl(id);
+      if (navigator.clipboard) {
+        navigator.clipboard.writeText(url).then(() => {
+          alert('নোটিশের লিঙ্ক ক্লিপবোর্ডে কপি হয়েছে!
+' + url);
+        }).catch(() => {
+          prompt('নোটিশের লিঙ্ক:', url);
+        });
+      } else {
+        prompt('নোটিশের লিঙ্ক:', url);
+      }
+    }
+
+    function shareNotice(id) {
+      const notice = allNotices.find(n => n.id == id);
+      if (notice) {
+        copyNoticeLink(id);
+      }
+    }
+
+    function shareOnFacebook() {
+      const url = encodeURIComponent(getNoticeShareUrl());
+      window.open('https://www.facebook.com/sharer/sharer.php?u=' + url, '_blank', 'width=600,height=400');
+    }
+
+    function escapeHtml(str) {
+      if (!str) return '';
+      const div = document.createElement('div');
+      div.textContent = str;
+      return div.innerHTML;
+    }
+
+    // Event Listeners
+    document.addEventListener('DOMContentLoaded', () => {
+      loadNavCategories();
+      loadNotices();
+
+      // Search input
+      const searchInput = document.getElementById('notice-search-input');
+      searchInput.addEventListener('input', (e) => {
+        currentSearch = e.target.value;
+        renderNotices();
+      });
+
+      // Filter pills
+      const pills = document.querySelectorAll('.filter-pill');
+      pills.forEach(pill => {
+        pill.addEventListener('click', () => {
+          pills.forEach(p => p.classList.remove('active'));
+          pill.classList.add('active');
+          currentFilter = pill.getAttribute('data-filter');
+          renderNotices();
+        });
+      });
+
+      // ESC key to close modal
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') closeNoticeModal();
+      });
+    });
+  </script>
+</body>
+</html>

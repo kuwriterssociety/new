@@ -42,6 +42,7 @@
       <!-- Fixed Sticky Header Wrapper -->
     <!-- Fixed Sticky Header Wrapper -->
     <!-- Fixed Sticky Header Wrapper -->
+    <!-- Fixed Sticky Header Wrapper -->
   <div class="site-header-wrapper">
     <!-- Top Bar -->
     <div class="top-bar">
@@ -357,6 +358,7 @@ Participants will be required to regularly read the editorials published in two 
       <!-- Universal Footer -->
     <!-- Universal Footer -->
     <!-- Universal Footer -->
+    <!-- Universal Footer -->
   <footer style="background-color: #1a3a60; color: #ffffff; padding: 40px 0 20px 0; border-top: 4px solid #ffb703; margin-top: auto;">
     <div class="container">
       <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 30px; margin-bottom: 30px;">
@@ -374,7 +376,7 @@ Participants will be required to regularly read the editorials published in two 
           <h4 style="font-size: 16px; font-weight: 600; color: #ffffff; margin: 0 0 12px 0;">Quick Links</h4>
           <ul style="list-style: none; padding: 0; margin: 0; font-size: 14px; display: flex; flex-direction: column; gap: 8px;">
             <li><a href="/ourstory" style="color: #cbd5e1; text-decoration: none;" onmouseover="this.style.color='#ffb703'" onmouseout="this.style.color='#cbd5e1'">Our Story</a></li>
-            <li><a href="/portal?category=events" style="color: #cbd5e1; text-decoration: none;" onmouseover="this.style.color='#ffb703'" onmouseout="this.style.color='#cbd5e1'">Upcoming Activities</a></li>
+            <li><a href="/notices" style="color: #cbd5e1; text-decoration: none;" onmouseover="this.style.color='#ffb703'" onmouseout="this.style.color='#cbd5e1'">Notices & Activities</a></li>
             <li><a href="/portal" style="color: #cbd5e1; text-decoration: none;" onmouseover="this.style.color='#ffb703'" onmouseout="this.style.color='#cbd5e1'">Read Member Work</a></li>
             <li><a href="/honorboard" style="color: #cbd5e1; text-decoration: none;" onmouseover="this.style.color='#ffb703'" onmouseout="this.style.color='#cbd5e1'">Honor Board</a></li>
             <li><a href="/gallery" style="color: #cbd5e1; text-decoration: none;" onmouseover="this.style.color='#ffb703'" onmouseout="this.style.color='#cbd5e1'">Gallery</a></li>
@@ -387,6 +389,7 @@ Participants will be required to regularly read the editorials published in two 
           <h4 style="font-size: 16px; font-weight: 600; color: #ffffff; margin: 0 0 12px 0;">Resources</h4>
           <ul style="list-style: none; padding: 0; margin: 0; font-size: 14px; display: flex; flex-direction: column; gap: 8px;">
             <li><a href="/portal" style="color: #cbd5e1; text-decoration: none;" onmouseover="this.style.color='#ffb703'" onmouseout="this.style.color='#cbd5e1'">KUWS Literary Portal</a></li>
+            <li><a href="/notices" style="color: #cbd5e1; text-decoration: none;" onmouseover="this.style.color='#ffb703'" onmouseout="this.style.color='#cbd5e1'">All Announcements</a></li>
             <li><a href="/honorboard" style="color: #cbd5e1; text-decoration: none;" onmouseover="this.style.color='#ffb703'" onmouseout="this.style.color='#cbd5e1'">Honor Board</a></li>
             <li><a href="/gallery" style="color: #cbd5e1; text-decoration: none;" onmouseover="this.style.color='#ffb703'" onmouseout="this.style.color='#cbd5e1'">Photo Gallery</a></li>
             <li><a href="/verification" style="color: #cbd5e1; text-decoration: none;" onmouseover="this.style.color='#ffb703'" onmouseout="this.style.color='#cbd5e1'">Verify Certificate</a></li>
@@ -434,8 +437,9 @@ Participants will be required to regularly read the editorials published in two 
                         nav.appendChild(li);
                     });
 
-                    // Append Honor Board, Gallery, and Certificate links
+                    // Append Notice, Honor Board, Gallery, and Certificate links
                     const extraNavItems = [
+                        { title: 'নোটিশ', url: '/notices' },
                         { title: 'অনার বোর্ড', url: '/honorboard' },
                         { title: 'গ্যালারি', url: '/gallery' },
                         { title: 'সার্টিফিকেট', url: '/verification' }

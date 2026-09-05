@@ -98,7 +98,7 @@ function unifyPublicLayouts() {
           <h4 style="font-size: 16px; font-weight: 600; color: #ffffff; margin: 0 0 12px 0;">Quick Links</h4>
           <ul style="list-style: none; padding: 0; margin: 0; font-size: 14px; display: flex; flex-direction: column; gap: 8px;">
             <li><a href="/ourstory" style="color: #cbd5e1; text-decoration: none;" onmouseover="this.style.color='#ffb703'" onmouseout="this.style.color='#cbd5e1'">Our Story</a></li>
-            <li><a href="/portal?category=events" style="color: #cbd5e1; text-decoration: none;" onmouseover="this.style.color='#ffb703'" onmouseout="this.style.color='#cbd5e1'">Upcoming Activities</a></li>
+            <li><a href="/notices" style="color: #cbd5e1; text-decoration: none;" onmouseover="this.style.color='#ffb703'" onmouseout="this.style.color='#cbd5e1'">Notices & Activities</a></li>
             <li><a href="/portal" style="color: #cbd5e1; text-decoration: none;" onmouseover="this.style.color='#ffb703'" onmouseout="this.style.color='#cbd5e1'">Read Member Work</a></li>
             <li><a href="/honorboard" style="color: #cbd5e1; text-decoration: none;" onmouseover="this.style.color='#ffb703'" onmouseout="this.style.color='#cbd5e1'">Honor Board</a></li>
             <li><a href="/gallery" style="color: #cbd5e1; text-decoration: none;" onmouseover="this.style.color='#ffb703'" onmouseout="this.style.color='#cbd5e1'">Gallery</a></li>
@@ -111,6 +111,7 @@ function unifyPublicLayouts() {
           <h4 style="font-size: 16px; font-weight: 600; color: #ffffff; margin: 0 0 12px 0;">Resources</h4>
           <ul style="list-style: none; padding: 0; margin: 0; font-size: 14px; display: flex; flex-direction: column; gap: 8px;">
             <li><a href="/portal" style="color: #cbd5e1; text-decoration: none;" onmouseover="this.style.color='#ffb703'" onmouseout="this.style.color='#cbd5e1'">KUWS Literary Portal</a></li>
+            <li><a href="/notices" style="color: #cbd5e1; text-decoration: none;" onmouseover="this.style.color='#ffb703'" onmouseout="this.style.color='#cbd5e1'">All Announcements</a></li>
             <li><a href="/honorboard" style="color: #cbd5e1; text-decoration: none;" onmouseover="this.style.color='#ffb703'" onmouseout="this.style.color='#cbd5e1'">Honor Board</a></li>
             <li><a href="/gallery" style="color: #cbd5e1; text-decoration: none;" onmouseover="this.style.color='#ffb703'" onmouseout="this.style.color='#cbd5e1'">Photo Gallery</a></li>
             <li><a href="/verification" style="color: #cbd5e1; text-decoration: none;" onmouseover="this.style.color='#ffb703'" onmouseout="this.style.color='#cbd5e1'">Verify Certificate</a></li>
@@ -143,6 +144,7 @@ function unifyPublicLayouts() {
     'portal.html',
     'honorboard.html',
     'gallery.html',
+    'notices.html',
     'verification.html',
     'Certificate Download.html',
     'ourstory.html',
@@ -357,6 +359,22 @@ function servePageWithMeta(req, res, filePath, explicitMeta = {}) {
       meta.title = `সার্টিফিকেট ভেরিফিকেশন ও ডাউনলোড | KUWS`;
       meta.description = `খুলনা বিশ্ববিদ্যালয় লেখক সংঘ কর্তৃক আয়োজিত প্রতিযোগিতা ও কর্মশালার সার্টিফিকেট যাচাই ও ডাউনলোড করুন।`;
       meta.image = `${baseUrl}/favicon.png`;
+    }
+
+    // Notices & Activities Page Meta
+    if (pathname === '/notices' || pathname === '/notice' || pathname === '/notices.html') {
+      if (query.id && !isNaN(query.id)) {
+        const notice = db.prepare('SELECT * FROM notices WHERE id = ?').get(Number(query.id));
+        if (notice) {
+          const displayName = notice.title_en ? `${notice.title} (${notice.title_en})` : notice.title;
+          meta.title = `${displayName} | নোটিশ ও কার্যক্রম | KUWS`;
+          meta.description = notice.description || notice.description_en || 'খুলনা বিশ্ববিদ্যালয় লেখক সংঘের নোটিশ ও সাম্প্রতিক কার্যক্রম';
+        }
+      } else {
+        meta.title = `নোটিশ ও সাম্প্রতিক কার্যক্রম | Khulna University Writers' Society (KUWS)`;
+        meta.description = `খুলনা বিশ্ববিদ্যালয় লেখক সংঘের সকল আনুষ্ঠানিক নোটিশ, জরুরি ঘোষণা, কর্মশালা ও সাহিত্য কার্যক্রমের নিয়মিত হালনাগাদ তালিকা।`;
+        meta.image = `${baseUrl}/images/Club%20Fair.jpg`;
+      }
     }
 
     // Category Page Meta
@@ -1453,14 +1471,29 @@ const server = http.createServer(async (req, res) => {
 
     // 19. NOTICE & EVENTS APIs
     if (pathname === '/api/notices' && req.method === 'GET') {
-      const { limit = 10 } = query;
-      const notices = db.prepare(`
+      const { limit = 100, id, search } = query;
+      if (id && !isNaN(id)) {
+        const notice = db.prepare(`
+          SELECT id, title, title_en, description, description_en, date_text, badge_text, badge_type, link_url, is_pinned, order_index, created_at
+          FROM notices
+          WHERE id = ? AND status = 'published'
+        `).get(Number(id));
+        return sendJson(res, 200, { success: true, notice });
+      }
+      let sql = `
         SELECT id, title, title_en, description, description_en, date_text, badge_text, badge_type, link_url, is_pinned, order_index, created_at
         FROM notices
         WHERE status = 'published'
-        ORDER BY is_pinned DESC, order_index ASC, id DESC
-        LIMIT ?
-      `).all(Number(limit));
+      `;
+      const params = [];
+      if (search) {
+        sql += ` AND (title LIKE ? OR title_en LIKE ? OR description LIKE ? OR description_en LIKE ? OR badge_text LIKE ?)`;
+        const s = `%${search}%`;
+        params.push(s, s, s, s, s);
+      }
+      sql += ` ORDER BY is_pinned DESC, order_index ASC, id DESC LIMIT ?`;
+      params.push(Number(limit));
+      const notices = db.prepare(sql).all(...params);
       return sendJson(res, 200, { success: true, notices });
     }
 
@@ -1629,6 +1662,9 @@ const server = http.createServer(async (req, res) => {
     }
     if (pathname === '/gallery') {
       return servePageWithMeta(req, res, path.join(PUBLIC_DIR, 'gallery.html'));
+    }
+    if (pathname === '/notices' || pathname === '/notice') {
+      return servePageWithMeta(req, res, path.join(PUBLIC_DIR, 'notices.html'));
     }
     if (pathname === '/verification') {
       return servePageWithMeta(req, res, path.join(PUBLIC_DIR, 'verification.html'));

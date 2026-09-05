@@ -56,19 +56,20 @@ document.addEventListener('DOMContentLoaded', async () => {
       catRes.categories.forEach(c => {
         if (nav) {
           const li = document.createElement('li');
-          li.innerHTML = `<a href="/category.html?category=${c.slug}">${c.name_bn}</a>`;
+          li.innerHTML = `<a href="/category?category=${c.slug}">${c.name_bn}</a>`;
           nav.appendChild(li);
         }
         if (footerCats) {
           const fli = document.createElement('li');
-          fli.innerHTML = `<a href="/category.html?category=${c.slug}" style="color: #cbd5e1;">${c.name_bn}</a>`;
+          fli.innerHTML = `<a href="/category?category=${c.slug}" style="color: #cbd5e1;">${c.name_bn}</a>`;
           footerCats.appendChild(fli);
         }
       });
 
-      // Append Honor Board, Gallery, and Certificate links to Navbar
+      // Append Notice, Honor Board, Gallery, and Certificate links to Navbar
       if (nav) {
         const extraNavItems = [
+          { title: 'নোটিশ', url: '/notices' },
           { title: 'অনার বোর্ড', url: '/honorboard' },
           { title: 'গ্যালারি', url: '/gallery' },
           { title: 'সার্টিফিকেট', url: '/verification' }
