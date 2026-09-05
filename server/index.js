@@ -248,14 +248,14 @@ function escapeHtml(str) {
 }
 
 // Serve Dynamic HTML with Open Graph & Twitter Social Meta Tags
-function servePageWithMeta(req, res, filePath, explicitMeta = {}) {
-  fs.readFile(filePath, 'utf8', (err, html) => {
-    if (err) {
+async function servePageWithMeta(req, res, filePath, explicitMeta = {}) {
+  try {
+    if (!fs.existsSync(filePath)) {
       res.writeHead(404, { 'Content-Type': 'text/plain; charset=utf-8' });
       return res.end('404 Not Found');
     }
-
-    const parsedUrl = url.parse(req.url, true);
+    let html = fs.readFileSync(filePath, 'utf8');
+const parsedUrl = url.parse(req.url, true);
     const pathname = parsedUrl.pathname;
     const query = parsedUrl.query;
 
@@ -276,7 +276,7 @@ function servePageWithMeta(req, res, filePath, explicitMeta = {}) {
     if (pathname === '/article' || pathname === '/article.html') {
       let article;
       if (query.id && !isNaN(query.id)) {
-        article = db.prepare(`
+        article = await db.prepare(`
           SELECT a.*, c.name_bn as category_name, u.name as author_name
           FROM articles a
           JOIN categories c ON a.category_id = c.id
@@ -284,7 +284,7 @@ function servePageWithMeta(req, res, filePath, explicitMeta = {}) {
           WHERE a.id = ?
         `).get(Number(query.id));
       } else if (query.slug) {
-        article = db.prepare(`
+        article = await db.prepare(`
           SELECT a.*, c.name_bn as category_name, u.name as author_name
           FROM articles a
           JOIN categories c ON a.category_id = c.id
@@ -306,7 +306,7 @@ function servePageWithMeta(req, res, filePath, explicitMeta = {}) {
     // Dynamic Profile Meta (Honor Board Member)
     if (pathname === '/profile' || pathname === '/profile.html') {
       if (query.id && !isNaN(query.id)) {
-        const member = db.prepare('SELECT * FROM honor_board WHERE id = ?').get(Number(query.id));
+        const member = await db.prepare('SELECT * FROM honor_board WHERE id = ?').get(Number(query.id));
         if (member) {
           const displayName = member.name_en ? `${member.name_en} (${member.name})` : member.name;
           meta.title = `${displayName} - ${member.designation} | KUWS`;
@@ -364,7 +364,7 @@ function servePageWithMeta(req, res, filePath, explicitMeta = {}) {
     // Notices & Activities Page Meta
     if (pathname === '/notices' || pathname === '/notice' || pathname === '/notices.html') {
       if (query.id && !isNaN(query.id)) {
-        const notice = db.prepare('SELECT * FROM notices WHERE id = ?').get(Number(query.id));
+        const notice = await db.prepare('SELECT * FROM notices WHERE id = ?').get(Number(query.id));
         if (notice) {
           const displayName = notice.title_en ? `${notice.title} (${notice.title_en})` : notice.title;
           meta.title = `${displayName} | নোটিশ ও কার্যক্রম | KUWS`;
@@ -380,7 +380,7 @@ function servePageWithMeta(req, res, filePath, explicitMeta = {}) {
     // Category Page Meta
     if (pathname === '/category' || pathname === '/category.html') {
       if (query.category) {
-        const cat = db.prepare('SELECT * FROM categories WHERE slug = ?').get(query.category);
+        const cat = await db.prepare('SELECT * FROM categories WHERE slug = ?').get(query.category);
         if (cat) {
           meta.title = `${cat.name_bn} বিভাগ | KUWS সাহিত্য পোর্টাল`;
           meta.description = `খুলনা বিশ্ববিদ্যালয় লেখক সংঘ সাহিত্য পোর্টালে ${cat.name_bn} বিভাগের সকল লেখা ও প্রকাশনা।`;
@@ -437,7 +437,11 @@ function servePageWithMeta(req, res, filePath, explicitMeta = {}) {
       'Expires': '0'
     });
     res.end(buffer);
-  });
+  } catch (err) {
+    console.error('servePageWithMeta error:', err);
+    res.writeHead(500, { 'Content-Type': 'text/plain; charset=utf-8' });
+    res.end('500 Server Error');
+  }
 }
 
 // Serve Static File
@@ -512,7 +516,7 @@ const server = http.createServer(async (req, res) => {
         ? inputEmail.replace('@kuws.org.bd', '@news.com')
         : inputEmail.replace('@news.com', '@kuws.org.bd');
 
-      const user = db.prepare('SELECT * FROM users WHERE email = ? OR email = ?').get(inputEmail, altEmail);
+      const user = await db.prepare('SELECT * FROM users WHERE email = ? OR email = ?').get(inputEmail, altEmail);
       if (!user) {
         return sendError(res, 401, 'ভুল ইমেইল অথবা পাসওয়ার্ড।');
       }
@@ -544,7 +548,7 @@ const server = http.createServer(async (req, res) => {
       const authUser = authenticateRequest(req);
       if (!authUser) return sendError(res, 401, 'Unauthorized');
 
-      const user = db.prepare('SELECT id, name, email, role, designation, avatar, status, created_at FROM users WHERE id = ?').get(authUser.id);
+      const user = await db.prepare('SELECT id, name, email, role, designation, avatar, status, created_at FROM users WHERE id = ?').get(authUser.id);
       if (!user || user.status !== 'active') {
         return sendError(res, 401, 'User inactive or not found');
       }
@@ -560,7 +564,7 @@ const server = http.createServer(async (req, res) => {
 
       // GET ALL USERS
       if (req.method === 'GET' && pathname === '/api/users') {
-        const users = db.prepare('SELECT id, name, email, role, designation, avatar, status, created_at FROM users ORDER BY id DESC').all();
+        const users = await db.prepare('SELECT id, name, email, role, designation, avatar, status, created_at FROM users ORDER BY id DESC').all();
         return sendJson(res, 200, { success: true, users });
       }
 
@@ -571,7 +575,7 @@ const server = http.createServer(async (req, res) => {
           return sendError(res, 400, 'নাম, ইমেইল, পাসওয়ার্ড এবং রোল আবশ্যক।');
         }
 
-        const existing = db.prepare('SELECT id FROM users WHERE email = ?').get(email.toLowerCase().trim());
+        const existing = await db.prepare('SELECT id FROM users WHERE email = ?').get(email.toLowerCase().trim());
         if (existing) {
           return sendError(res, 400, 'এই ইমেইল দিয়ে ইতিমধ্যে একটি অ্যাকাউন্ট রয়েছে।');
         }
@@ -592,7 +596,7 @@ const server = http.createServer(async (req, res) => {
         }
 
         const hashedPassword = hashPassword(password);
-        const result = db.prepare(`
+        const result = await db.prepare(`
           INSERT INTO users (name, email, password, role, designation, avatar, status)
           VALUES (?, ?, ?, ?, ?, ?, ?)
         `).run(
@@ -613,7 +617,7 @@ const server = http.createServer(async (req, res) => {
         const userId = pathname.split('/')[3];
         const { name, email, password, role, designation, avatar, status } = await parseBody(req);
 
-        const targetUser = db.prepare('SELECT * FROM users WHERE id = ?').get(userId);
+        const targetUser = await db.prepare('SELECT * FROM users WHERE id = ?').get(userId);
         if (!targetUser) return sendError(res, 404, 'ইউজার পাওয়া যায়নি।');
 
         let newPasswordHash = targetUser.password;
@@ -636,7 +640,7 @@ const server = http.createServer(async (req, res) => {
           }
         }
 
-        db.prepare(`
+        await db.prepare(`
           UPDATE users SET
             name = ?,
             email = ?,
@@ -666,7 +670,7 @@ const server = http.createServer(async (req, res) => {
         if (Number(userId) === authUser.id) {
           return sendError(res, 400, 'আপনি নিজের অ্যাকাউন্ট ডিলিট করতে পারবেন না।');
         }
-        db.prepare('DELETE FROM users WHERE id = ?').run(userId);
+        await db.prepare('DELETE FROM users WHERE id = ?').run(userId);
         return sendJson(res, 200, { success: true, message: 'ইউজার ডিলিট করা হয়েছে।' });
       }
     }
@@ -675,7 +679,7 @@ const server = http.createServer(async (req, res) => {
     if (pathname.startsWith('/api/categories')) {
       // GET CATEGORIES (Public & Admin)
       if (req.method === 'GET' && pathname === '/api/categories') {
-        const categories = db.prepare(`
+        const categories = await db.prepare(`
           SELECT c.*, COUNT(CASE WHEN a.status = 'published' THEN a.id END) as article_count
           FROM categories c
           LEFT JOIN articles a ON a.category_id = c.id
@@ -696,7 +700,7 @@ const server = http.createServer(async (req, res) => {
         if (!name || !name_bn) return sendError(res, 400, 'ক্যাটাগরির নাম দিন।');
 
         const cleanSlug = (slug || name).toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
-        const result = db.prepare(`
+        const result = await db.prepare(`
           INSERT INTO categories (name, name_bn, slug, order_index)
           VALUES (?, ?, ?, ?)
         `).run(name, name_bn, cleanSlug, Number(order_index) || 0);
@@ -714,7 +718,7 @@ const server = http.createServer(async (req, res) => {
         const catId = pathname.split('/')[3];
         const { name, name_bn, slug, order_index } = await parseBody(req);
 
-        db.prepare(`
+        await db.prepare(`
           UPDATE categories SET
             name = COALESCE(?, name),
             name_bn = COALESCE(?, name_bn),
@@ -733,7 +737,7 @@ const server = http.createServer(async (req, res) => {
           return sendError(res, 403, 'কেবল IT Admin ক্যাটাগরি মুছতে পারেন।');
         }
         const catId = pathname.split('/')[3];
-        db.prepare('DELETE FROM categories WHERE id = ?').run(catId);
+        await db.prepare('DELETE FROM categories WHERE id = ?').run(catId);
         return sendJson(res, 200, { success: true, message: 'ক্যাটাগরি ডিলিট হয়েছে।' });
       }
     }
@@ -792,7 +796,7 @@ const server = http.createServer(async (req, res) => {
       }
       params.push(Number(limit), Number(offset));
 
-      const articles = db.prepare(sql).all(...params);
+      const articles = await db.prepare(sql).all(...params);
       return sendJson(res, 200, { success: true, articles });
     }
 
@@ -802,7 +806,7 @@ const server = http.createServer(async (req, res) => {
       let article;
 
       if (!isNaN(slugOrId)) {
-        article = db.prepare(`
+        article = await db.prepare(`
           SELECT a.*, c.name as category_name, c.name_bn as category_name_bn, c.slug as category_slug,
                  COALESCE(NULLIF(a.guest_name, ''), u.name) as author_name,
                  u.avatar as author_avatar,
@@ -813,7 +817,7 @@ const server = http.createServer(async (req, res) => {
           WHERE a.id = ?
         `).get(Number(slugOrId));
       } else {
-        article = db.prepare(`
+        article = await db.prepare(`
           SELECT a.*, c.name as category_name, c.name_bn as category_name_bn, c.slug as category_slug,
                  COALESCE(NULLIF(a.guest_name, ''), u.name) as author_name,
                  u.avatar as author_avatar,
@@ -830,11 +834,11 @@ const server = http.createServer(async (req, res) => {
       }
 
       // Increment view count
-      db.prepare('UPDATE articles SET views = views + 1 WHERE id = ?').run(article.id);
+      await db.prepare('UPDATE articles SET views = views + 1 WHERE id = ?').run(article.id);
       article.views = (article.views || 0) + 1;
 
       // Get Related Articles
-      const related = db.prepare(`
+      const related = await db.prepare(`
         SELECT id, title, slug, summary, image_url, published_at, views
         FROM articles
         WHERE category_id = ? AND id != ? AND status = 'published'
@@ -842,7 +846,7 @@ const server = http.createServer(async (req, res) => {
       `).all(article.category_id, article.id);
 
       // Get Comments
-      const comments = db.prepare(`
+      const comments = await db.prepare(`
         SELECT id, name, comment, created_at
         FROM comments
         WHERE article_id = ? AND status = 'approved'
@@ -885,16 +889,16 @@ const server = http.createServer(async (req, res) => {
       if (!finalSlug || finalSlug.trim() === '') {
         finalSlug = 'guest-' + Date.now();
       }
-      const slugExists = db.prepare('SELECT id FROM articles WHERE slug = ?').get(finalSlug);
+      const slugExists = await db.prepare('SELECT id FROM articles WHERE slug = ?').get(finalSlug);
       if (slugExists) {
         finalSlug += '-' + Math.floor(Math.random() * 10000);
       }
 
       // Find an active author_id
-      const firstUser = db.prepare("SELECT id FROM users WHERE status = 'active' ORDER BY id ASC LIMIT 1").get();
+      const firstUser = await db.prepare("SELECT id FROM users WHERE status = 'active' ORDER BY id ASC LIMIT 1").get();
       const authorId = firstUser ? firstUser.id : 1;
 
-      const result = db.prepare(`
+      const result = await db.prepare(`
         INSERT INTO articles (
           title, slug, summary, content, category_id, author_id,
           image_url, image_caption, status, is_lead, is_breaking,
@@ -931,7 +935,7 @@ const server = http.createServer(async (req, res) => {
       const { name, comment } = await parseBody(req);
       if (!name || !comment) return sendError(res, 400, 'আপনার নাম ও মন্তব্য প্রদান করুন।');
 
-      db.prepare(`
+      await db.prepare(`
         INSERT INTO comments (article_id, name, comment, status)
         VALUES (?, ?, ?, 'approved')
       `).run(Number(articleId), name.trim(), comment.trim());
@@ -991,7 +995,7 @@ const server = http.createServer(async (req, res) => {
       sql += ' ORDER BY a.updated_at DESC LIMIT ? OFFSET ?';
       params.push(Number(limit), Number(offset));
 
-      const articles = db.prepare(sql).all(...params);
+      const articles = await db.prepare(sql).all(...params);
       return sendJson(res, 200, { success: true, articles });
     }
 
@@ -1001,7 +1005,7 @@ const server = http.createServer(async (req, res) => {
       if (!authUser) return sendError(res, 401, 'Unauthorized');
 
       const articleId = pathname.split('/')[4];
-      const article = db.prepare(`
+      const article = await db.prepare(`
         SELECT a.*, c.name_bn as category_name_bn,
                COALESCE(NULLIF(a.guest_name, ''), u.name) as author_name,
                u.role as author_role
@@ -1044,7 +1048,7 @@ const server = http.createServer(async (req, res) => {
       }
 
       // Ensure unique slug
-      const slugExists = db.prepare('SELECT id FROM articles WHERE slug = ?').get(finalSlug);
+      const slugExists = await db.prepare('SELECT id FROM articles WHERE slug = ?').get(finalSlug);
       if (slugExists) {
         finalSlug += '-' + Math.floor(Math.random() * 1000);
       }
@@ -1059,7 +1063,7 @@ const server = http.createServer(async (req, res) => {
 
       let publishedAt = (finalStatus === 'published') ? new Date().toISOString() : null;
 
-      const result = db.prepare(`
+      const result = await db.prepare(`
         INSERT INTO articles (
           title, slug, summary, content, category_id, author_id,
           image_url, image_caption, status, is_lead, is_breaking,
@@ -1107,7 +1111,7 @@ const server = http.createServer(async (req, res) => {
       if (!authUser) return sendError(res, 401, 'Unauthorized');
 
       const articleId = Number(pathname.split('/')[4]);
-      const current = db.prepare('SELECT * FROM articles WHERE id = ?').get(articleId);
+      const current = await db.prepare('SELECT * FROM articles WHERE id = ?').get(articleId);
       if (!current) return sendError(res, 404, 'সংবাদ পাওয়া যায়নি।');
 
       // Sub-editor check: can edit their own articles or guest submissions
@@ -1135,7 +1139,7 @@ const server = http.createServer(async (req, res) => {
         publishedAt = new Date().toISOString();
       }
 
-      db.prepare(`
+      await db.prepare(`
         UPDATE articles SET
           title = COALESCE(?, title),
           slug = COALESCE(?, slug),
@@ -1198,7 +1202,7 @@ const server = http.createServer(async (req, res) => {
         return sendError(res, 400, 'অবৈধ স্ট্যাটাস।');
       }
 
-      const article = db.prepare('SELECT * FROM articles WHERE id = ?').get(articleId);
+      const article = await db.prepare('SELECT * FROM articles WHERE id = ?').get(articleId);
       if (!article) return sendError(res, 404, 'সংবাদ পাওয়া যায়নি।');
 
       let publishedAt = article.published_at;
@@ -1206,7 +1210,7 @@ const server = http.createServer(async (req, res) => {
         publishedAt = new Date().toISOString();
       }
 
-      db.prepare(`
+      await db.prepare(`
         UPDATE articles SET
           status = ?,
           rejection_reason = ?,
@@ -1224,15 +1228,15 @@ const server = http.createServer(async (req, res) => {
       if (!authUser) return sendError(res, 401, 'Unauthorized');
 
       const articleId = Number(pathname.split('/')[4]);
-      const article = db.prepare('SELECT author_id FROM articles WHERE id = ?').get(articleId);
+      const article = await db.prepare('SELECT author_id FROM articles WHERE id = ?').get(articleId);
       if (!article) return sendError(res, 404, 'সংবাদ পাওয়া যায়নি।');
 
       if (authUser.role === 'sub_editor' && article.author_id !== authUser.id) {
         return sendError(res, 403, 'আপনি এই সংবাদটি মুছতে পারবেন না।');
       }
 
-      db.prepare('DELETE FROM comments WHERE article_id = ?').run(articleId);
-      db.prepare('DELETE FROM articles WHERE id = ?').run(articleId);
+      await db.prepare('DELETE FROM comments WHERE article_id = ?').run(articleId);
+      await db.prepare('DELETE FROM articles WHERE id = ?').run(articleId);
 
       return sendJson(res, 200, { success: true, message: 'সংবাদ মুছে ফেলা হয়েছে।' });
     }
@@ -1242,26 +1246,26 @@ const server = http.createServer(async (req, res) => {
       const authUser = authenticateRequest(req);
       if (!authUser) return sendError(res, 401, 'Unauthorized');
 
-      const totalArticles = db.prepare('SELECT COUNT(*) as count FROM articles').get().count;
-      const publishedCount = db.prepare("SELECT COUNT(*) as count FROM articles WHERE status = 'published'").get().count;
-      const pendingCount = db.prepare("SELECT COUNT(*) as count FROM articles WHERE status = 'pending'").get().count;
-      const draftCount = db.prepare("SELECT COUNT(*) as count FROM articles WHERE status = 'draft'").get().count;
-      const rejectedCount = db.prepare("SELECT COUNT(*) as count FROM articles WHERE status = 'rejected'").get().count;
-      const totalViews = db.prepare('SELECT COALESCE(SUM(views), 0) as total FROM articles').get().total;
-      const totalUsers = db.prepare('SELECT COUNT(*) as count FROM users').get().count;
+      const totalArticles = await db.prepare('SELECT COUNT(*) as count FROM articles').get().count;
+      const publishedCount = await db.prepare("SELECT COUNT(*) as count FROM articles WHERE status = 'published'").get().count;
+      const pendingCount = await db.prepare("SELECT COUNT(*) as count FROM articles WHERE status = 'pending'").get().count;
+      const draftCount = await db.prepare("SELECT COUNT(*) as count FROM articles WHERE status = 'draft'").get().count;
+      const rejectedCount = await db.prepare("SELECT COUNT(*) as count FROM articles WHERE status = 'rejected'").get().count;
+      const totalViews = await db.prepare('SELECT COALESCE(SUM(views), 0) as total FROM articles').get().total;
+      const totalUsers = await db.prepare('SELECT COUNT(*) as count FROM users').get().count;
 
       // User specific counts for sub-editors
       let myArticles = 0;
       let myPending = 0;
       let myPublished = 0;
       if (authUser.role === 'sub_editor') {
-        myArticles = db.prepare('SELECT COUNT(*) as count FROM articles WHERE author_id = ?').get(authUser.id).count;
-        myPending = db.prepare("SELECT COUNT(*) as count FROM articles WHERE author_id = ? AND status = 'pending'").get(authUser.id).count;
-        myPublished = db.prepare("SELECT COUNT(*) as count FROM articles WHERE author_id = ? AND status = 'published'").get(authUser.id).count;
+        myArticles = await db.prepare('SELECT COUNT(*) as count FROM articles WHERE author_id = ?').get(authUser.id).count;
+        myPending = await db.prepare("SELECT COUNT(*) as count FROM articles WHERE author_id = ? AND status = 'pending'").get(authUser.id).count;
+        myPublished = await db.prepare("SELECT COUNT(*) as count FROM articles WHERE author_id = ? AND status = 'published'").get(authUser.id).count;
       }
 
       // Recent articles
-      const recentArticles = db.prepare(`
+      const recentArticles = await db.prepare(`
         SELECT a.id, a.title, a.status, a.views, a.updated_at, c.name_bn as category_name, u.name as author_name
         FROM articles a
         JOIN categories c ON a.category_id = c.id
@@ -1312,7 +1316,7 @@ const server = http.createServer(async (req, res) => {
     // 16. SETTINGS
     if (pathname.startsWith('/api/settings')) {
       if (req.method === 'GET') {
-        const rows = db.prepare('SELECT * FROM settings').all();
+        const rows = await db.prepare('SELECT * FROM settings').all();
         const settings = {};
         rows.forEach(r => { settings[r.key] = r.value; });
         return sendJson(res, 200, { success: true, settings });
@@ -1325,7 +1329,7 @@ const server = http.createServer(async (req, res) => {
         }
 
         const newSettings = await parseBody(req);
-        const upsert = db.prepare(`
+        const upsert = await db.prepare(`
           INSERT INTO settings (key, value) VALUES (?, ?)
           ON CONFLICT(key) DO UPDATE SET value = excluded.value
         `);
@@ -1340,7 +1344,7 @@ const server = http.createServer(async (req, res) => {
 
     // 17. HONOR BOARD APIs
     if (pathname === '/api/honorboard' && req.method === 'GET') {
-      const members = db.prepare(`
+      const members = await db.prepare(`
         SELECT id, name, name_en, designation, designation_en, session_year, department, blood_group, email, phone, facebook_url, linkedin_url, website_url, message, bio, academic_info, experience_info, image_url, order_index
         FROM honor_board
         WHERE status = 'published'
@@ -1351,7 +1355,7 @@ const server = http.createServer(async (req, res) => {
 
     if (pathname.match(/^\/api\/honorboard\/(\d+)$/) && req.method === 'GET') {
       const id = Number(pathname.split('/')[3]);
-      const member = db.prepare(`
+      const member = await db.prepare(`
         SELECT id, name, name_en, designation, designation_en, session_year, department, blood_group, email, phone, facebook_url, linkedin_url, website_url, message, bio, academic_info, experience_info, image_url, order_index
         FROM honor_board
         WHERE id = ? AND status = 'published'
@@ -1366,7 +1370,7 @@ const server = http.createServer(async (req, res) => {
 
       // GET ALL
       if (req.method === 'GET' && pathname === '/api/admin/honorboard') {
-        const members = db.prepare(`
+        const members = await db.prepare(`
           SELECT h.*, u.name as creator_name
           FROM honor_board h
           LEFT JOIN users u ON h.created_by = u.id
@@ -1378,7 +1382,7 @@ const server = http.createServer(async (req, res) => {
       // GET SINGLE BY ID FOR ADMIN
       if (req.method === 'GET' && pathname.match(/^\/api\/admin\/honorboard\/(\d+)$/)) {
         const id = Number(pathname.split('/')[4]);
-        const member = db.prepare(`
+        const member = await db.prepare(`
           SELECT h.*, u.name as creator_name
           FROM honor_board h
           LEFT JOIN users u ON h.created_by = u.id
@@ -1400,7 +1404,7 @@ const server = http.createServer(async (req, res) => {
           return sendError(res, 400, 'নাম ও পদবি দিন।');
         }
         let finalStatus = (authUser.role === 'sub_editor') ? 'pending' : (status || 'published');
-        const resInsert = db.prepare(`
+        const resInsert = await db.prepare(`
           INSERT INTO honor_board (
             name, name_en, designation, designation_en, session_year, department, blood_group,
             email, phone, facebook_url, linkedin_url, website_url, message, bio, academic_info, experience_info,
@@ -1440,7 +1444,7 @@ const server = http.createServer(async (req, res) => {
       // UPDATE
       if (req.method === 'PUT' && pathname.match(/^\/api\/admin\/honorboard\/(\d+)$/)) {
         const id = Number(pathname.split('/')[4]);
-        const current = db.prepare('SELECT * FROM honor_board WHERE id = ?').get(id);
+        const current = await db.prepare('SELECT * FROM honor_board WHERE id = ?').get(id);
         if (!current) return sendError(res, 404, 'সদস্য পাওয়া যায়নি।');
 
         const {
@@ -1454,7 +1458,7 @@ const server = http.createServer(async (req, res) => {
           targetStatus = 'pending';
         }
 
-        db.prepare(`
+        await db.prepare(`
           UPDATE honor_board SET
             name = COALESCE(?, name),
             name_en = COALESCE(?, name_en),
@@ -1507,14 +1511,14 @@ const server = http.createServer(async (req, res) => {
           return sendError(res, 403, 'কেবল সম্পাদক বা আইটি এডমিন মুছতে পারবেন।');
         }
         const id = Number(pathname.split('/')[4]);
-        db.prepare('DELETE FROM honor_board WHERE id = ?').run(id);
+        await db.prepare('DELETE FROM honor_board WHERE id = ?').run(id);
         return sendJson(res, 200, { success: true, message: 'সদস্য মুছে ফেলা হয়েছে।' });
       }
     }
 
     // 18. GALLERY APIs
     if (pathname === '/api/gallery' && req.method === 'GET') {
-      const photos = db.prepare(`
+      const photos = await db.prepare(`
         SELECT id, title, caption, category, image_url, order_index
         FROM gallery
         WHERE status = 'published'
@@ -1529,7 +1533,7 @@ const server = http.createServer(async (req, res) => {
 
       // GET ALL
       if (req.method === 'GET') {
-        const photos = db.prepare(`
+        const photos = await db.prepare(`
           SELECT g.*, u.name as creator_name
           FROM gallery g
           LEFT JOIN users u ON g.created_by = u.id
@@ -1545,7 +1549,7 @@ const server = http.createServer(async (req, res) => {
           return sendError(res, 400, 'শিরোনাম ও ছবির লিংক আবশ্যক।');
         }
         let finalStatus = (authUser.role === 'sub_editor') ? 'pending' : (status || 'published');
-        const resInsert = db.prepare(`
+        const resInsert = await db.prepare(`
           INSERT INTO gallery (title, caption, category, image_url, status, order_index, created_by)
           VALUES (?, ?, ?, ?, ?, ?, ?)
         `).run(
@@ -1568,7 +1572,7 @@ const server = http.createServer(async (req, res) => {
       // UPDATE
       if (req.method === 'PUT' && pathname.match(/^\/api\/admin\/gallery\/(\d+)$/)) {
         const id = Number(pathname.split('/')[4]);
-        const current = db.prepare('SELECT * FROM gallery WHERE id = ?').get(id);
+        const current = await db.prepare('SELECT * FROM gallery WHERE id = ?').get(id);
         if (!current) return sendError(res, 404, 'ছবি পাওয়া যায়নি।');
 
         const { title, caption, category, image_url, order_index, status } = await parseBody(req);
@@ -1577,7 +1581,7 @@ const server = http.createServer(async (req, res) => {
           targetStatus = 'pending';
         }
 
-        db.prepare(`
+        await db.prepare(`
           UPDATE gallery SET
             title = COALESCE(?, title),
             caption = COALESCE(?, caption),
@@ -1604,7 +1608,7 @@ const server = http.createServer(async (req, res) => {
           return sendError(res, 403, 'কেবল সম্পাদক বা আইটি এডমিন ছবি মুছতে পারবেন।');
         }
         const id = Number(pathname.split('/')[4]);
-        db.prepare('DELETE FROM gallery WHERE id = ?').run(id);
+        await db.prepare('DELETE FROM gallery WHERE id = ?').run(id);
         return sendJson(res, 200, { success: true, message: 'ছবি মুছে ফেলা হয়েছে।' });
       }
     }
@@ -1613,7 +1617,7 @@ const server = http.createServer(async (req, res) => {
     if (pathname === '/api/notices' && req.method === 'GET') {
       const { limit = 100, id, search } = query;
       if (id && !isNaN(id)) {
-        const notice = db.prepare(`
+        const notice = await db.prepare(`
           SELECT id, title, title_en, description, description_en, date_text, badge_text, badge_type, link_url, is_pinned, order_index, created_at
           FROM notices
           WHERE id = ? AND status = 'published'
@@ -1633,7 +1637,7 @@ const server = http.createServer(async (req, res) => {
       }
       sql += ` ORDER BY is_pinned DESC, order_index ASC, id DESC LIMIT ?`;
       params.push(Number(limit));
-      const notices = db.prepare(sql).all(...params);
+      const notices = await db.prepare(sql).all(...params);
       return sendJson(res, 200, { success: true, notices });
     }
 
@@ -1643,7 +1647,7 @@ const server = http.createServer(async (req, res) => {
 
       // GET ALL NOTICES
       if (req.method === 'GET') {
-        const notices = db.prepare(`
+        const notices = await db.prepare(`
           SELECT n.*, u.name as creator_name
           FROM notices n
           LEFT JOIN users u ON n.created_by = u.id
@@ -1659,7 +1663,7 @@ const server = http.createServer(async (req, res) => {
           return sendError(res, 400, 'নোটিশের শিরোনাম আবশ্যক।');
         }
         let finalStatus = (authUser.role === 'sub_editor') ? 'published' : (status || 'published');
-        const resInsert = db.prepare(`
+        const resInsert = await db.prepare(`
           INSERT INTO notices (title, title_en, description, description_en, date_text, badge_text, badge_type, link_url, is_pinned, status, order_index, created_by)
           VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
         `).run(
@@ -1686,12 +1690,12 @@ const server = http.createServer(async (req, res) => {
       // UPDATE NOTICE
       if (req.method === 'PUT' && pathname.match(/^\/api\/admin\/notices\/(\d+)$/)) {
         const id = Number(pathname.split('/')[4]);
-        const current = db.prepare('SELECT * FROM notices WHERE id = ?').get(id);
+        const current = await db.prepare('SELECT * FROM notices WHERE id = ?').get(id);
         if (!current) return sendError(res, 404, 'নোটিশ পাওয়া যায়নি।');
 
         const { title, title_en, description, description_en, date_text, badge_text, badge_type, link_url, is_pinned, status, order_index } = await parseBody(req);
 
-        db.prepare(`
+        await db.prepare(`
           UPDATE notices SET
             title = COALESCE(?, title),
             title_en = COALESCE(?, title_en),
@@ -1728,7 +1732,7 @@ const server = http.createServer(async (req, res) => {
           return sendError(res, 403, 'কেবল সম্পাদক বা আইটি এডমিন নোটিশ মুছতে পারবেন।');
         }
         const id = Number(pathname.split('/')[4]);
-        db.prepare('DELETE FROM notices WHERE id = ?').run(id);
+        await db.prepare('DELETE FROM notices WHERE id = ?').run(id);
         return sendJson(res, 200, { success: true, message: 'নোটিশ মুছে ফেলা হয়েছে।' });
       }
     }
@@ -1783,43 +1787,43 @@ const server = http.createServer(async (req, res) => {
 
     // Public Pages: Main Website & Literary Newsportal (Clean URLs + Dynamic Social Meta Injection)
     if (pathname === '/' || pathname === '/index') {
-      return servePageWithMeta(req, res, path.join(PUBLIC_DIR, 'index.html'));
+      return await servePageWithMeta(req, res, path.join(PUBLIC_DIR, 'index.html'));
     }
     if (pathname === '/portal' || pathname === '/writings') {
-      return servePageWithMeta(req, res, path.join(PUBLIC_DIR, 'portal.html'));
+      return await servePageWithMeta(req, res, path.join(PUBLIC_DIR, 'portal.html'));
     }
     if (pathname === '/write') {
-      return servePageWithMeta(req, res, path.join(PUBLIC_DIR, 'write.html'));
+      return await servePageWithMeta(req, res, path.join(PUBLIC_DIR, 'write.html'));
     }
     if (pathname === '/article') {
-      return servePageWithMeta(req, res, path.join(PUBLIC_DIR, 'article.html'));
+      return await servePageWithMeta(req, res, path.join(PUBLIC_DIR, 'article.html'));
     }
     if (pathname === '/category') {
-      return servePageWithMeta(req, res, path.join(PUBLIC_DIR, 'category.html'));
+      return await servePageWithMeta(req, res, path.join(PUBLIC_DIR, 'category.html'));
     }
     if (pathname === '/ourstory') {
-      return servePageWithMeta(req, res, path.join(PUBLIC_DIR, 'ourstory.html'));
+      return await servePageWithMeta(req, res, path.join(PUBLIC_DIR, 'ourstory.html'));
     }
     if (pathname === '/honorboard') {
-      return servePageWithMeta(req, res, path.join(PUBLIC_DIR, 'honorboard.html'));
+      return await servePageWithMeta(req, res, path.join(PUBLIC_DIR, 'honorboard.html'));
     }
     if (pathname === '/profile') {
-      return servePageWithMeta(req, res, path.join(PUBLIC_DIR, 'profile.html'));
+      return await servePageWithMeta(req, res, path.join(PUBLIC_DIR, 'profile.html'));
     }
     if (pathname === '/join') {
-      return servePageWithMeta(req, res, path.join(PUBLIC_DIR, 'join.html'));
+      return await servePageWithMeta(req, res, path.join(PUBLIC_DIR, 'join.html'));
     }
     if (pathname === '/gallery') {
-      return servePageWithMeta(req, res, path.join(PUBLIC_DIR, 'gallery.html'));
+      return await servePageWithMeta(req, res, path.join(PUBLIC_DIR, 'gallery.html'));
     }
     if (pathname === '/notices' || pathname === '/notice') {
-      return servePageWithMeta(req, res, path.join(PUBLIC_DIR, 'notices.html'));
+      return await servePageWithMeta(req, res, path.join(PUBLIC_DIR, 'notices.html'));
     }
     if (pathname === '/verification') {
-      return servePageWithMeta(req, res, path.join(PUBLIC_DIR, 'verification.html'));
+      return await servePageWithMeta(req, res, path.join(PUBLIC_DIR, 'verification.html'));
     }
     if (pathname === '/certificate-download') {
-      return servePageWithMeta(req, res, path.join(PUBLIC_DIR, 'Certificate Download.html'));
+      return await servePageWithMeta(req, res, path.join(PUBLIC_DIR, 'Certificate Download.html'));
     }
 
     // General static asset serving from public directory
