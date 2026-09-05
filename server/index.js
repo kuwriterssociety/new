@@ -589,7 +589,6 @@ const server = http.createServer(async (req, res) => {
             const safeName = `avatar_${Date.now()}_${Math.floor(Math.random() * 10000)}${ext}`;
             const savePath = path.join(UPLOADS_DIR, safeName);
             fs.writeFileSync(savePath, Buffer.from(cleanBase64, 'base64'));
-            finalAvatar = `/uploads/${safeName}`;
           } catch (e) {
             console.error('User avatar save error:', e);
           }
@@ -634,7 +633,6 @@ const server = http.createServer(async (req, res) => {
             const safeName = `avatar_${Date.now()}_${Math.floor(Math.random() * 10000)}${ext}`;
             const savePath = path.join(UPLOADS_DIR, safeName);
             fs.writeFileSync(savePath, Buffer.from(cleanBase64, 'base64'));
-            finalAvatar = `/uploads/${safeName}`;
           } catch (e) {
             console.error('User avatar update error:', e);
           }
@@ -1308,7 +1306,7 @@ const server = http.createServer(async (req, res) => {
 
       return sendJson(res, 200, {
         success: true,
-        url: `/uploads/${safeName}`,
+        url: base64.startsWith('data:image/') ? base64 : `/uploads/${safeName}`,
         filename: safeName
       });
     }
