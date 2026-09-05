@@ -81,9 +81,20 @@ function initDatabase() {
     CREATE TABLE IF NOT EXISTS honor_board (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
       name TEXT NOT NULL,
+      name_en TEXT,
       designation TEXT NOT NULL,
+      designation_en TEXT,
       session_year TEXT,
+      department TEXT,
+      blood_group TEXT,
+      email TEXT,
+      phone TEXT,
+      facebook_url TEXT,
+      linkedin_url TEXT,
+      message TEXT,
       bio TEXT,
+      academic_info TEXT,
+      experience_info TEXT,
       image_url TEXT,
       status TEXT DEFAULT 'pending' CHECK(status IN ('pending', 'published', 'rejected')),
       order_index INTEGER DEFAULT 0,
@@ -128,6 +139,20 @@ function initDatabase() {
       value TEXT
     );
   `);
+
+  // Safe migrations for honor_board columns
+  const extraCols = [
+    'name_en TEXT', 'designation_en TEXT', 'department TEXT', 'blood_group TEXT',
+    'email TEXT', 'phone TEXT', 'facebook_url TEXT', 'linkedin_url TEXT', 'website_url TEXT',
+    'message TEXT', 'academic_info TEXT', 'experience_info TEXT'
+  ];
+  extraCols.forEach(col => {
+    try {
+      db.exec(`ALTER TABLE honor_board ADD COLUMN ${col}`);
+    } catch (e) {
+      // Column already exists
+    }
+  });
 
   seedData();
 }
@@ -208,29 +233,71 @@ function seedData() {
   if (hbCount === 0) {
     console.log('Seeding initial Honor Board members...');
     const insertHB = db.prepare(`
-      INSERT INTO honor_board (name, designation, session_year, bio, image_url, status, order_index, created_by)
-      VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+      INSERT INTO honor_board (
+        name, name_en, designation, designation_en, session_year, department, blood_group,
+        email, phone, facebook_url, linkedin_url, message, bio, academic_info, experience_info,
+        image_url, status, order_index, created_by
+      )
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     `);
     insertHB.run(
+      'একরামুল হক',
       'Ekramul Haque',
-      'President',
-      '2025',
-      'Current and Founding President of Khulna University Writers\' Society',
+      'প্রতিষ্ঠাতা সভাপতি',
+      'Founding President',
+      '২০২৪-২০২৫',
+      'ফরেস্ট্রি অ্যান্ড উড টেকনোলজি ডিসিপ্লিন, খুলনা বিশ্ববিদ্যালয়',
+      'B+',
+      'ekramulhaque.ku@gmail.com',
+      '+880 1777-024027',
+      'https://www.facebook.com/KUWritersSociety/',
+      'https://linkedin.com',
+      'মুক্তচিন্তা ও সৃজনশীল সাহিত্যের বিকাশই আমাদের মূল লক্ষ্য। শব্দ ও কলমের শক্তিতে মানবিক মূল্যবোধ সমুন্নত রাখুক খুলনা বিশ্ববিদ্যালয় লেখক সংঘ।',
+      'একরামুল হক খুলনা বিশ্ববিদ্যালয় লেখক সংঘের প্রতিষ্ঠাতা সভাপতি। তিনি খুলনা বিশ্ববিদ্যালয়ের ফরেস্ট্রি অ্যান্ড উড টেকনোলজি ডিসিপ্লিনে বিএসসি (অনার্স) সম্পন্ন করে বর্তমানে এমএস প্রোগ্রামে অধ্যয়নরত আছেন। গবেষণা ও লেখালেখির পাশাপাশি তিনি সাংবাদিকতা ও বিভিন্ন সাংস্কৃতিক ক্লাবের নেতৃত্বে সফল ভূমিকা পালন করেছেন।',
+      'বিএসসি (অনার্স) ও এমএস ইন ফরেস্ট্রি, খুলনা বিশ্ববিদ্যালয়। উচ্চ মাধ্যমিক: গভ. আজিজুল হক কলেজ, বগুড়া (২০১৮)।',
+      'সভাপতি, খুলনা বিশ্ববিদ্যালয় লেখক সংঘ (২০২৪-২০২৫)\nসভাপতি (২০২৪), সাংগঠনিক সম্পাদক (২০২৩), প্রচার ও প্রকাশনা সম্পাদক (২০২২), খুলনা বিশ্ববিদ্যালয় সাংবাদিক সমিতি (কুজাস)\nসাধারণ সম্পাদক (২০২৪), অফিস সম্পাদক (২০২৩), ফরেস্ট্রি অ্যান্ড উড টেকনোলজি ক্লাব, খুবি।',
       '/images/President1.png',
       'published',
       1,
       1
     );
     insertHB.run(
-      'Mahfujur Rahman',
+      'মাহফুজুর রহমান',
+      'Mahfuzur Rahman',
+      'সাধারণ সম্পাদক',
       'General Secretary',
-      '2025',
-      'Current and Founding General Secretary of Khulna University Writers\' Society',
+      '২০২৪-২০২৫',
+      'খুলনা বিশ্ববিদ্যালয়',
+      'O+',
+      'mahfuz.kuws@gmail.com',
+      '+880 1700-000000',
+      'https://www.facebook.com/KUWritersSociety/',
+      'https://linkedin.com',
+      'সাহিত্য মনের চোখ খুলে দেয় এবং সৃষ্টিশীল সমাজ বিনির্মাণে পথ দেখায়।',
+      'মাহফুজুর রহমান খুলনা বিশ্ববিদ্যালয় লেখক সংঘের প্রতিষ্ঠাতা সাধারণ সম্পাদক। তিনি সংগঠনটির প্রশাসনিক ও প্রকাশনা বিষয়ক দায়িত্ব নিষ্ঠার সাথে পরিচালনা করে আসছেন।',
+      'খুলনা বিশ্ববিদ্যালয়।',
+      'সাধারণ সম্পাদক, খুলনা বিশ্ববিদ্যালয় লেখক সংঘ (২০২৪-২০২৫)\nসদস্য, বিভিন্ন সাহিত্য ও সাংস্কৃতিক ফোরাম।',
       '/images/mahfuz.png',
       'published',
       2,
       1
     );
+  } else {
+    // Populate profile defaults if name_en is empty
+    try {
+      db.prepare(`
+        UPDATE honor_board
+        SET name_en = COALESCE(name_en, name),
+            designation_en = COALESCE(designation_en, designation),
+            department = COALESCE(department, 'খুলনা বিশ্ববিদ্যালয়'),
+            phone = COALESCE(phone, '+880 1777-024027'),
+            email = COALESCE(email, 'kuwriterssociety@gmail.com'),
+            blood_group = COALESCE(blood_group, 'B+'),
+            facebook_url = COALESCE(facebook_url, 'https://www.facebook.com/KUWritersSociety/'),
+            message = COALESCE(message, 'মুক্তচিন্তা ও সৃজনশীল সাহিত্যের বিকাশই আমাদের মূল লক্ষ্য।')
+        WHERE name_en IS NULL OR name_en = ''
+      `).run();
+    } catch (e) {}
   }
 
   // Check Gallery

@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Member Profile | Khulna University Writers' Society (KUWS)</title>
+  <link rel="icon" type="image/png" href="favicon.png">
+  <link rel="stylesheet" href="/css/style.css">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;400;500;600;700&family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <!-- Load Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      corePlugins: {
+        preflight: false,
+      },
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', '"Hind Siliguri"', 'sans-serif'],
+          },
+          colors: {
+            'ku-blue': '#1a3a60',
+            'ku-gold': '#ffb703',
+            'ku-light': '#f0f4f8',
+          }
+        }
+      }
+    }
+  </script>
+  <link rel="stylesheet" href="/css/style.css?v=3.5">
+  <style>
+    html {
+      scroll-behavior: smooth;
+      font-family: 'Inter', 'Hind Siliguri', sans-serif;
+    }
+    body::-webkit-scrollbar {
+      width: 8px;
+    }
+    body::-webkit-scrollbar-thumb {
+      background-color: #ffb703;
+      border-radius: 4px;
+    }
+    body::-webkit-scrollbar-track {
+      background-color: #1a3a60;
+    }
+    .profile-hero-card {
+      background: linear-gradient(135deg, #1a3a60 0%, #0d223a 100%);
+      color: #ffffff;
+      border-radius: 16px;
+      box-shadow: 0 10px 25px -5px rgba(26, 58, 96, 0.3);
+      position: relative;
+      overflow: hidden;
+    }
+    .profile-hero-card::after {
+      content: '';
+      position: absolute;
+      top: -50px;
+      right: -50px;
+      width: 200px;
+      height: 200px;
+      background: radial-gradient(circle, rgba(255, 183, 3, 0.15) 0%, transparent 70%);
+      border-radius: 50%;
+      pointer-events: none;
+    }
+    .profile-avatar-img {
+      width: 140px;
+      height: 140px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 4px solid #ffb703;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+    }
+    .contact-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 14px;
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 183, 3, 0.4);
+      color: #ffffff;
+      border-radius: 20px;
+      font-size: 13px;
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+    .contact-badge:hover {
+      background: #ffb703;
+      color: #1a3a60;
+      border-color: #ffb703;
+    }
+    .info-card {
+      background: #ffffff;
+      border-radius: 12px;
+      border: 1px solid #e2e8f0;
+      padding: 24px;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+    }
+    .info-card h3 {
+      font-size: 18px;
+      font-weight: 700;
+      color: #1a3a60;
+      margin-bottom: 14px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      border-bottom: 2px solid #f1f5f9;
+      padding-bottom: 8px;
+    }
+    .quote-box {
+      background: #fffdf5;
+      border-left: 4px solid #ffb703;
+      padding: 20px 24px;
+      border-radius: 0 12px 12px 0;
+      font-style: italic;
+      color: #1e293b;
+      font-size: 16px;
+      line-height: 1.7;
+    }
+  </style>
+</head>
+<body class="bg-ku-light text-gray-800 flex flex-col min-h-screen">
+
+  <!-- Fixed Sticky Header Wrapper -->
+  <div class="site-header-wrapper">
+    <!-- Top Bar -->
+    <div class="top-bar">
+      <div class="container top-bar-inner">
+        <div id="current-date"><i class="far fa-calendar-alt"></i> Loading...</div>
+        <div style="display: flex; gap: 15px; align-items: center; flex-wrap: wrap;">
+          <span style="color: var(--accent); font-size: 13px; font-weight: 600;"><i class="fas fa-id-badge"></i> Member Profile | সদস্য প্রোফাইল</span>
+          <span style="color: #94a3b8; font-size: 13px;"><i class="fas fa-university"></i> Khulna University</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Main Header -->
+    <header class="main-header">
+      <div class="container header-inner">
+        <div class="brand-logo">
+          <a href="/" style="display: flex; align-items: center; gap: 14px;">
+            <div style="width: 48px; height: 48px; background: #fff3d6; color: var(--primary); border: 2px solid var(--accent); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 22px; flex-shrink: 0; box-shadow: 0 2px 6px rgba(0,0,0,0.08);">
+              <i class="fas fa-feather-alt" style="color: #e09f00;"></i>
+            </div>
+            <div>
+              <h1 id="site-name-display" style="color: var(--primary); font-size: 26px; font-weight: 800;">খুলনা বিশ্ববিদ্যালয় লেখক সংঘ</h1>
+              <p id="site-tagline-display" style="color: var(--text-muted); font-size: 13px;">মুক্তচিন্তা ও সৃজনশীল সাহিত্যের উন্মুক্ত প্রাঙ্গণ</p>
+            </div>
+          </a>
+        </div>
+        <div style="display: flex; gap: 10px; align-items: center; width: 100%; max-width: 320px;">
+          <form id="search-form" class="header-search-form" action="/category.html" method="GET" style="width: 100%;">
+            <input type="text" name="search" placeholder="কবিতা, গল্প বা লেখক খুঁজুন..." class="form-control" style="width: 100%; padding: 8px 12px;">
+            <button type="submit" class="btn btn-primary" style="background: var(--primary); border-color: var(--primary);"><i class="fas fa-search"></i></button>
+          </form>
+        </div>
+      </div>
+    </header>
+
+    <!-- Navigation Bar -->
+    <nav class="nav-bar">
+      <div class="container nav-inner">
+        <ul class="nav-links" id="category-nav">
+          <li><a href="/"><i class="fas fa-university"></i> আমাদের সম্পর্কে</a></li>
+          <li><a href="/portal">প্রচ্ছদ</a></li>
+        </ul>
+      </div>
+    </nav>
+  </div>
+
+  <!-- Breadcrumb & Back Link -->
+  <div class="container" style="padding-top: 15px; padding-bottom: 10px;">
+    <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
+      <div style="font-size: 13px; color: #64748b;">
+        <a href="/" style="color: #1a3a60; text-decoration: none;"><i class="fas fa-home"></i> Home</a>
+        <span style="margin: 0 6px;">/</span>
+        <a href="/honorboard.html" style="color: #1a3a60; text-decoration: none;">Honor Board & Leadership</a>
+        <span style="margin: 0 6px;">/</span>
+        <span id="breadcrumb-name" style="color: #ffb703; font-weight: 600;">Profile</span>
+      </div>
+      <a href="/honorboard.html" class="btn btn-sm btn-secondary" style="background: #ffffff; border: 1px solid #cbd5e1; color: #1a3a60; font-weight: 600;">
+        <i class="fas fa-arrow-left"></i> Back to Honor Board
+      </a>
+    </div>
+  </div>
+
+  <!-- Main Profile Content -->
+  <main class="container py-4 flex-grow">
+    
+    <div id="profile-loading" style="text-align: center; padding: 60px 20px;">
+      <i class="fas fa-circle-notch fa-spin fa-2x" style="color: #1a3a60;"></i>
+      <p style="margin-top: 12px; color: #64748b; font-weight: 600;">Loading member profile...</p>
+    </div>
+
+    <div id="profile-error" style="display: none; text-align: center; padding: 60px 20px; background: #fff; border-radius: 12px; border: 1px solid #fee2e2;">
+      <i class="fas fa-user-slash fa-3x" style="color: #ef4444; margin-bottom: 15px;"></i>
+      <h3 style="font-size: 20px; font-weight: 700; color: #991b1b; margin-bottom: 8px;">Member Not Found</h3>
+      <p style="color: #64748b; margin-bottom: 20px;">The requested member profile could not be found or is not currently active.</p>
+      <a href="/honorboard.html" class="btn btn-primary" style="background: #1a3a60; border-color: #1a3a60;">Back to Honor Board</a>
+    </div>
+
+    <div id="profile-content" style="display: none;">
+      
+      <!-- Top Hero Profile Banner Card -->
+      <div class="profile-hero-card p-6 md:p-8 mb-8">
+        <div class="flex flex-col md:flex-row items-center md:items-start gap-6">
+          <div class="flex-shrink-0">
+            <img id="p-avatar" src="/images/President1.png" alt="Profile" class="profile-avatar-img">
+          </div>
+          <div class="flex-grow text-center md:text-left">
+            <div class="flex flex-wrap items-center justify-center md:justify-start gap-2 mb-2">
+              <span id="p-badge" class="px-3 py-1 bg-yellow-500 text-slate-900 text-xs font-bold rounded-full uppercase tracking-wider">Executive Member</span>
+              <span id="p-blood-badge" class="px-3 py-1 bg-red-600 text-white text-xs font-bold rounded-full" style="display: none;"><i class="fas fa-tint"></i> <span id="p-blood-text"></span></span>
+            </div>
+            
+            <!-- Large Font: English Name, Small Font: Bengali Name -->
+            <h1 id="p-name-en" class="text-2xl md:text-4xl font-extrabold text-white mb-1">Ekramul Haque</h1>
+            <h2 id="p-name-bn" class="text-base md:text-lg font-semibold text-yellow-400 mb-2">ইকরামুল হক</h2>
+            
+            <div class="text-sm md:text-base text-slate-200 mb-4 flex flex-col md:flex-row flex-wrap gap-2 md:gap-4 justify-center md:justify-start">
+              <div><i class="fas fa-award text-yellow-400 mr-1"></i> <span id="p-designation-en" class="font-bold text-white">President</span> <span id="p-designation-bn" class="text-xs text-yellow-300">(সভাপতি)</span></div>
+              <div><i class="far fa-calendar-alt text-yellow-400 mr-1"></i> <span id="p-session">Term: 2024-2025</span></div>
+              <div id="p-dept-box"><i class="fas fa-university text-yellow-400 mr-1"></i> <span id="p-dept">Khulna University</span></div>
+            </div>
+
+            <!-- Social / Contact Links (Email, Phone, Facebook, LinkedIn, Website) -->
+            <div class="flex flex-wrap gap-2 justify-center md:justify-start mt-2" id="p-contact-bar">
+              <a id="p-email-link" href="#" class="contact-badge" style="display: none;"><i class="fas fa-envelope"></i> <span id="p-email-text">Email</span></a>
+              <a id="p-phone-link" href="#" class="contact-badge" style="display: none;"><i class="fas fa-phone-alt"></i> <span id="p-phone-text">Phone</span></a>
+              <a id="p-fb-link" href="#" target="_blank" class="contact-badge" style="display: none;"><i class="fab fa-facebook"></i> Facebook</a>
+              <a id="p-linkedin-link" href="#" target="_blank" class="contact-badge" style="display: none;"><i class="fab fa-linkedin"></i> LinkedIn</a>
+              <a id="p-web-link" href="#" target="_blank" class="contact-badge" style="display: none;"><i class="fas fa-globe"></i> Website</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 2-Column Profile Details:
+           Left Column (Spacious): Biography | জীবনবৃত্তান্ত ও পরিচিতি
+           Right Column: Academic Background (Top) -> Experience (Middle) -> Contact (Bottom) -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 mb-8">
+        
+        <!-- Left Column: Biography Only (Spacious Layout) -->
+        <div class="lg:col-span-7">
+          <div class="info-card h-full flex flex-col justify-start">
+            <h3><i class="fas fa-user-tie text-blue-700"></i> Biography | জীবনবৃত্তান্ত ও পরিচিতি</h3>
+            <div id="p-bio" class="text-base leading-relaxed text-slate-700 whitespace-pre-line mt-2">
+              Loading biography...
+            </div>
+          </div>
+        </div>
+
+        <!-- Right Column: Academic -> Experience -> Contact Details -->
+        <div class="lg:col-span-5 flex flex-col gap-6">
+          
+          <!-- 1. Academic Background (Top on Right) -->
+          <div class="info-card" id="p-academic-card">
+            <h3><i class="fas fa-graduation-cap text-blue-700"></i> Academic Background | শিক্ষাগত যোগ্যতা</h3>
+            <div id="p-academic" class="text-sm md:text-base leading-relaxed text-slate-700 whitespace-pre-line mt-1">
+              Khulna University
+            </div>
+          </div>
+
+          <!-- 2. Experience & Leadership (Middle on Right) -->
+          <div class="info-card" id="p-experience-card">
+            <h3><i class="fas fa-tasks text-blue-700"></i> Experience & Leadership | অভিজ্ঞতা ও কার্যক্রম</h3>
+            <div id="p-experience" class="text-sm md:text-base leading-relaxed text-slate-700 whitespace-pre-line mt-1">
+              Khulna University Writers' Society
+            </div>
+          </div>
+
+          <!-- 3. Contact & Information Summary (Bottom on Right) -->
+          <div class="info-card">
+            <h3><i class="fas fa-address-card text-blue-700"></i> Contact & Details | যোগাযোগের তথ্য</h3>
+            <ul class="space-y-3 text-sm text-slate-700 mt-2">
+              <li class="flex items-center gap-3">
+                <span class="w-8 h-8 rounded-full bg-blue-50 text-blue-800 flex items-center justify-center flex-shrink-0"><i class="fas fa-id-badge"></i></span>
+                <div>
+                  <div class="text-xs text-slate-500 font-semibold">Role & Organization</div>
+                  <div id="p-org-desig" class="font-bold text-slate-800">KUWS Executive</div>
+                </div>
+              </li>
+              <li class="flex items-center gap-3" id="p-dept-li">
+                <span class="w-8 h-8 rounded-full bg-blue-50 text-blue-800 flex items-center justify-center flex-shrink-0"><i class="fas fa-university"></i></span>
+                <div>
+                  <div class="text-xs text-slate-500 font-semibold">Discipline / University</div>
+                  <div id="p-dept-detail" class="font-semibold text-slate-800">Khulna University</div>
+                </div>
+              </li>
+              <li class="flex items-center gap-3" id="p-email-li" style="display: none;">
+                <span class="w-8 h-8 rounded-full bg-blue-50 text-blue-800 flex items-center justify-center flex-shrink-0"><i class="fas fa-envelope"></i></span>
+                <div>
+                  <div class="text-xs text-slate-500 font-semibold">Email Address</div>
+                  <div id="p-email-val" class="font-semibold text-slate-800 break-all"></div>
+                </div>
+              </li>
+              <li class="flex items-center gap-3" id="p-phone-li" style="display: none;">
+                <span class="w-8 h-8 rounded-full bg-blue-50 text-blue-800 flex items-center justify-center flex-shrink-0"><i class="fas fa-phone-alt"></i></span>
+                <div>
+                  <div class="text-xs text-slate-500 font-semibold">Phone Number</div>
+                  <div id="p-phone-val" class="font-semibold text-slate-800"></div>
+                </div>
+              </li>
+              <li class="flex items-center gap-3" id="p-web-li" style="display: none;">
+                <span class="w-8 h-8 rounded-full bg-blue-50 text-blue-800 flex items-center justify-center flex-shrink-0"><i class="fas fa-globe"></i></span>
+                <div>
+                  <div class="text-xs text-slate-500 font-semibold">Personal Website</div>
+                  <div id="p-web-val" class="font-semibold text-slate-800 break-all"></div>
+                </div>
+              </li>
+            </ul>
+          </div>
+
+        </div>
+
+      </div>
+
+      <!-- Leadership Speech / Message Box (Placed at the very bottom of the page) -->
+      <div id="p-speech-container" class="mb-8" style="display: none;">
+        <div class="info-card" style="border-left: 5px solid #ffb703;">
+          <h3 style="color: #1a3a60; border-bottom: none; margin-bottom: 8px;">
+            <i class="fas fa-quote-left text-yellow-500"></i> Leadership Message & Vision | নেতৃত্বের বার্তা ও দর্শন
+          </h3>
+          <div id="p-speech-text" class="quote-box">
+            "Literature sharpens human consciousness and empowers us to build a thoughtful society..."
+          </div>
+        </div>
+      </div>
+
+      <!-- Bottom Action Button -->
+      <div class="text-center pb-8">
+        <a href="/honorboard.html" class="inline-flex items-center gap-2 px-8 py-3.5 rounded-full bg-ku-blue hover:bg-slate-900 text-white font-bold transition shadow-lg text-sm">
+          <i class="fas fa-users"></i> View All Honor Board Members | সকল সদস্য দেখুন
+        </a>
+      </div>
+
+    </div>
+
+  </main>
+
+  <!-- Universal Footer -->
+  <footer class="footer" style="background: #0f172a; color: #ffffff; padding: 40px 0 20px; border-top: 4px solid #ffb703; margin-top: auto;">
+    <div class="container">
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 30px; margin-bottom: 30px;">
+        
+        <!-- Logo / Name -->
+        <div>
+          <span style="font-size: 20px; font-weight: 700; color: #ffb703; display: block; margin-bottom: 8px;">Khulna University Writers' Society</span>
+          <p style="font-size: 14px; line-height: 1.6; color: #cbd5e1;">
+            Powered by the passion of Khulna University students. মুক্তচিন্তা ও সৃজনশীল সাহিত্যের উন্মুক্ত প্রাঙ্গণ।
+          </p>
+        </div>
+
+        <!-- Quick Links -->
+        <div>
+          <h4 style="font-size: 16px; font-weight: 600; color: #ffffff; margin-bottom: 12px;">Quick Links</h4>
+          <ul style="list-style: none; padding: 0; margin: 0; font-size: 14px; display: flex; flex-direction: column; gap: 8px;">
+            <li><a href="/ourstory.html" style="color: #cbd5e1; text-decoration: none;" onmouseover="this.style.color='#ffb703'" onmouseout="this.style.color='#cbd5e1'">Our Story</a></li>
+            <li><a href="/portal?category=events" style="color: #cbd5e1; text-decoration: none;" onmouseover="this.style.color='#ffb703'" onmouseout="this.style.color='#cbd5e1'">Upcoming Activities</a></li>
+            <li><a href="/portal" style="color: #cbd5e1; text-decoration: none;" onmouseover="this.style.color='#ffb703'" onmouseout="this.style.color='#cbd5e1'">Read Member Work</a></li>
+            <li><a href="/honorboard.html" style="color: #cbd5e1; text-decoration: none;" onmouseover="this.style.color='#ffb703'" onmouseout="this.style.color='#cbd5e1'">Honor Board</a></li>
+            <li><a href="/gallery.html" style="color: #cbd5e1; text-decoration: none;" onmouseover="this.style.color='#ffb703'" onmouseout="this.style.color='#cbd5e1'">Gallery</a></li>
+            <li><a href="/verification.html" style="color: #cbd5e1; text-decoration: none;" onmouseover="this.style.color='#ffb703'" onmouseout="this.style.color='#cbd5e1'">Verify Certificate</a></li>
+          </ul>
+        </div>
+
+        <!-- Resources -->
+        <div>
+          <h4 style="font-size: 16px; font-weight: 600; color: #ffffff; margin-bottom: 12px;">Resources</h4>
+          <ul style="list-style: none; padding: 0; margin: 0; font-size: 14px; display: flex; flex-direction: column; gap: 8px;">
+            <li><a href="/portal" style="color: #cbd5e1; text-decoration: none;" onmouseover="this.style.color='#ffb703'" onmouseout="this.style.color='#cbd5e1'">KUWS Literary Portal</a></li>
+            <li><a href="/honorboard.html" style="color: #cbd5e1; text-decoration: none;" onmouseover="this.style.color='#ffb703'" onmouseout="this.style.color='#cbd5e1'">Honor Board</a></li>
+            <li><a href="/gallery.html" style="color: #cbd5e1; text-decoration: none;" onmouseover="this.style.color='#ffb703'" onmouseout="this.style.color='#cbd5e1'">Photo Gallery</a></li>
+            <li><a href="/verification.html" style="color: #cbd5e1; text-decoration: none;" onmouseover="this.style.color='#ffb703'" onmouseout="this.style.color='#cbd5e1'">Verify Certificate</a></li>
+            <li><a href="https://ku.ac.bd" target="_blank" style="color: #cbd5e1; text-decoration: none;" onmouseover="this.style.color='#ffb703'" onmouseout="this.style.color='#cbd5e1'">KU Official Site</a></li>
+          </ul>
+        </div>
+
+        <!-- Contact Info -->
+        <div>
+          <h4 style="font-size: 16px; font-weight: 600; color: #ffffff; margin-bottom: 12px;">Get In Touch</h4>
+          <p style="font-size: 14px; color: #cbd5e1; margin-bottom: 6px;">Email: kuwriterssociety@gmail.com</p>
+          <p style="font-size: 14px; color: #cbd5e1; margin-bottom: 12px;">Khulna University, Khulna-9208</p>
+          <div style="display: flex; gap: 14px; font-size: 18px;">
+            <a href="https://www.facebook.com/KUWritersSociety/" target="_blank" style="color: #ffb703;"><i class="fab fa-facebook"></i></a>
+            <a href="https://www.facebook.com/groups/kuws2024" target="_blank" style="color: #ffb703;"><i class="fab fa-users"></i></a>
+            <a href="mailto:kuwriterssociety@gmail.com" style="color: #ffb703;"><i class="fas fa-envelope"></i></a>
+          </div>
+        </div>
+
+      </div>
+
+      <div style="border-top: 1px solid rgba(255, 183, 3, 0.3); padding-top: 18px; text-align: center; font-size: 13px; color: #94a3b8;">
+        &copy; 2026 Khulna University Writers' Society (KUWS). All rights reserved.
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="/js/api.js?v=3.5"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', async () => {
+      // Date
+      const dateEl = document.getElementById('current-date');
+      if (dateEl) {
+        dateEl.innerHTML = `<i class="far fa-calendar-alt"></i> ${new Date().toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}`;
+      }
+
+      // Load Nav Categories
+      try {
+        const catRes = await fetch('/api/categories').then(r => r.json());
+        if (catRes && catRes.categories) {
+          const nav = document.getElementById('category-nav');
+          catRes.categories.forEach(c => {
+            const li = document.createElement('li');
+            li.innerHTML = `<a href="/category.html?category=${c.slug}">${c.name_bn}</a>`;
+            nav.appendChild(li);
+          });
+          const extraNavItems = [
+            { title: 'অনার বোর্ড', url: '/honorboard.html' },
+            { title: 'গ্যালারি', url: '/gallery.html' },
+            { title: 'সার্টিফিকেট', url: '/verification.html' }
+          ];
+          extraNavItems.forEach(item => {
+            const li = document.createElement('li');
+            li.innerHTML = `<a href="${item.url}">${item.title}</a>`;
+            nav.appendChild(li);
+          });
+        }
+      } catch (e) {
+        console.error('Navbar category load error:', e);
+      }
+
+      // Load Profile Data
+      const urlParams = new URLSearchParams(window.location.search);
+      const memberId = urlParams.get('id');
+
+      try {
+        let member = null;
+        if (memberId) {
+          const res = await fetch(`/api/honorboard/${memberId}`).then(r => r.json());
+          if (res && res.success && res.member) {
+            member = res.member;
+          }
+        }
+        
+        // Fallback: If no ID or not found by ID, get list and pick first
+        if (!member) {
+          const resAll = await fetch('/api/honorboard').then(r => r.json());
+          if (resAll && resAll.members && resAll.members.length > 0) {
+            if (memberId) {
+              member = resAll.members.find(m => m.id === Number(memberId));
+            }
+            if (!member) member = resAll.members[0];
+          }
+        }
+
+        document.getElementById('profile-loading').style.display = 'none';
+
+        if (!member) {
+          document.getElementById('profile-error').style.display = 'block';
+          return;
+        }
+
+        // Render Profile Details
+        document.getElementById('profile-content').style.display = 'block';
+        
+        const mainName = member.name_en || member.name || 'Executive Member';
+        const subName = member.name || '';
+        document.title = `${mainName} | Executive Profile | KUWS`;
+        document.getElementById('breadcrumb-name').innerText = mainName;
+
+        // Avatar
+        document.getElementById('p-avatar').src = member.image_url || '/images/President1.png';
+        
+        // Large English Name, Smaller Bengali Name
+        document.getElementById('p-name-en').innerText = mainName;
+        document.getElementById('p-name-bn').innerText = subName;
+
+        // Designations
+        const desigEn = member.designation_en || member.designation || 'Executive Member';
+        const desigBn = member.designation ? `(${member.designation})` : '';
+        document.getElementById('p-designation-en').innerText = desigEn;
+        document.getElementById('p-designation-bn').innerText = desigBn;
+
+        document.getElementById('p-session').innerText = member.session_year ? `Term: ${member.session_year}` : 'KU Writers\' Society';
+        
+        if (member.department) {
+          document.getElementById('p-dept').innerText = member.department;
+          document.getElementById('p-dept-detail').innerText = member.department;
+        } else {
+          document.getElementById('p-dept').innerText = 'Khulna University';
+          document.getElementById('p-dept-detail').innerText = 'Khulna University';
+        }
+
+        // Blood Group
+        if (member.blood_group) {
+          document.getElementById('p-blood-badge').style.display = 'inline-flex';
+          document.getElementById('p-blood-text').innerText = member.blood_group;
+        }
+
+        // Contact links (Email, Phone, Facebook, LinkedIn, Website)
+        if (member.email) {
+          const el = document.getElementById('p-email-link');
+          el.href = `mailto:${member.email}`;
+          el.style.display = 'inline-flex';
+          document.getElementById('p-email-text').innerText = member.email;
+          document.getElementById('p-email-li').style.display = 'flex';
+          document.getElementById('p-email-val').innerHTML = `<a href="mailto:${member.email}" class="text-blue-600 hover:underline">${member.email}</a>`;
+        }
+        if (member.phone) {
+          const el = document.getElementById('p-phone-link');
+          el.href = `tel:${member.phone}`;
+          el.style.display = 'inline-flex';
+          document.getElementById('p-phone-text').innerText = member.phone;
+          document.getElementById('p-phone-li').style.display = 'flex';
+          document.getElementById('p-phone-val').innerHTML = `<a href="tel:${member.phone}" class="text-blue-600 hover:underline">${member.phone}</a>`;
+        }
+        if (member.facebook_url) {
+          const el = document.getElementById('p-fb-link');
+          el.href = member.facebook_url;
+          el.style.display = 'inline-flex';
+        }
+        if (member.linkedin_url) {
+          const el = document.getElementById('p-linkedin-link');
+          el.href = member.linkedin_url;
+          el.style.display = 'inline-flex';
+        }
+        if (member.website_url) {
+          const el = document.getElementById('p-web-link');
+          el.href = member.website_url.startsWith('http') ? member.website_url : `https://${member.website_url}`;
+          el.style.display = 'inline-flex';
+          document.getElementById('p-web-li').style.display = 'flex';
+          document.getElementById('p-web-val').innerHTML = `<a href="${el.href}" target="_blank" class="text-blue-600 hover:underline">${member.website_url} <i class="fas fa-external-link-alt text-xs"></i></a>`;
+        }
+
+        // Bio (Left Side Big Section)
+        document.getElementById('p-bio').innerText = member.bio || `${mainName} is an esteemed executive member of Khulna University Writers' Society, actively contributing to the promotion of literary and creative activities across campus.`;
+
+        // Academic Background (Right Side Top)
+        if (member.academic_info && member.academic_info.trim().length > 0) {
+          document.getElementById('p-academic').innerText = member.academic_info;
+        } else {
+          document.getElementById('p-academic').innerText = member.department ? `${member.department}, Khulna University.` : 'Student / Researcher, Khulna University.';
+        }
+
+        // Experience & Leadership (Right Side Middle)
+        if (member.experience_info && member.experience_info.trim().length > 0) {
+          document.getElementById('p-experience').innerText = member.experience_info;
+        } else {
+          document.getElementById('p-experience').innerText = `Served as ${desigEn} of Khulna University Writers' Society, overseeing publishing and event initiatives.`;
+        }
+
+        document.getElementById('p-org-desig').innerText = `${desigEn} (${member.session_year || 'Current'})`;
+
+        // Leadership Speech / Message (Placed at the very bottom)
+        if (member.message && member.message.trim().length > 0) {
+          document.getElementById('p-speech-container').style.display = 'block';
+          document.getElementById('p-speech-text').innerText = `"${member.message}"`;
+        }
+
+      } catch (err) {
+        console.error('Error fetching member profile:', err);
+        document.getElementById('profile-loading').style.display = 'none';
+        document.getElementById('profile-error').style.display = 'block';
+      }
+    });
+  </script>
+</body>
+</html>

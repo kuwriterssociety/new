@@ -822,7 +822,7 @@ const server = http.createServer(async (req, res) => {
     // 17. HONOR BOARD APIs
     if (pathname === '/api/honorboard' && req.method === 'GET') {
       const members = db.prepare(`
-        SELECT id, name, designation, session_year, bio, image_url, order_index
+        SELECT id, name, name_en, designation, designation_en, session_year, department, blood_group, email, phone, facebook_url, linkedin_url, website_url, message, bio, academic_info, experience_info, image_url, order_index
         FROM honor_board
         WHERE status = 'published'
         ORDER BY order_index ASC, id ASC
@@ -830,12 +830,23 @@ const server = http.createServer(async (req, res) => {
       return sendJson(res, 200, { success: true, members });
     }
 
+    if (pathname.match(/^\/api\/honorboard\/(\d+)$/) && req.method === 'GET') {
+      const id = Number(pathname.split('/')[3]);
+      const member = db.prepare(`
+        SELECT id, name, name_en, designation, designation_en, session_year, department, blood_group, email, phone, facebook_url, linkedin_url, website_url, message, bio, academic_info, experience_info, image_url, order_index
+        FROM honor_board
+        WHERE id = ? AND status = 'published'
+      `).get(id);
+      if (!member) return sendError(res, 404, 'সদস্য পাওয়া যায়নি।');
+      return sendJson(res, 200, { success: true, member });
+    }
+
     if (pathname.startsWith('/api/admin/honorboard')) {
       const authUser = authenticateRequest(req);
       if (!authUser) return sendError(res, 401, 'Unauthorized');
 
       // GET ALL
-      if (req.method === 'GET') {
+      if (req.method === 'GET' && pathname === '/api/admin/honorboard') {
         const members = db.prepare(`
           SELECT h.*, u.name as creator_name
           FROM honor_board h
@@ -845,21 +856,55 @@ const server = http.createServer(async (req, res) => {
         return sendJson(res, 200, { success: true, members });
       }
 
+      // GET SINGLE BY ID FOR ADMIN
+      if (req.method === 'GET' && pathname.match(/^\/api\/admin\/honorboard\/(\d+)$/)) {
+        const id = Number(pathname.split('/')[4]);
+        const member = db.prepare(`
+          SELECT h.*, u.name as creator_name
+          FROM honor_board h
+          LEFT JOIN users u ON h.created_by = u.id
+          WHERE h.id = ?
+        `).get(id);
+        if (!member) return sendError(res, 404, 'সদস্য পাওয়া যায়নি।');
+        return sendJson(res, 200, { success: true, member });
+      }
+
       // CREATE
-      if (req.method === 'POST') {
-        const { name, designation, session_year, bio, image_url, order_index, status } = await parseBody(req);
+      if (req.method === 'POST' && pathname === '/api/admin/honorboard') {
+        const {
+          name, name_en, designation, designation_en, session_year, department, blood_group,
+          email, phone, facebook_url, linkedin_url, website_url, message, bio, academic_info, experience_info,
+          image_url, order_index, status
+        } = await parseBody(req);
+
         if (!name || !designation) {
           return sendError(res, 400, 'নাম ও পদবি দিন।');
         }
         let finalStatus = (authUser.role === 'sub_editor') ? 'pending' : (status || 'published');
         const resInsert = db.prepare(`
-          INSERT INTO honor_board (name, designation, session_year, bio, image_url, status, order_index, created_by)
-          VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+          INSERT INTO honor_board (
+            name, name_en, designation, designation_en, session_year, department, blood_group,
+            email, phone, facebook_url, linkedin_url, website_url, message, bio, academic_info, experience_info,
+            image_url, status, order_index, created_by
+          )
+          VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
         `).run(
           name.trim(),
+          name_en ? name_en.trim() : '',
           designation.trim(),
+          designation_en ? designation_en.trim() : '',
           session_year || '',
+          department || '',
+          blood_group || '',
+          email || '',
+          phone || '',
+          facebook_url || '',
+          linkedin_url || '',
+          website_url || '',
+          message || '',
           bio || '',
+          academic_info || '',
+          experience_info || '',
           image_url || '/images/President1.png',
           finalStatus,
           Number(order_index) || 0,
@@ -879,7 +924,12 @@ const server = http.createServer(async (req, res) => {
         const current = db.prepare('SELECT * FROM honor_board WHERE id = ?').get(id);
         if (!current) return sendError(res, 404, 'সদস্য পাওয়া যায়নি।');
 
-        const { name, designation, session_year, bio, image_url, order_index, status } = await parseBody(req);
+        const {
+          name, name_en, designation, designation_en, session_year, department, blood_group,
+          email, phone, facebook_url, linkedin_url, website_url, message, bio, academic_info, experience_info,
+          image_url, order_index, status
+        } = await parseBody(req);
+
         let targetStatus = status || current.status;
         if (authUser.role === 'sub_editor' && targetStatus === 'published' && current.status !== 'published') {
           targetStatus = 'pending';
@@ -888,18 +938,42 @@ const server = http.createServer(async (req, res) => {
         db.prepare(`
           UPDATE honor_board SET
             name = COALESCE(?, name),
+            name_en = COALESCE(?, name_en),
             designation = COALESCE(?, designation),
+            designation_en = COALESCE(?, designation_en),
             session_year = COALESCE(?, session_year),
+            department = COALESCE(?, department),
+            blood_group = COALESCE(?, blood_group),
+            email = COALESCE(?, email),
+            phone = COALESCE(?, phone),
+            facebook_url = COALESCE(?, facebook_url),
+            linkedin_url = COALESCE(?, linkedin_url),
+            website_url = COALESCE(?, website_url),
+            message = COALESCE(?, message),
             bio = COALESCE(?, bio),
+            academic_info = COALESCE(?, academic_info),
+            experience_info = COALESCE(?, experience_info),
             image_url = COALESCE(?, image_url),
             status = ?,
             order_index = COALESCE(?, order_index)
           WHERE id = ?
         `).run(
-          name ? name.trim() : null,
-          designation ? designation.trim() : null,
+          name !== undefined ? (name ? name.trim() : '') : null,
+          name_en !== undefined ? (name_en ? name_en.trim() : '') : null,
+          designation !== undefined ? (designation ? designation.trim() : '') : null,
+          designation_en !== undefined ? (designation_en ? designation_en.trim() : '') : null,
           session_year !== undefined ? session_year : null,
+          department !== undefined ? department : null,
+          blood_group !== undefined ? blood_group : null,
+          email !== undefined ? email : null,
+          phone !== undefined ? phone : null,
+          facebook_url !== undefined ? facebook_url : null,
+          linkedin_url !== undefined ? linkedin_url : null,
+          website_url !== undefined ? website_url : null,
+          message !== undefined ? message : null,
           bio !== undefined ? bio : null,
+          academic_info !== undefined ? academic_info : null,
+          experience_info !== undefined ? experience_info : null,
           image_url !== undefined ? image_url : null,
           targetStatus,
           order_index !== undefined ? Number(order_index) : null,
@@ -1185,6 +1259,12 @@ const server = http.createServer(async (req, res) => {
     }
     if (pathname === '/honorboard' || pathname === '/honorboard.html') {
       return serveStatic(res, path.join(PUBLIC_DIR, 'honorboard.html'));
+    }
+    if (pathname === '/profile' || pathname === '/profile.html') {
+      return serveStatic(res, path.join(PUBLIC_DIR, 'profile.html'));
+    }
+    if (pathname === '/join' || pathname === '/join.html') {
+      return serveStatic(res, path.join(PUBLIC_DIR, 'join.html'));
     }
     if (pathname === '/gallery' || pathname === '/gallery.html') {
       return serveStatic(res, path.join(PUBLIC_DIR, 'gallery.html'));

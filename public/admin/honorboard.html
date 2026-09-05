@@ -93,48 +93,120 @@
 
   <!-- Add / Edit Modal -->
   <div id="member-modal" class="modal-overlay" style="display: none;">
-    <div class="modal-card">
+    <div class="modal-card" style="max-width: 800px; max-height: 90vh; overflow-y: auto;">
       <div class="modal-header">
         <h3 id="modal-title">নতুন অনার বোর্ড সদস্য যোগ</h3>
         <button onclick="closeMemberModal()" style="background: none; border: none; font-size: 20px; cursor: pointer; color: #fff;">&times;</button>
       </div>
       <form id="member-form">
-        <div class="modal-body">
+        <div class="modal-body" style="display: flex; flex-direction: column; gap: 14px;">
           <input type="hidden" id="edit-member-id">
           
-          <div class="form-group">
-            <label class="form-label">সদস্যের নাম *</label>
-            <input type="text" id="m-name" class="form-control" placeholder="যেমন: Ekramul Haque" required>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+            <div class="form-group">
+              <label class="form-label">সদস্যের নাম (বাংলা) *</label>
+              <input type="text" id="m-name" class="form-control" placeholder="যেমন: ইকরামুল হক" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label">নাম (ইংরেজি / English Name)</label>
+              <input type="text" id="m-name-en" class="form-control" placeholder="e.g. Ekramul Haque">
+            </div>
+          </div>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+            <div class="form-group">
+              <label class="form-label">পদবি (বাংলা) *</label>
+              <input type="text" id="m-designation" class="form-control" placeholder="যেমন: সভাপতি / সাধারণ সম্পাদক" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label">পদবি (ইংরেজি / English Designation)</label>
+              <input type="text" id="m-designation-en" class="form-control" placeholder="e.g. President / General Secretary">
+            </div>
+          </div>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+            <div class="form-group">
+              <label class="form-label">কার্যকাল / সেশন (Session)</label>
+              <input type="text" id="m-session" class="form-control" placeholder="যেমন: ২০২৫-২০২৬ / 2025-2026">
+            </div>
+            <div class="form-group">
+              <label class="form-label">ডিসিপ্লিন / বিভাগ ও বিশ্ববিদ্যালয়</label>
+              <input type="text" id="m-department" class="form-control" placeholder="যেমন: বাংলা ডিসিপ্লিন, খুলনা বিশ্ববিদ্যালয়">
+            </div>
+          </div>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 15px;">
+            <div class="form-group">
+              <label class="form-label">রক্তের গ্রুপ (Blood Group)</label>
+              <input type="text" id="m-blood-group" class="form-control" placeholder="যেমন: B+, O+, A+">
+            </div>
+            <div class="form-group">
+              <label class="form-label">ইমেইল (Email)</label>
+              <input type="email" id="m-email" class="form-control" placeholder="user@ku.ac.bd">
+            </div>
+            <div class="form-group">
+              <label class="form-label">ফোন নম্বর (Phone)</label>
+              <input type="text" id="m-phone" class="form-control" placeholder="017XXXXXXXX">
+            </div>
+          </div>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 15px;">
+            <div class="form-group">
+              <label class="form-label">ফেসবুক প্রোফাইল URL</label>
+              <input type="url" id="m-facebook" class="form-control" placeholder="https://facebook.com/username">
+            </div>
+            <div class="form-group">
+              <label class="form-label">লিঙ্কডইন প্রোফাইল URL</label>
+              <input type="url" id="m-linkedin" class="form-control" placeholder="https://linkedin.com/in/username">
+            </div>
+            <div class="form-group">
+              <label class="form-label">ওয়েবসাইট URL (Personal Website)</label>
+              <input type="url" id="m-website" class="form-control" placeholder="https://mywebsite.com">
+            </div>
           </div>
 
           <div class="form-group">
-            <label class="form-label">পদবি *</label>
-            <input type="text" id="m-designation" class="form-control" placeholder="যেমন: President / General Secretary" required>
+            <label class="form-label">নেতৃত্বের বাণী / বার্তা (Message / Speech)</label>
+            <textarea id="m-message" class="form-control" rows="3" placeholder="সংগঠন ও সদস্যদের উদ্দেশ্যে বার্তা বা উদ্ধৃতি..."></textarea>
           </div>
 
           <div class="form-group">
-            <label class="form-label">সেশন / বছর</label>
-            <input type="text" id="m-session" class="form-control" placeholder="যেমন: 2025-2026 বা 2025">
+            <label class="form-label">জীবনবৃত্তান্ত ও সংক্ষিপ্ত পরিচিতি (About / Bio)</label>
+            <textarea id="m-bio" class="form-control" rows="3" placeholder="ব্যক্তিগত ও সাহিত্যিক পরিচিতি..."></textarea>
           </div>
 
-          <div class="form-group">
-            <label class="form-label">সংক্ষিপ্ত পরিচয় / নোট</label>
-            <input type="text" id="m-bio" class="form-control" placeholder="যেমন: Current and Founding President">
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+            <div class="form-group">
+              <label class="form-label">শিক্ষাগত যোগ্যতা (Academic Info)</label>
+              <textarea id="m-academic" class="form-control" rows="2" placeholder="স্নাতক/স্নাতকোত্তর, ডিসিপ্লিন, বিশ্ববিদ্যালয়..."></textarea>
+            </div>
+            <div class="form-group">
+              <label class="form-label">অভিজ্ঞতা ও কার্যক্রম (Experience / Activities)</label>
+              <textarea id="m-experience" class="form-control" rows="2" placeholder="পূর্ববর্তী দায়িত্ব, সাহিত্যিক কাজ, অ্যাচিভমেন্ট..."></textarea>
+            </div>
           </div>
 
-          <div class="form-group">
-            <label class="form-label">প্রোফাইল ছবি</label>
-            <input type="file" id="m-file" accept="image/*" class="form-control" style="font-size: 13px; margin-bottom: 6px;">
-            <input type="text" id="m-image-url" class="form-control" placeholder="ছবির লিংক (/images/President1.png বা অনলাইন URL)">
+          <div style="display: grid; grid-template-columns: 1.5fr 1fr; gap: 15px;">
+            <div class="form-group">
+              <label class="form-label">প্রোফাইল ছবি</label>
+              <input type="file" id="m-file" accept="image/*" class="form-control" style="font-size: 13px; margin-bottom: 6px;">
+              <input type="text" id="m-image-url" class="form-control" placeholder="ছবির লিংক (/images/President1.png বা URL)">
+            </div>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+              <div class="form-group">
+                <label class="form-label">ক্রম (Order)</label>
+                <input type="number" id="m-order" class="form-control" value="0">
+              </div>
+              <div class="form-group nav-editor">
+                <label class="form-label">স্ট্যাটাস</label>
+                <select id="m-status" class="form-control">
+                  <option value="published">প্রকাশিত</option>
+                  <option value="pending">পেন্ডিং</option>
+                </select>
+              </div>
+            </div>
           </div>
 
-          <div class="form-group nav-editor">
-            <label class="form-label">স্ট্যাটাস (Status)</label>
-            <select id="m-status" class="form-control">
-              <option value="published">প্রকাশিত (Published Live)</option>
-              <option value="pending">পেন্ডিং অনুমোদন (Pending Review)</option>
-            </select>
-          </div>
         </div>
 
         <div class="modal-footer">
@@ -178,13 +250,31 @@
         e.preventDefault();
         const id = document.getElementById('edit-member-id').value;
         const name = document.getElementById('m-name').value.trim();
+        const name_en = document.getElementById('m-name-en').value.trim();
         const designation = document.getElementById('m-designation').value.trim();
+        const designation_en = document.getElementById('m-designation-en').value.trim();
         const session_year = document.getElementById('m-session').value.trim();
+        const department = document.getElementById('m-department').value.trim();
+        const blood_group = document.getElementById('m-blood-group').value.trim();
+        const email = document.getElementById('m-email').value.trim();
+        const phone = document.getElementById('m-phone').value.trim();
+        const facebook_url = document.getElementById('m-facebook').value.trim();
+        const linkedin_url = document.getElementById('m-linkedin').value.trim();
+        const website_url = document.getElementById('m-website').value.trim();
+        const message = document.getElementById('m-message').value.trim();
         const bio = document.getElementById('m-bio').value.trim();
+        const academic_info = document.getElementById('m-academic').value.trim();
+        const experience_info = document.getElementById('m-experience').value.trim();
         const image_url = document.getElementById('m-image-url').value.trim();
+        const order_index = parseInt(document.getElementById('m-order').value) || 0;
         const status = document.getElementById('m-status').value;
 
-        const payload = { name, designation, session_year, bio, image_url, status };
+        const payload = {
+          name, name_en, designation, designation_en, session_year,
+          department, blood_group, email, phone, facebook_url, linkedin_url, website_url,
+          message, bio, academic_info, experience_info, image_url,
+          order_index, status
+        };
 
         try {
           if (id) {
@@ -222,22 +312,34 @@
             <td>
               <img src="${m.image_url || '/images/President1.png'}" style="width: 44px; height: 44px; border-radius: 50%; object-fit: cover; border: 1px solid var(--border-color);">
             </td>
-            <td><strong>${m.name}</strong></td>
-            <td><span class="badge badge-primary">${m.designation}</span></td>
+            <td>
+              <strong>${m.name}</strong>
+              ${m.name_en ? `<div style="font-size: 12px; color: var(--accent); font-weight: 600;">${m.name_en}</div>` : ''}
+              ${m.department ? `<div style="font-size: 11px; color: var(--text-muted);">${m.department}</div>` : ''}
+            </td>
+            <td>
+              <span class="badge badge-primary">${m.designation}</span>
+              ${m.designation_en ? `<div style="font-size: 11px; color: var(--text-muted); margin-top: 2px;">${m.designation_en}</div>` : ''}
+            </td>
             <td>${m.session_year || '—'}</td>
-            <td style="font-size: 13px; color: var(--text-muted); max-width: 200px;">${m.bio || '—'}</td>
+            <td style="font-size: 12px; color: var(--text-muted); max-width: 200px;">
+              ${m.bio ? m.bio.substring(0, 70) + (m.bio.length > 70 ? '...' : '') : (m.message ? m.message.substring(0, 70) + '...' : '—')}
+            </td>
             <td>${Utils.getStatusBadge(m.status)}</td>
             <td style="text-align: right; white-space: nowrap;">
+              <a href="/profile.html?id=${m.id}" target="_blank" class="btn btn-sm btn-info" title="প্রোফাইল ভিউ">
+                <i class="fas fa-eye"></i>
+              </a>
               ${(m.status === 'pending' && (role === 'it_admin' || role === 'editor')) ? `
                 <button class="btn btn-sm btn-success" onclick="approveMember(${m.id})" title="অনুমোদন করুন">
-                  <i class="fas fa-check"></i> অনুমোদন
+                  <i class="fas fa-check"></i>
                 </button>
               ` : ''}
-              <button class="btn btn-sm btn-secondary" onclick="editMemberById(${m.id})">
+              <button class="btn btn-sm btn-secondary" onclick="editMemberById(${m.id})" title="সম্পাদনা">
                 <i class="fas fa-edit"></i>
               </button>
               ${(role === 'it_admin' || role === 'editor') ? `
-                <button class="btn btn-sm btn-danger" onclick="deleteMember(${m.id})">
+                <button class="btn btn-sm btn-danger" onclick="deleteMember(${m.id})" title="মুছে ফেলুন">
                   <i class="fas fa-trash"></i>
                 </button>
               ` : ''}
@@ -252,6 +354,8 @@
     function openMemberModal() {
       document.getElementById('member-form').reset();
       document.getElementById('edit-member-id').value = '';
+      document.getElementById('m-order').value = '0';
+      document.getElementById('m-status').value = 'published';
       document.getElementById('modal-title').innerText = 'নতুন অনার বোর্ড সদস্য যোগ';
       document.getElementById('member-modal').style.display = 'flex';
     }
@@ -265,11 +369,24 @@
       if (!m) return;
       document.getElementById('edit-member-id').value = m.id;
       document.getElementById('m-name').value = m.name || '';
+      document.getElementById('m-name-en').value = m.name_en || '';
       document.getElementById('m-designation').value = m.designation || '';
+      document.getElementById('m-designation-en').value = m.designation_en || '';
       document.getElementById('m-session').value = m.session_year || '';
+      document.getElementById('m-department').value = m.department || '';
+      document.getElementById('m-blood-group').value = m.blood_group || '';
+      document.getElementById('m-email').value = m.email || '';
+      document.getElementById('m-phone').value = m.phone || '';
+      document.getElementById('m-facebook').value = m.facebook_url || '';
+      document.getElementById('m-linkedin').value = m.linkedin_url || '';
+      document.getElementById('m-website').value = m.website_url || '';
+      document.getElementById('m-message').value = m.message || '';
       document.getElementById('m-bio').value = m.bio || '';
+      document.getElementById('m-academic').value = m.academic_info || '';
+      document.getElementById('m-experience').value = m.experience_info || '';
       document.getElementById('m-image-url').value = m.image_url || '';
-      document.getElementById('m-status').value = m.status;
+      document.getElementById('m-order').value = m.order_index || 0;
+      document.getElementById('m-status').value = m.status || 'published';
       document.getElementById('modal-title').innerText = 'সদস্য তথ্য সম্পাদনা';
       document.getElementById('member-modal').style.display = 'flex';
     }

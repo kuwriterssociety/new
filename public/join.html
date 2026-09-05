@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>সদস্য হোন | খুলনা বিশ্ববিদ্যালয় লেখক সংঘ (KUWS)</title>
+  <link rel="icon" type="image/png" href="favicon.png">
+  <link rel="stylesheet" href="/css/style.css">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;400;500;600;700&family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <!-- Load Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      corePlugins: {
+        preflight: false,
+      },
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Hind Siliguri"', 'Inter', 'sans-serif'],
+          },
+          colors: {
+            'ku-blue': '#1a3a60',
+            'ku-gold': '#ffb703',
+            'ku-light': '#f0f4f8',
+          }
+        }
+      }
+    }
+  </script>
+  <link rel="stylesheet" href="/css/style.css?v=2.2">
+  <style>
+    html {
+      scroll-behavior: smooth;
+      font-family: 'Hind Siliguri', 'Inter', sans-serif;
+    }
+    body::-webkit-scrollbar {
+      width: 8px;
+    }
+    body::-webkit-scrollbar-thumb {
+      background-color: #ffb703;
+      border-radius: 4px;
+    }
+    body::-webkit-scrollbar-track {
+      background-color: #1a3a60;
+    }
+    .join-hero {
+      background: linear-gradient(135deg, #1a3a60 0%, #0d223a 100%);
+      color: #ffffff;
+      border-radius: 16px;
+      padding: 40px 24px;
+      text-align: center;
+      border-top: 4px solid #ffb703;
+      box-shadow: 0 10px 25px -5px rgba(26, 58, 96, 0.3);
+      margin-bottom: 30px;
+    }
+    .benefit-card {
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 12px;
+      padding: 24px;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+    }
+    .benefit-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+      border-color: #ffb703;
+    }
+    .icon-box {
+      width: 50px;
+      height: 50px;
+      border-radius: 12px;
+      background: #f0f4f8;
+      color: #1a3a60;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+      margin-bottom: 14px;
+    }
+  </style>
+</head>
+<body class="bg-ku-light text-gray-800 flex flex-col min-h-screen">
+
+  <!-- Fixed Sticky Header Wrapper -->
+  <div class="site-header-wrapper">
+    <!-- Top Bar -->
+    <div class="top-bar">
+      <div class="container top-bar-inner">
+        <div id="current-date"><i class="far fa-calendar-alt"></i> লোড হচ্ছে...</div>
+        <div style="display: flex; gap: 15px; align-items: center; flex-wrap: wrap;">
+          <span style="color: var(--accent); font-size: 13px; font-weight: 600;"><i class="fas fa-file-signature"></i> সদস্য নিবন্ধন</span>
+          <span style="color: #94a3b8; font-size: 13px;"><i class="fas fa-university"></i> খুলনা বিশ্ববিদ্যালয়</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Main Header -->
+    <header class="main-header">
+      <div class="container header-inner">
+        <div class="brand-logo">
+          <a href="/" style="display: flex; align-items: center; gap: 14px;">
+            <div style="width: 48px; height: 48px; background: #fff3d6; color: var(--primary); border: 2px solid var(--accent); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 22px; flex-shrink: 0; box-shadow: 0 2px 6px rgba(0,0,0,0.08);">
+              <i class="fas fa-feather-alt" style="color: #e09f00;"></i>
+            </div>
+            <div>
+              <h1 id="site-name-display" style="color: var(--primary); font-size: 26px; font-weight: 800;">খুলনা বিশ্ববিদ্যালয় লেখক সংঘ</h1>
+              <p id="site-tagline-display" style="color: var(--text-muted); font-size: 13px;">মুক্তচিন্তা ও সৃজনশীল সাহিত্যের উন্মুক্ত প্রাঙ্গণ</p>
+            </div>
+          </a>
+        </div>
+        <div style="display: flex; gap: 10px; align-items: center; width: 100%; max-width: 320px;">
+          <form id="search-form" class="header-search-form" action="/category.html" method="GET" style="width: 100%;">
+            <input type="text" name="search" placeholder="কবিতা, গল্প বা লেখক খুঁজুন..." class="form-control" style="width: 100%; padding: 8px 12px;">
+            <button type="submit" class="btn btn-primary" style="background: var(--primary); border-color: var(--primary);"><i class="fas fa-search"></i></button>
+          </form>
+        </div>
+      </div>
+    </header>
+
+    <!-- Navigation Bar -->
+    <nav class="nav-bar">
+      <div class="container nav-inner">
+        <ul class="nav-links" id="category-nav">
+          <li><a href="/"><i class="fas fa-university"></i> আমাদের সম্পর্কে</a></li>
+          <li><a href="/portal">প্রচ্ছদ</a></li>
+        </ul>
+      </div>
+    </nav>
+  </div>
+
+  <!-- Breadcrumb -->
+  <div class="container" style="padding-top: 15px; padding-bottom: 10px;">
+    <div style="font-size: 13px; color: #64748b;">
+      <a href="/" style="color: #1a3a60; text-decoration: none;"><i class="fas fa-home"></i> হোম</a>
+      <span style="margin: 0 6px;">/</span>
+      <span style="color: #ffb703; font-weight: 600;">সদস্য হোন (Membership)</span>
+    </div>
+  </div>
+
+  <!-- Main Join Container -->
+  <main class="container py-4 flex-grow">
+    
+    <!-- Hero Banner -->
+    <div class="join-hero">
+      <span style="font-size: 13px; color: #ffb703; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; display: block; margin-bottom: 6px;">
+        খুলনা বিশ্ববিদ্যালয় লেখক সংঘের পরিবারে স্বাগতম
+      </span>
+      <h1 class="text-2xl md:text-4xl font-extrabold text-white mb-2">
+        সাহিত্যচর্চায় আপনিও অংশ নিন
+      </h1>
+      <h2 class="text-base md:text-lg font-semibold text-yellow-400 mb-4">
+        Be A Proud Member of KU Writers' Society
+      </h2>
+      <p class="text-sm md:text-base text-slate-200 max-w-2xl mx-auto leading-relaxed mb-6">
+        খুলনা বিশ্ববিদ্যালয়ের যেকোনো ডিসিপ্লিনের সাহিত্যপ্রেমী, কবি, গল্পকার ও সৃষ্টিশীল শিক্ষার্থীদের জন্য আমাদের দ্বার উন্মুক্ত। আপনার লেখনী ও মুক্তচিন্তাকে নতুন উচ্চতায় পৌঁছে দিতে যুক্ত হোন আমাদের সাথে।
+      </p>
+
+      <div class="flex flex-wrap gap-4 justify-center">
+        <a href="https://forms.gle/1ZHep4fKWjWkJ5z39" target="_blank" class="inline-flex items-center gap-2 px-8 py-3.5 bg-yellow-500 hover:bg-yellow-400 text-slate-900 font-extrabold rounded-full transition shadow-lg text-base">
+          <i class="fas fa-file-signature"></i> অনলাইন সদস্য ফরম পূরণ করুন
+        </a>
+        <a href="https://www.facebook.com/groups/kuws2024" target="_blank" class="inline-flex items-center gap-2 px-6 py-3.5 bg-white hover:bg-slate-100 text-slate-900 font-bold rounded-full transition shadow text-sm">
+          <i class="fab fa-facebook"></i> অফিশিয়াল গ্রুপে যুক্ত হোন
+        </a>
+      </div>
+    </div>
+
+    <!-- Why Join Us Section -->
+    <section class="mb-10">
+      <div class="text-center mb-8">
+        <h2 class="text-2xl font-bold text-slate-800 mb-1">কেন যুক্ত হবেন লেখক সংঘে?</h2>
+        <p class="text-sm text-yellow-600 font-semibold">Benefits of Becoming a Member</p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        
+        <!-- Card 1 -->
+        <div class="benefit-card">
+          <div class="icon-box">
+            <i class="fas fa-feather-alt text-yellow-600"></i>
+          </div>
+          <h3 class="text-lg font-bold text-slate-800 mb-1">সাহিত্যকর্ম প্রকাশ</h3>
+          <p class="text-xs text-yellow-600 font-semibold mb-2">Publishing Opportunities</p>
+          <p class="text-sm text-slate-600 leading-relaxed">
+            KUWS অফিসিয়াল পোর্টাল, বার্ষিক সাময়িকী ও দেয়াল পত্রিকায় আপনার কবিতা, গল্প ও কলাম প্রকাশের উন্মুক্ত সুযোগ।
+          </p>
+        </div>
+
+        <!-- Card 2 -->
+        <div class="benefit-card">
+          <div class="icon-box">
+            <i class="fas fa-comments text-blue-700"></i>
+          </div>
+          <h3 class="text-lg font-bold text-slate-800 mb-1">সাহিত্য আড্ডা ও কর্মশালা</h3>
+          <p class="text-xs text-yellow-600 font-semibold mb-2">Workshops & Sessions</p>
+          <p class="text-sm text-slate-600 leading-relaxed">
+            লেখালেখির কৌশল, সম্পাদনা ও সাহিত্য আলোচনার নিয়মিত সাপ্তাহিক আড্ডা এবং বিশেষজ্ঞ লেখকদের কর্মশালা।
+          </p>
+        </div>
+
+        <!-- Card 3 -->
+        <div class="benefit-card">
+          <div class="icon-box">
+            <i class="fas fa-award text-yellow-600"></i>
+          </div>
+          <h3 class="text-lg font-bold text-slate-800 mb-1">প্রতিযোগিতা ও সনদ</h3>
+          <p class="text-xs text-yellow-600 font-semibold mb-2">Contests & Certification</p>
+          <p class="text-sm text-slate-600 leading-relaxed">
+            জাতীয় ও আন্তঃডিসিপ্লিন সাহিত্য প্রতিযোগিতায় অংশগ্রহণ, পুরস্কার অর্জন এবং অফিশিয়াল ডিজিটাল ভেরিফায়েড সার্টিফিকেট।
+          </p>
+        </div>
+
+        <!-- Card 4 -->
+        <div class="benefit-card">
+          <div class="icon-box">
+            <i class="fas fa-users text-blue-700"></i>
+          </div>
+          <h3 class="text-lg font-bold text-slate-800 mb-1">লেখক নেটওয়ার্ক ও নেতৃত্ব</h3>
+          <p class="text-xs text-yellow-600 font-semibold mb-2">Community & Leadership</p>
+          <p class="text-sm text-slate-600 leading-relaxed">
+            বিশ্ববিদ্যালয়ের সমমনা সাহিত্যপ্রেমী ও পাঠকদের বিশাল কমিউনিটি এবং সংগঠনে নেতৃত্ব দেওয়ার সুযোগ।
+          </p>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Eligibility & Membership Process -->
+    <section class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-10">
+      
+      <!-- Eligibility -->
+      <div class="bg-white rounded-xl border border-slate-200 p-6 shadow-sm">
+        <h3 class="text-lg font-bold text-slate-800 mb-3 flex items-center gap-2 border-b border-slate-100 pb-3">
+          <i class="fas fa-user-check text-blue-700"></i> সদস্য হওয়ার যোগ্যতা ও শর্তাবলী
+        </h3>
+        <ul class="space-y-3 text-sm text-slate-700">
+          <li class="flex items-start gap-2.5">
+            <i class="fas fa-check-circle text-green-600 mt-1 flex-shrink-0"></i>
+            <span>খুলনা বিশ্ববিদ্যালয়ের যেকোনো ডিসিপ্লিন বা ইন্সটিটিউটের নিয়মিত শিক্ষার্থী হতে হবে।</span>
+          </li>
+          <li class="flex items-start gap-2.5">
+            <i class="fas fa-check-circle text-green-600 mt-1 flex-shrink-0"></i>
+            <span>বাংলা বা বিশ্ব সাহিত্যের প্রতি গভীর অনুরাগ ও সৃষ্টিশীল চিন্তাচেতনার মানসিকতা।</span>
+          </li>
+          <li class="flex items-start gap-2.5">
+            <i class="fas fa-check-circle text-green-600 mt-1 flex-shrink-0"></i>
+            <span>সংগঠনের আদর্শ, গঠনতন্ত্র ও নিয়মনীতি মেনে চলার অঙ্গীকার।</span>
+          </li>
+          <li class="flex items-start gap-2.5">
+            <i class="fas fa-check-circle text-green-600 mt-1 flex-shrink-0"></i>
+            <span>অনলাইন রেজিস্ট্রেশন ফরম নির্ভুল তথ্য দিয়ে সম্পন্ন করতে হবে।</span>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Quick Steps -->
+      <div class="bg-white rounded-xl border border-slate-200 p-6 shadow-sm">
+        <h3 class="text-lg font-bold text-slate-800 mb-3 flex items-center gap-2 border-b border-slate-100 pb-3">
+          <i class="fas fa-route text-yellow-600"></i> যেভাবে যুক্ত হবেন (ধাপসমূহ)
+        </h3>
+        <ol class="space-y-3 text-sm text-slate-700">
+          <li class="flex items-start gap-3">
+            <span class="w-6 h-6 rounded-full bg-blue-100 text-blue-800 font-bold flex items-center justify-center text-xs flex-shrink-0">১</span>
+            <span>অনলাইন মেম্বারশিপ গুগল ফর্মটি ওপেন করে আপনার ব্যক্তিগত ও শিক্ষা সংক্রান্ত তথ্য দিন।</span>
+          </li>
+          <li class="flex items-start gap-3">
+            <span class="w-6 h-6 rounded-full bg-blue-100 text-blue-800 font-bold flex items-center justify-center text-xs flex-shrink-0">২</span>
+            <span>KUWS ফেসবুক অফিশিয়াল গ্রুপে রিকোয়েস্ট পাঠান।</span>
+          </li>
+          <li class="flex items-start gap-3">
+            <span class="w-6 h-6 rounded-full bg-blue-100 text-blue-800 font-bold flex items-center justify-center text-xs flex-shrink-0">৩</span>
+            <span>কার্যনির্বাহী পর্ষদ কর্তৃক যাচাইয়ের পর আপনাকে মূল গ্রুপে ও কার্যক্রমে অন্তর্ভুক্ত করা হবে।</span>
+          </li>
+        </ol>
+      </div>
+
+    </section>
+
+    <!-- Direct Links CTA -->
+    <div class="bg-slate-900 text-white rounded-2xl p-8 text-center border-2 border-yellow-500 shadow-xl mb-6">
+      <h2 class="text-2xl md:text-3xl font-extrabold mb-2">দেরি না করে এখনই ফরম পূরণ করুন</h2>
+      <p class="text-sm text-slate-300 max-w-xl mx-auto mb-6">
+        আপনার সাহিত্যিক প্রতিভাকে ফুটিয়ে তোলার এই অনন্য সুযোগ হাতছাড়া করবেন না।
+      </p>
+      <div class="flex flex-wrap gap-4 justify-center">
+        <a href="https://forms.gle/1ZHep4fKWjWkJ5z39" target="_blank" class="inline-flex items-center gap-2 px-8 py-3.5 bg-yellow-500 hover:bg-yellow-400 text-slate-900 font-extrabold rounded-full transition shadow-lg text-base">
+          <i class="fas fa-external-link-alt"></i> অনলাইন সদস্য ফরম (Google Form)
+        </a>
+        <a href="/portal" class="inline-flex items-center gap-2 px-6 py-3.5 bg-slate-800 hover:bg-slate-700 text-yellow-400 font-bold rounded-full transition border border-yellow-500/30 text-sm">
+          <i class="fas fa-book-open"></i> সাহিত্য পোর্টাল ঘুরে দেখুন
+        </a>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- Universal Footer -->
+  <footer class="footer" style="background: #0f172a; color: #ffffff; padding: 40px 0 20px; border-top: 4px solid #ffb703; margin-top: auto;">
+    <div class="container">
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 30px; margin-bottom: 30px;">
+        
+        <!-- Logo / Name -->
+        <div>
+          <span style="font-size: 20px; font-weight: 700; color: #ffb703; display: block; margin-bottom: 8px;">Khulna University Writers' Society</span>
+          <p style="font-size: 14px; line-height: 1.6; color: #cbd5e1;">
+            Powered by the passion of Khulna University students. মুক্তচিন্তা ও সৃজনশীল সাহিত্যের উন্মুক্ত প্রাঙ্গণ।
+          </p>
+        </div>
+
+        <!-- Quick Links -->
+        <div>
+          <h4 style="font-size: 16px; font-weight: 600; color: #ffffff; margin-bottom: 12px;">Quick Links</h4>
+          <ul style="list-style: none; padding: 0; margin: 0; font-size: 14px; display: flex; flex-direction: column; gap: 8px;">
+            <li><a href="/ourstory.html" style="color: #cbd5e1; text-decoration: none;" onmouseover="this.style.color='#ffb703'" onmouseout="this.style.color='#cbd5e1'">Our Story</a></li>
+            <li><a href="/portal?category=events" style="color: #cbd5e1; text-decoration: none;" onmouseover="this.style.color='#ffb703'" onmouseout="this.style.color='#cbd5e1'">Upcoming Activities</a></li>
+            <li><a href="/portal" style="color: #cbd5e1; text-decoration: none;" onmouseover="this.style.color='#ffb703'" onmouseout="this.style.color='#cbd5e1'">Read Member Work</a></li>
+            <li><a href="/honorboard.html" style="color: #cbd5e1; text-decoration: none;" onmouseover="this.style.color='#ffb703'" onmouseout="this.style.color='#cbd5e1'">Honor Board</a></li>
+            <li><a href="/gallery.html" style="color: #cbd5e1; text-decoration: none;" onmouseover="this.style.color='#ffb703'" onmouseout="this.style.color='#cbd5e1'">Gallery</a></li>
+            <li><a href="/verification.html" style="color: #cbd5e1; text-decoration: none;" onmouseover="this.style.color='#ffb703'" onmouseout="this.style.color='#cbd5e1'">Verify Certificate</a></li>
+          </ul>
+        </div>
+
+        <!-- Resources -->
+        <div>
+          <h4 style="font-size: 16px; font-weight: 600; color: #ffffff; margin-bottom: 12px;">Resources</h4>
+          <ul style="list-style: none; padding: 0; margin: 0; font-size: 14px; display: flex; flex-direction: column; gap: 8px;">
+            <li><a href="/portal" style="color: #cbd5e1; text-decoration: none;" onmouseover="this.style.color='#ffb703'" onmouseout="this.style.color='#cbd5e1'">KUWS Literary Portal</a></li>
+            <li><a href="/honorboard.html" style="color: #cbd5e1; text-decoration: none;" onmouseover="this.style.color='#ffb703'" onmouseout="this.style.color='#cbd5e1'">Honor Board</a></li>
+            <li><a href="/gallery.html" style="color: #cbd5e1; text-decoration: none;" onmouseover="this.style.color='#ffb703'" onmouseout="this.style.color='#cbd5e1'">Photo Gallery</a></li>
+            <li><a href="/verification.html" style="color: #cbd5e1; text-decoration: none;" onmouseover="this.style.color='#ffb703'" onmouseout="this.style.color='#cbd5e1'">Verify Certificate</a></li>
+            <li><a href="https://ku.ac.bd" target="_blank" style="color: #cbd5e1; text-decoration: none;" onmouseover="this.style.color='#ffb703'" onmouseout="this.style.color='#cbd5e1'">KU Official Site</a></li>
+          </ul>
+        </div>
+
+        <!-- Contact Info -->
+        <div>
+          <h4 style="font-size: 16px; font-weight: 600; color: #ffffff; margin-bottom: 12px;">Get In Touch</h4>
+          <p style="font-size: 14px; color: #cbd5e1; margin-bottom: 6px;">Email: kuwriterssociety@gmail.com</p>
+          <p style="font-size: 14px; color: #cbd5e1; margin-bottom: 12px;">Khulna University, Khulna-9208</p>
+          <div style="display: flex; gap: 14px; font-size: 18px;">
+            <a href="https://www.facebook.com/KUWritersSociety/" target="_blank" style="color: #ffb703;"><i class="fab fa-facebook"></i></a>
+            <a href="https://www.facebook.com/groups/kuws2024" target="_blank" style="color: #ffb703;"><i class="fab fa-users"></i></a>
+            <a href="mailto:kuwriterssociety@gmail.com" style="color: #ffb703;"><i class="fas fa-envelope"></i></a>
+          </div>
+        </div>
+
+      </div>
+
+      <div style="border-top: 1px solid rgba(255, 183, 3, 0.3); padding-top: 18px; text-align: center; font-size: 13px; color: #94a3b8;">
+        &copy; 2026 Khulna University Writers' Society (KUWS). All rights reserved.
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="/js/api.js?v=2.2"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', async () => {
+      // Date
+      const dateEl = document.getElementById('current-date');
+      if (dateEl) {
+        dateEl.innerHTML = `<i class="far fa-calendar-alt"></i> ${Utils.getCurrentBengaliDate()}`;
+      }
+
+      // Load Nav Categories
+      try {
+        const catRes = await API.getCategories();
+        if (catRes && catRes.categories) {
+          const nav = document.getElementById('category-nav');
+          catRes.categories.forEach(c => {
+            const li = document.createElement('li');
+            li.innerHTML = `<a href="/category.html?category=${c.slug}">${c.name_bn}</a>`;
+            nav.appendChild(li);
+          });
+          const extraNavItems = [
+            { title: 'অনার বোর্ড', url: '/honorboard.html' },
+            { title: 'গ্যালারি', url: '/gallery.html' },
+            { title: 'সার্টিফিকেট', url: '/verification.html' }
+          ];
+          extraNavItems.forEach(item => {
+            const li = document.createElement('li');
+            li.innerHTML = `<a href="${item.url}">${item.title}</a>`;
+            nav.appendChild(li);
+          });
+        }
+      } catch (e) {
+        console.error('Navbar category load error:', e);
+      }
+    });
+  </script>
+</body>
+</html>

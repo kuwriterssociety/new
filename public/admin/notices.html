@@ -181,17 +181,74 @@
   </div>
 
   <!-- Scripts -->
-  <script src="/js/api.js"></script>
+  <script src="/js/api.js?v=3.5"></script>
+  <script src="/js/admin.js?v=3.5"></script>
   <script>
-    let currentUser = null;
+    // Resilient Notice API Helpers (Works even if api.js is cached)
+    async function apiGetNotices() {
+      if (typeof API !== 'undefined' && typeof API.getAdminNotices === 'function') {
+        return await API.getAdminNotices();
+      }
+      const token = localStorage.getItem('news_token');
+      const res = await fetch('/api/admin/notices', {
+        headers: { 'Authorization': token ? 'Bearer ' + token : '' }
+      });
+      return await res.json();
+    }
+
+    async function apiCreateNotice(payload) {
+      if (typeof API !== 'undefined' && typeof API.createAdminNotice === 'function') {
+        return await API.createAdminNotice(payload);
+      }
+      const token = localStorage.getItem('news_token');
+      const res = await fetch('/api/admin/notices', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': token ? 'Bearer ' + token : ''
+        },
+        body: JSON.stringify(payload)
+      });
+      const data = await res.json();
+      if (!res.ok || !data.success) throw new Error(data.error || 'Failed to create notice');
+      return data;
+    }
+
+    async function apiUpdateNotice(id, payload) {
+      if (typeof API !== 'undefined' && typeof API.updateAdminNotice === 'function') {
+        return await API.updateAdminNotice(id, payload);
+      }
+      const token = localStorage.getItem('news_token');
+      const res = await fetch('/api/admin/notices/' + id, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': token ? 'Bearer ' + token : ''
+        },
+        body: JSON.stringify(payload)
+      });
+      const data = await res.json();
+      if (!res.ok || !data.success) throw new Error(data.error || 'Failed to update notice');
+      return data;
+    }
+
+    async function apiDeleteNotice(id) {
+      if (typeof API !== 'undefined' && typeof API.deleteAdminNotice === 'function') {
+        return await API.deleteAdminNotice(id);
+      }
+      const token = localStorage.getItem('news_token');
+      const res = await fetch('/api/admin/notices/' + id, {
+        method: 'DELETE',
+        headers: { 'Authorization': token ? 'Bearer ' + token : '' }
+      });
+      const data = await res.json();
+      if (!res.ok || !data.success) throw new Error(data.error || 'Failed to delete notice');
+      return data;
+    }
 
     document.addEventListener('DOMContentLoaded', async () => {
-      currentUser = await Utils.requireAuth();
+      await initAdmin();
       if (!currentUser) return;
-
-      document.getElementById('admin-user-name').innerText = currentUser.name;
-      document.getElementById('admin-user-role').innerText = Utils.getRoleBadge(currentUser.role).replace(/<[^>]*>/g, '');
-      document.getElementById('admin-user-avatar').src = currentUser.avatar || 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150';
 
       loadNotices();
 
@@ -218,10 +275,10 @@
 
         try {
           if (id) {
-            await API.updateAdminNotice(id, payload);
+            await apiUpdateNotice(id, payload);
             Utils.showToast('নোটিশ তথ্য আপডেট হয়েছে!', 'success');
           } else {
-            await API.createAdminNotice(payload);
+            await apiCreateNotice(payload);
             Utils.showToast('নোটিশ সফলভাবে যুক্ত হয়েছে!', 'success');
           }
           closeNoticeModal();
@@ -236,7 +293,7 @@
 
     async function loadNotices() {
       try {
-        const res = await API.getAdminNotices();
+        const res = await apiGetNotices();
         const tbody = document.getElementById('notices-tbody');
         const role = currentUser ? currentUser.role : 'sub_editor';
 
@@ -317,7 +374,7 @@
     async function deleteNoticeById(id) {
       if (!confirm('আপনি কি নিশ্চিত যে এই নোটিশটি মুছে ফেলতে চান?')) return;
       try {
-        await API.deleteAdminNotice(id);
+        await apiDeleteNotice(id);
         Utils.showToast('নোটিশ মুছে ফেলা হয়েছে।', 'success');
         loadNotices();
       } catch (err) {
