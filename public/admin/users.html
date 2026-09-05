@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>ইউজার ম্যানেজমেন্ট (IT Admin) | News Admin Panel</title>
-  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/css/style.css?v=4.0">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
@@ -164,6 +164,7 @@
 
     // Modal: Create User
     function openCreateUserModal() {
+      let createdAvatarData = '';
       const container = document.getElementById('modal-container');
       container.innerHTML = `
         <div class="modal-overlay" id="user-modal">
@@ -196,20 +197,20 @@
                 </div>
                 <div class="form-group">
                   <label class="form-label">পদবী (Designation)</label>
-                  <input type="text" id="new-user-desig" class="form-control" placeholder="যেমন: সিনিয়র স্টাফ রিপোর্টার">
+                  <input type="text" id="new-user-desig" class="form-control" placeholder="যেমন: সহকারী সম্পাদক / স্টাফ রাইটার">
                 </div>
                 <div class="form-group">
                   <label class="form-label">প্রোফাইল ছবি / অ্যাভাটার (Avatar Image)</label>
                   <input type="file" id="new-user-avatar-file" accept="image/*" class="form-control" style="font-size: 13px; margin-bottom: 6px;">
                   <input type="text" id="new-user-avatar-url" class="form-control" placeholder="বা ছবির অনলাইন লিংক (URL) দিন">
                   <div id="new-avatar-preview-box" style="margin-top: 8px; display: none;">
-                    <img id="new-avatar-preview" src="" style="width: 50px; height: 50px; border-radius: 50%; object-fit: cover; border: 2px solid var(--accent);">
+                    <img id="new-avatar-preview" src="" style="width: 54px; height: 54px; border-radius: 50%; object-fit: cover; border: 2px solid var(--accent);">
                   </div>
                 </div>
               </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" onclick="closeModal('user-modal')">বাতিল</button>
-                <button type="submit" class="btn btn-primary">ইউজার তৈরি করুন</button>
+                <button type="submit" id="btn-save-user" class="btn btn-primary"><i class="fas fa-save"></i> ইউজার তৈরি করুন</button>
               </div>
             </form>
           </div>
@@ -222,37 +223,47 @@
         if (!file) return;
         const reader = new FileReader();
         reader.onload = async (evt) => {
+          createdAvatarData = evt.target.result;
+          document.getElementById('new-avatar-preview').src = createdAvatarData;
+          document.getElementById('new-avatar-preview-box').style.display = 'block';
+
           try {
-            const res = await API.uploadImage(file.name, evt.target.result);
+            const res = await API.uploadImage(file.name, createdAvatarData);
             if (res && res.url) {
+              createdAvatarData = res.url;
               document.getElementById('new-user-avatar-url').value = res.url;
-              document.getElementById('new-avatar-preview').src = res.url;
             }
           } catch (err) {
-            document.getElementById('new-user-avatar-url').value = evt.target.result;
-            document.getElementById('new-avatar-preview').src = evt.target.result;
+            console.log('Direct base64 fallback enabled.');
           }
-          document.getElementById('new-avatar-preview-box').style.display = 'block';
         };
         reader.readAsDataURL(file);
       });
 
       document.getElementById('create-user-form').addEventListener('submit', async (e) => {
         e.preventDefault();
+        const submitBtn = document.getElementById('btn-save-user');
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> তৈরি হচ্ছে...';
+
         const name = document.getElementById('new-user-name').value.trim();
         const email = document.getElementById('new-user-email').value.trim();
         const password = document.getElementById('new-user-pass').value.trim();
         const role = document.getElementById('new-user-role').value;
         const designation = document.getElementById('new-user-desig').value.trim();
-        const avatar = document.getElementById('new-user-avatar-url').value.trim();
+        const manualUrl = document.getElementById('new-user-avatar-url').value.trim();
+        const finalAvatar = createdAvatarData || manualUrl || undefined;
 
         try {
-          await API.createUser({ name, email, password, role, designation, avatar: avatar || undefined });
+          await API.createUser({ name, email, password, role, designation, avatar: finalAvatar });
           Utils.showToast('ইউজার সফলভাবে তৈরি হয়েছে!', 'success');
           closeModal('user-modal');
           loadUsers();
         } catch (err) {
           Utils.showToast('ত্রুটি: ' + err.message, 'error');
+        } finally {
+          submitBtn.disabled = false;
+          submitBtn.innerHTML = '<i class="fas fa-save"></i> ইউজার তৈরি করুন';
         }
       });
     }
@@ -261,6 +272,7 @@
     function openEditUserModal(userId) {
       const u = usersList.find(x => x.id === userId);
       if (!u) return;
+      let editedAvatarData = u.avatar || '';
 
       const container = document.getElementById('modal-container');
       container.innerHTML = `
@@ -301,7 +313,7 @@
                   <input type="file" id="edit-user-avatar-file" accept="image/*" class="form-control" style="font-size: 13px; margin-bottom: 6px;">
                   <input type="text" id="edit-user-avatar-url" class="form-control" value="${u.avatar || ''}" placeholder="বা ছবির লিংক দিন">
                   <div style="margin-top: 8px; display: flex; align-items: center; gap: 10px;">
-                    <img id="edit-avatar-preview" src="${u.avatar || 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=150'}" style="width: 50px; height: 50px; border-radius: 50%; object-fit: cover; border: 2px solid var(--accent);">
+                    <img id="edit-avatar-preview" src="${u.avatar || 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=150'}" style="width: 54px; height: 54px; border-radius: 50%; object-fit: cover; border: 2px solid var(--accent);">
                     <span style="font-size: 12px; color: var(--text-muted);">বর্তমান প্রোফাইল ছবি</span>
                   </div>
                 </div>
@@ -315,7 +327,7 @@
               </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" onclick="closeModal('user-modal')">বাতিল</button>
-                <button type="submit" class="btn btn-primary">তথ্য সংরক্ষণ করুন</button>
+                <button type="submit" id="btn-update-user" class="btn btn-primary"><i class="fas fa-save"></i> তথ্য সংরক্ষণ করুন</button>
               </div>
             </form>
           </div>
@@ -328,15 +340,17 @@
         if (!file) return;
         const reader = new FileReader();
         reader.onload = async (evt) => {
+          editedAvatarData = evt.target.result;
+          document.getElementById('edit-avatar-preview').src = editedAvatarData;
+
           try {
-            const res = await API.uploadImage(file.name, evt.target.result);
+            const res = await API.uploadImage(file.name, editedAvatarData);
             if (res && res.url) {
+              editedAvatarData = res.url;
               document.getElementById('edit-user-avatar-url').value = res.url;
-              document.getElementById('edit-avatar-preview').src = res.url;
             }
           } catch (err) {
-            document.getElementById('edit-user-avatar-url').value = evt.target.result;
-            document.getElementById('edit-avatar-preview').src = evt.target.result;
+            console.log('Direct base64 fallback enabled.');
           }
         };
         reader.readAsDataURL(file);
@@ -344,12 +358,17 @@
 
       document.getElementById('edit-user-form').addEventListener('submit', async (e) => {
         e.preventDefault();
+        const submitBtn = document.getElementById('btn-update-user');
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> সংরক্ষণ হচ্ছে...';
+
         const name = document.getElementById('edit-user-name').value.trim();
         const email = document.getElementById('edit-user-email').value.trim();
         const password = document.getElementById('edit-user-pass').value.trim();
         const role = document.getElementById('edit-user-role').value;
         const designation = document.getElementById('edit-user-desig').value.trim();
-        const avatar = document.getElementById('edit-user-avatar-url').value.trim();
+        const manualUrl = document.getElementById('edit-user-avatar-url').value.trim();
+        const avatar = manualUrl || editedAvatarData || u.avatar;
         const status = document.getElementById('edit-user-status').value;
 
         try {
@@ -359,6 +378,9 @@
           loadUsers();
         } catch (err) {
           Utils.showToast('ত্রুটি: ' + err.message, 'error');
+        } finally {
+          submitBtn.disabled = false;
+          submitBtn.innerHTML = '<i class="fas fa-save"></i> তথ্য সংরক্ষণ করুন';
         }
       });
     }

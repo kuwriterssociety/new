@@ -784,10 +784,10 @@ a:hover {
   background: rgba(15, 23, 42, 0.75);
   backdrop-filter: blur(4px);
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   justify-content: center;
   z-index: 9999;
-  padding: 24px 16px;
+  padding: 16px;
   overflow-y: auto;
 }
 .modal-card {
@@ -796,22 +796,22 @@ a:hover {
   width: 100%;
   max-width: 680px;
   box-shadow: 0 20px 40px rgba(0,0,0,0.3);
-  overflow: hidden;
-  max-height: calc(100vh - 48px);
+  max-height: 90vh;
   display: flex;
   flex-direction: column;
-  margin: auto;
   position: relative;
+  overflow: hidden;
+  margin: auto;
 }
 .modal-card form {
   display: flex;
   flex-direction: column;
+  flex: 1 1 auto;
+  min-height: 0;
   overflow: hidden;
-  max-height: calc(100vh - 120px);
-  flex: 1;
 }
 .modal-header {
-  padding: 16px 20px;
+  padding: 14px 20px;
   border-bottom: 1px solid var(--border-color);
   display: flex;
   justify-content: space-between;
@@ -823,17 +823,19 @@ a:hover {
 .modal-header h3 {
   color: #ffffff;
   margin: 0;
-  font-size: 18px;
+  font-size: 17px;
   font-weight: 700;
 }
 .modal-body {
-  padding: 20px;
-  overflow-y: auto;
-  flex: 1;
+  padding: 18px 20px;
+  overflow-y: auto !important;
+  flex: 1 1 auto;
+  min-height: 0;
+  max-height: calc(90vh - 130px) !important;
   -webkit-overflow-scrolling: touch;
 }
 .modal-footer {
-  padding: 14px 20px;
+  padding: 12px 20px;
   border-top: 1px solid var(--border-color);
   display: flex;
   justify-content: flex-end;

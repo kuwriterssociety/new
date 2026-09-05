@@ -576,6 +576,21 @@ const server = http.createServer(async (req, res) => {
           return sendError(res, 400, 'এই ইমেইল দিয়ে ইতিমধ্যে একটি অ্যাকাউন্ট রয়েছে।');
         }
 
+        let finalAvatar = avatar ? avatar.trim() : '';
+        if (finalAvatar && finalAvatar.startsWith('data:image/')) {
+          try {
+            const cleanBase64 = finalAvatar.replace(/^data:image\/\w+;base64,/, '');
+            const matchExt = finalAvatar.match(/^data:image\/(\w+);base64,/);
+            const ext = matchExt && matchExt[1] ? `.${matchExt[1]}` : '.jpg';
+            const safeName = `avatar_${Date.now()}_${Math.floor(Math.random() * 10000)}${ext}`;
+            const savePath = path.join(UPLOADS_DIR, safeName);
+            fs.writeFileSync(savePath, Buffer.from(cleanBase64, 'base64'));
+            finalAvatar = `/uploads/${safeName}`;
+          } catch (e) {
+            console.error('User avatar save error:', e);
+          }
+        }
+
         const hashedPassword = hashPassword(password);
         const result = db.prepare(`
           INSERT INTO users (name, email, password, role, designation, avatar, status)
@@ -586,7 +601,7 @@ const server = http.createServer(async (req, res) => {
           hashedPassword,
           role,
           designation || '',
-          avatar || 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=150',
+          finalAvatar || 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=150',
           status || 'active'
         );
 
@@ -606,6 +621,21 @@ const server = http.createServer(async (req, res) => {
           newPasswordHash = hashPassword(password);
         }
 
+        let finalAvatar = avatar !== undefined ? (avatar ? avatar.trim() : '') : targetUser.avatar;
+        if (finalAvatar && finalAvatar.startsWith('data:image/')) {
+          try {
+            const cleanBase64 = finalAvatar.replace(/^data:image\/\w+;base64,/, '');
+            const matchExt = finalAvatar.match(/^data:image\/(\w+);base64,/);
+            const ext = matchExt && matchExt[1] ? `.${matchExt[1]}` : '.jpg';
+            const safeName = `avatar_${Date.now()}_${Math.floor(Math.random() * 10000)}${ext}`;
+            const savePath = path.join(UPLOADS_DIR, safeName);
+            fs.writeFileSync(savePath, Buffer.from(cleanBase64, 'base64'));
+            finalAvatar = `/uploads/${safeName}`;
+          } catch (e) {
+            console.error('User avatar update error:', e);
+          }
+        }
+
         db.prepare(`
           UPDATE users SET
             name = ?,
@@ -622,7 +652,7 @@ const server = http.createServer(async (req, res) => {
           newPasswordHash,
           role || targetUser.role,
           designation !== undefined ? designation : targetUser.designation,
-          avatar || targetUser.avatar,
+          finalAvatar || targetUser.avatar,
           status || targetUser.status,
           userId
         );
