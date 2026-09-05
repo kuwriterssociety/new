@@ -57,15 +57,15 @@
       </div>
 
       <ul class="admin-nav">
-        <li><a href="/admin"><i class="fas fa-chart-line"></i> ড্যাশবোর্ড</a></li>
-        <li><a href="/admin/articles"><i class="fas fa-file-alt"></i> সাহিত্যকর্ম ব্যবস্থাপনা</a></li>
-        <li class="active"><a href="/admin/editor"><i class="fas fa-plus-circle"></i> নতুন লেখা প্রকাশ</a></li>
-        <li><a href="/admin/notices"><i class="fas fa-bullhorn"></i> নোটিশ ও কার্যক্রম (Notices)</a></li>
-        <li><a href="/admin/honorboard"><i class="fas fa-award"></i> অনার বোর্ড (Honor Board)</a></li>
-        <li><a href="/admin/gallery"><i class="fas fa-images"></i> ফটো গ্যালারি (Gallery)</a></li>
-        <li class="nav-editor"><a href="/admin/categories"><i class="fas fa-folder"></i> সাহিত্যের বিভাগসমূহ</a></li>
-        <li class="nav-it-admin"><a href="/admin/users"><i class="fas fa-users-cog"></i> লেখক ও ইউজার কন্ট্রোল</a></li>
-        <li class="nav-it-admin"><a href="/admin/settings"><i class="fas fa-cogs"></i> সাইট সেটিংস</a></li>
+        <li><a href="/manage"><i class="fas fa-chart-line"></i> ড্যাশবোর্ড</a></li>
+        <li><a href="/manage/articles"><i class="fas fa-file-alt"></i> সাহিত্যকর্ম ব্যবস্থাপনা</a></li>
+        <li class="active"><a href="/manage/editor"><i class="fas fa-plus-circle"></i> নতুন লেখা প্রকাশ</a></li>
+        <li><a href="/manage/notices"><i class="fas fa-bullhorn"></i> নোটিশ ও কার্যক্রম (Notices)</a></li>
+        <li><a href="/manage/honorboard"><i class="fas fa-award"></i> অনার বোর্ড (Honor Board)</a></li>
+        <li><a href="/manage/gallery"><i class="fas fa-images"></i> ফটো গ্যালারি (Gallery)</a></li>
+        <li class="nav-editor"><a href="/manage/categories"><i class="fas fa-folder"></i> সাহিত্যের বিভাগসমূহ</a></li>
+        <li class="nav-it-admin"><a href="/manage/users"><i class="fas fa-users-cog"></i> লেখক ও ইউজার কন্ট্রোল</a></li>
+        <li class="nav-it-admin"><a href="/manage/settings"><i class="fas fa-cogs"></i> সাইট সেটিংস</a></li>
         <li style="margin-top: 20px;"><a href="/" target="_blank"><i class="fas fa-external-link-alt"></i> মূল পোর্টাল দেখুন</a></li>
         <li><a href="javascript:void(0)" onclick="logout()" style="color: #f87171;"><i class="fas fa-sign-out-alt"></i> লগআউট</a></li>
       </ul>
@@ -167,6 +167,35 @@
               </select>
             </div>
 
+            <!-- Guest Writer Details Card (Visible if Guest Writing) -->
+            <div id="guest-info-card" style="display: none; background: #f0f9ff; padding: 18px; border-radius: 8px; border: 1px solid #bae6fd; margin-bottom: 18px;">
+              <h4 style="font-size: 14px; margin-bottom: 10px; color: #0369a1; display: flex; align-items: center; gap: 6px;">
+                <i class="fas fa-feather-alt"></i> অতিথি লেখকের তথ্য (Guest Writer Info)
+              </h4>
+              <div style="display: flex; flex-direction: column; gap: 10px;">
+                <div>
+                  <label class="form-label" style="font-size: 12px; margin-bottom: 3px;">লেখকের নাম</label>
+                  <input type="text" id="guest-name" class="form-control" style="font-size: 13px; padding: 6px 10px;">
+                </div>
+                <div>
+                  <label class="form-label" style="font-size: 12px; margin-bottom: 3px;">ডিসিপ্লিন / বিভাগ</label>
+                  <input type="text" id="guest-discipline" class="form-control" style="font-size: 13px; padding: 6px 10px;">
+                </div>
+                <div>
+                  <label class="form-label" style="font-size: 12px; margin-bottom: 3px;">স্টুডেন্ট আইডি / ব্যাচ</label>
+                  <input type="text" id="guest-student-id" class="form-control" style="font-size: 13px; padding: 6px 10px;">
+                </div>
+                <div>
+                  <label class="form-label" style="font-size: 12px; margin-bottom: 3px;">ইমেইল</label>
+                  <input type="email" id="guest-email" class="form-control" style="font-size: 13px; padding: 6px 10px;">
+                </div>
+                <div>
+                  <label class="form-label" style="font-size: 12px; margin-bottom: 3px;">মোবাইল নম্বর</label>
+                  <input type="text" id="guest-phone" class="form-control" style="font-size: 13px; padding: 6px 10px;">
+                </div>
+              </div>
+            </div>
+
             <!-- Image Upload Card -->
             <div style="background: #ffffff; padding: 18px; border-radius: 8px; border: 1px solid var(--border-color); margin-bottom: 18px;">
               <label class="form-label">ফিচার্ড ছবি / অলংকরণ (Cover Image)</label>
@@ -222,6 +251,7 @@
   <script>
     let editingArticleId = null;
     let editingCurrentStatus = 'draft';
+    let isEditingGuest = false;
 
     document.addEventListener('DOMContentLoaded', async () => {
       await initAdmin();
@@ -318,6 +348,17 @@
         document.getElementById('article-image-url').value = a.image_url || '';
         document.getElementById('article-image-caption').value = a.image_caption || '';
 
+        if (a.is_guest) {
+          isEditingGuest = true;
+          const guestCard = document.getElementById('guest-info-card');
+          if (guestCard) guestCard.style.display = 'block';
+          if (document.getElementById('guest-name')) document.getElementById('guest-name').value = a.guest_name || '';
+          if (document.getElementById('guest-discipline')) document.getElementById('guest-discipline').value = a.guest_discipline || '';
+          if (document.getElementById('guest-student-id')) document.getElementById('guest-student-id').value = a.guest_student_id || '';
+          if (document.getElementById('guest-email')) document.getElementById('guest-email').value = a.guest_email || '';
+          if (document.getElementById('guest-phone')) document.getElementById('guest-phone').value = a.guest_phone || '';
+        }
+
         if (a.image_url) {
           showImagePreview(a.image_url);
         }
@@ -396,7 +437,7 @@
         return;
       }
       if (!content || content === '<p><br></p>' || content === '<p>এখানে সম্পূর্ণ কবিতা, গল্প বা প্রবন্ধ লিখুন...</p>') {
-        Utils.showToast('লেখার বিষয়বস্তু লিখুন!', 'error');
+        Utils.showToast('লেখার বিষয়বস্তু লিখুন!', 'error');
         return;
       }
 
@@ -415,17 +456,26 @@
         is_featured
       };
 
+      if (isEditingGuest) {
+        payload.is_guest = 1;
+        if (document.getElementById('guest-name')) payload.guest_name = document.getElementById('guest-name').value.trim();
+        if (document.getElementById('guest-discipline')) payload.guest_discipline = document.getElementById('guest-discipline').value.trim();
+        if (document.getElementById('guest-student-id')) payload.guest_student_id = document.getElementById('guest-student-id').value.trim();
+        if (document.getElementById('guest-email')) payload.guest_email = document.getElementById('guest-email').value.trim();
+        if (document.getElementById('guest-phone')) payload.guest_phone = document.getElementById('guest-phone').value.trim();
+      }
+
       try {
         if (editingArticleId) {
           const res = await API.updateAdminArticle(editingArticleId, payload);
-          Utils.showToast(res.message || 'লেখা সফলভাবে আপডেট হয়েছে!', 'success');
+          Utils.showToast(res.message || 'লেখা সফলভাবে আপডেট হয়েছে!', 'success');
         } else {
           const res = await API.createAdminArticle(payload);
-          Utils.showToast(res.message || 'লেখাটি সংরক্ষিত হয়েছে!', 'success');
+          Utils.showToast(res.message || 'লেখাটি সংরক্ষিত হয়েছে!', 'success');
         }
 
         setTimeout(() => {
-          window.location.href = '/admin/articles';
+          window.location.href = '/manage/articles';
         }, 1000);
 
       } catch (err) {

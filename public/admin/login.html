@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="bn">
 <head>
   <meta charset="UTF-8">
@@ -38,26 +38,7 @@
       </button>
     </form>
 
-    <!-- Quick Demo Logins -->
-    <div style="margin-top: 24px; padding-top: 20px; border-top: 1px solid var(--border-color);">
-      <p style="font-size: 13px; font-weight: 600; color: #475569; margin-bottom: 10px; text-align: center;">
-        <i class="fas fa-bolt" style="color: var(--accent);"></i> ডেমো লগইন নির্বাচন করুন:
-      </p>
-      
-      <div style="display: flex; flex-direction: column; gap: 8px;">
-        <button type="button" class="btn btn-secondary btn-sm" onclick="setDemo('admin@news.com', 'admin123')" style="justify-content: flex-start;">
-          🛡️ <strong>IT Admin</strong> (admin@news.com)
-        </button>
-        <button type="button" class="btn btn-secondary btn-sm" onclick="setDemo('editor@news.com', 'editor123')" style="justify-content: flex-start;">
-          ✍️ <strong>Chief Editor</strong> (editor@news.com)
-        </button>
-        <button type="button" class="btn btn-secondary btn-sm" onclick="setDemo('subeditor@news.com', 'subeditor123')" style="justify-content: flex-start;">
-          📝 <strong>Sub-Editor / Writer</strong> (subeditor@news.com)
-        </button>
-      </div>
-    </div>
-
-    <div style="text-align: center; margin-top: 20px;">
+    <div style="text-align: center; margin-top: 24px;">
       <a href="/" style="font-size: 14px; color: var(--text-muted);"><i class="fas fa-arrow-left"></i> লেখক সংঘ পোর্টালে ফিরে যান</a>
     </div>
 
@@ -66,13 +47,7 @@
   <script src="/js/api.js"></script>
   <script>
     if (API.getToken()) {
-      window.location.href = '/admin';
-    }
-
-    function setDemo(email, pass) {
-      document.getElementById('login-email').value = email;
-      document.getElementById('login-password').value = pass;
-      document.getElementById('login-form').dispatchEvent(new Event('submit'));
+      window.location.href = '/manage';
     }
 
     document.getElementById('login-form').addEventListener('submit', async (e) => {
@@ -94,7 +69,7 @@
           alertBox.style.color = '#15803d';
           alertBox.innerHTML = '<i class="fas fa-check-circle"></i> লগইন সফল হয়েছে! ড্যাশবোর্ডে নিয়ে যাওয়া হচ্ছে...';
           setTimeout(() => {
-            window.location.href = '/admin';
+            window.location.href = '/manage';
           }, 600);
         }
       } catch (err) {

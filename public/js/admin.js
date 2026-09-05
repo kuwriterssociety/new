@@ -1,4 +1,4 @@
-﻿// Admin Panel Core JavaScript & RBAC Controller
+// Admin Panel Core JavaScript & RBAC Controller
 
 let currentUser = null;
 
@@ -6,7 +6,7 @@ let currentUser = null;
 async function initAdmin() {
   const token = API.getToken();
   if (!token) {
-    window.location.href = '/admin/login';
+    window.location.href = '/manage/login';
     return;
   }
 
@@ -14,7 +14,7 @@ async function initAdmin() {
     const res = await API.getMe();
     if (!res.success || !res.user) {
       API.removeToken();
-      window.location.href = '/admin/login';
+      window.location.href = '/manage/login';
       return;
     }
     currentUser = res.user;
@@ -23,7 +23,7 @@ async function initAdmin() {
     applyRolePermissions();
   } catch (err) {
     API.removeToken();
-    window.location.href = '/admin/login';
+    window.location.href = '/manage/login';
   }
 }
 
@@ -76,7 +76,7 @@ function applyRolePermissions() {
 // Logout
 function logout() {
   API.removeToken();
-  window.location.href = '/admin/login';
+  window.location.href = '/manage/login';
 }
 
 // Global modal helper

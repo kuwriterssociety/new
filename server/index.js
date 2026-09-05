@@ -151,7 +151,8 @@ function unifyPublicLayouts() {
     'join.html',
     'profile.html',
     'article.html',
-    'category.html'
+    'category.html',
+    'write.html'
   ];
 
   files.forEach(f => {
@@ -386,6 +387,13 @@ function servePageWithMeta(req, res, filePath, explicitMeta = {}) {
           meta.description = `খুলনা বিশ্ববিদ্যালয় লেখক সংঘ সাহিত্য পোর্টালে ${cat.name_bn} বিভাগের সকল লেখা ও প্রকাশনা।`;
         }
       }
+    }
+
+    // Guest Write Page Meta
+    if (pathname === '/write' || pathname === '/write.html') {
+      meta.title = `সাহিত্যকর্ম জমা দিন | খুলনা বিশ্ববিদ্যালয় লেখক সংঘ (KUWS)`;
+      meta.description = `খুলনা বিশ্ববিদ্যালয়ের শিক্ষার্থীদের জন্য উন্মুক্ত সাহিত্য জমা পোর্টাল। আপনার মৌলিক কবিতা, গল্প, প্রবন্ধ বা সাহিত্যকর্ম জমা দিন।`;
+      meta.image = `${baseUrl}/images/Club%20Fair.jpg`;
     }
 
     // Ensure image is absolute URL
@@ -707,9 +715,12 @@ const server = http.createServer(async (req, res) => {
 
       let sql = `
         SELECT a.id, a.title, a.slug, a.summary, a.category_id, a.author_id, a.image_url, a.image_caption,
-               a.is_lead, a.is_breaking, a.is_featured, a.views, a.published_at, a.created_at,
+               a.is_lead, a.is_breaking, a.is_featured, a.is_guest, a.guest_name, a.guest_discipline, a.guest_student_id,
+               a.views, a.published_at, a.created_at,
                c.name as category_name, c.name_bn as category_name_bn, c.slug as category_slug,
-               u.name as author_name, u.avatar as author_avatar, u.designation as author_designation
+               COALESCE(NULLIF(a.guest_name, ''), u.name) as author_name,
+               u.avatar as author_avatar,
+               COALESCE(NULLIF(a.guest_discipline, ''), u.designation) as author_designation
         FROM articles a
         JOIN categories c ON a.category_id = c.id
         JOIN users u ON a.author_id = u.id
@@ -728,9 +739,9 @@ const server = http.createServer(async (req, res) => {
       }
 
       if (search) {
-        sql += ' AND (a.title LIKE ? OR a.summary LIKE ? OR a.content LIKE ? OR a.tags LIKE ?)';
+        sql += ' AND (a.title LIKE ? OR a.summary LIKE ? OR a.content LIKE ? OR a.tags LIKE ? OR a.guest_name LIKE ?)';
         const searchTerm = `%${search}%`;
-        params.push(searchTerm, searchTerm, searchTerm, searchTerm);
+        params.push(searchTerm, searchTerm, searchTerm, searchTerm, searchTerm);
       }
 
       if (lead === '1' || lead === 'true') {
@@ -764,7 +775,9 @@ const server = http.createServer(async (req, res) => {
       if (!isNaN(slugOrId)) {
         article = db.prepare(`
           SELECT a.*, c.name as category_name, c.name_bn as category_name_bn, c.slug as category_slug,
-                 u.name as author_name, u.avatar as author_avatar, u.designation as author_designation
+                 COALESCE(NULLIF(a.guest_name, ''), u.name) as author_name,
+                 u.avatar as author_avatar,
+                 COALESCE(NULLIF(a.guest_discipline, ''), u.designation) as author_designation
           FROM articles a
           JOIN categories c ON a.category_id = c.id
           JOIN users u ON a.author_id = u.id
@@ -773,7 +786,9 @@ const server = http.createServer(async (req, res) => {
       } else {
         article = db.prepare(`
           SELECT a.*, c.name as category_name, c.name_bn as category_name_bn, c.slug as category_slug,
-                 u.name as author_name, u.avatar as author_avatar, u.designation as author_designation
+                 COALESCE(NULLIF(a.guest_name, ''), u.name) as author_name,
+                 u.avatar as author_avatar,
+                 COALESCE(NULLIF(a.guest_discipline, ''), u.designation) as author_designation
           FROM articles a
           JOIN categories c ON a.category_id = c.id
           JOIN users u ON a.author_id = u.id
@@ -808,7 +823,80 @@ const server = http.createServer(async (req, res) => {
       return sendJson(res, 200, { success: true, article, related, comments });
     }
 
-    // 7. ADD COMMENT (Public)
+    // 7. GUEST WRITER SUBMISSION (No login required - /api/guest/submit or /api/write)
+    if (req.method === 'POST' && (pathname === '/api/guest/submit' || pathname === '/api/write')) {
+      const {
+        name, discipline, student_id, email, phone,
+        category_id, title, summary, content,
+        image_url, image_caption
+      } = await parseBody(req);
+
+      if (!name || !discipline || !student_id || !email || !category_id || !title || !content) {
+        return sendError(res, 400, 'দয়া করে নাম, বিভাগ, স্টুডেন্ট আইডি, ইমেইল, ক্যাটাগরি, শিরোনাম এবং লেখার বিষয়বস্তু প্রদান করুন।');
+      }
+
+      // Handle image if base64 passed
+      let finalImageUrl = image_url || '';
+      if (finalImageUrl && finalImageUrl.startsWith('data:image/')) {
+        try {
+          const cleanBase64 = finalImageUrl.replace(/^data:image\/\w+;base64,/, '');
+          const matchExt = finalImageUrl.match(/^data:image\/(\w+);base64,/);
+          const ext = matchExt && matchExt[1] ? `.${matchExt[1]}` : '.jpg';
+          const safeName = `guest_${Date.now()}_${Math.floor(Math.random() * 10000)}${ext}`;
+          const savePath = path.join(UPLOADS_DIR, safeName);
+          fs.writeFileSync(savePath, Buffer.from(cleanBase64, 'base64'));
+          finalImageUrl = `/uploads/${safeName}`;
+        } catch (e) {
+          console.error('Error saving guest image:', e);
+        }
+      }
+
+      // Generate slug
+      let finalSlug = title.toLowerCase().replace(/[^a-z0-9\u0980-\u09FF]+/g, '-').replace(/(^-|-$)/g, '');
+      if (!finalSlug || finalSlug.trim() === '') {
+        finalSlug = 'guest-' + Date.now();
+      }
+      const slugExists = db.prepare('SELECT id FROM articles WHERE slug = ?').get(finalSlug);
+      if (slugExists) {
+        finalSlug += '-' + Math.floor(Math.random() * 10000);
+      }
+
+      // Find an active author_id
+      const firstUser = db.prepare("SELECT id FROM users WHERE status = 'active' ORDER BY id ASC LIMIT 1").get();
+      const authorId = firstUser ? firstUser.id : 1;
+
+      const result = db.prepare(`
+        INSERT INTO articles (
+          title, slug, summary, content, category_id, author_id,
+          image_url, image_caption, status, is_lead, is_breaking,
+          is_featured, is_guest, guest_name, guest_discipline,
+          guest_student_id, guest_email, guest_phone, created_at, updated_at
+        )
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, 'pending', 0, 0, 0, 1, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
+      `).run(
+        title.trim(),
+        finalSlug,
+        summary ? summary.trim() : '',
+        content,
+        Number(category_id),
+        authorId,
+        finalImageUrl || 'https://images.unsplash.com/photo-1455390582262-044cdead277a?w=900',
+        image_caption ? image_caption.trim() : '',
+        name.trim(),
+        discipline.trim(),
+        student_id.trim(),
+        email.trim().toLowerCase(),
+        phone ? phone.trim() : ''
+      );
+
+      return sendJson(res, 201, {
+        success: true,
+        articleId: Number(result.lastInsertRowid),
+        message: 'আপনার লেখাটি সফলভাবে জমা নেওয়া হয়েছে! সম্পাদক প্যানেলের পর্যালোচনার পর এটি প্রকাশিত হবে।'
+      });
+    }
+
+    // 8. ADD COMMENT (Public)
     if (req.method === 'POST' && pathname.match(/^\/api\/articles\/(\d+)\/comments$/)) {
       const articleId = pathname.split('/')[3];
       const { name, comment } = await parseBody(req);
@@ -826,7 +914,7 @@ const server = http.createServer(async (req, res) => {
     // ADMIN ARTICLES MANAGEMENT (Role-Based Workflow)
     // ==========================================
 
-    // 8. ADMIN: LIST ARTICLES
+    // 9. ADMIN: LIST ARTICLES
     if (req.method === 'GET' && pathname === '/api/admin/articles') {
       const authUser = authenticateRequest(req);
       if (!authUser) return sendError(res, 401, 'Unauthorized');
@@ -836,9 +924,11 @@ const server = http.createServer(async (req, res) => {
       let sql = `
         SELECT a.id, a.title, a.slug, a.category_id, a.author_id, a.image_url,
                a.status, a.rejection_reason, a.is_lead, a.is_breaking, a.is_featured,
+               a.is_guest, a.guest_name, a.guest_discipline, a.guest_student_id, a.guest_email, a.guest_phone,
                a.views, a.published_at, a.created_at, a.updated_at,
                c.name_bn as category_name_bn, c.name as category_name,
-               u.name as author_name, u.role as author_role
+               COALESCE(NULLIF(a.guest_name, ''), u.name) as author_name,
+               u.role as author_role
         FROM articles a
         JOIN categories c ON a.category_id = c.id
         JOIN users u ON a.author_id = u.id
@@ -846,13 +936,15 @@ const server = http.createServer(async (req, res) => {
       `;
       const params = [];
 
-      // Sub-Editors see all or their own news
+      // Sub-Editors see all guest submissions or their own news
       if (authUser.role === 'sub_editor') {
-        sql += ' AND a.author_id = ?';
+        sql += ' AND (a.author_id = ? OR a.is_guest = 1)';
         params.push(authUser.id);
       }
 
-      if (status && status !== 'all') {
+      if (status === 'guest') {
+        sql += ' AND a.is_guest = 1';
+      } else if (status && status !== 'all') {
         sql += ' AND a.status = ?';
         params.push(status);
       }
@@ -863,8 +955,8 @@ const server = http.createServer(async (req, res) => {
       }
 
       if (search) {
-        sql += ' AND (a.title LIKE ? OR a.summary LIKE ?)';
-        params.push(`%${search}%`, `%${search}%`);
+        sql += ' AND (a.title LIKE ? OR a.summary LIKE ? OR a.guest_name LIKE ?)';
+        params.push(`%${search}%`, `%${search}%`, `%${search}%`);
       }
 
       sql += ' ORDER BY a.updated_at DESC LIMIT ? OFFSET ?';
@@ -874,14 +966,16 @@ const server = http.createServer(async (req, res) => {
       return sendJson(res, 200, { success: true, articles });
     }
 
-    // 9. ADMIN: GET ARTICLE FOR EDIT
+    // 10. ADMIN: GET ARTICLE FOR EDIT
     if (req.method === 'GET' && pathname.match(/^\/api\/admin\/articles\/(\d+)$/)) {
       const authUser = authenticateRequest(req);
       if (!authUser) return sendError(res, 401, 'Unauthorized');
 
       const articleId = pathname.split('/')[4];
       const article = db.prepare(`
-        SELECT a.*, c.name_bn as category_name_bn, u.name as author_name, u.role as author_role
+        SELECT a.*, c.name_bn as category_name_bn,
+               COALESCE(NULLIF(a.guest_name, ''), u.name) as author_name,
+               u.role as author_role
         FROM articles a
         JOIN categories c ON a.category_id = c.id
         JOIN users u ON a.author_id = u.id
@@ -890,15 +984,15 @@ const server = http.createServer(async (req, res) => {
 
       if (!article) return sendError(res, 404, 'Article not found');
 
-      // Sub-editor check
-      if (authUser.role === 'sub_editor' && article.author_id !== authUser.id) {
-        return sendError(res, 403, 'আপনি কেবল আপনার নিজের সংবাদ এডিট করতে পারবেন।');
+      // Sub-editor check: can edit their own articles or guest submissions
+      if (authUser.role === 'sub_editor' && article.author_id !== authUser.id && !article.is_guest) {
+        return sendError(res, 403, 'আপনি কেবল আপনার নিজের বা অতিথি লেখকের লেখা এডিট করতে পারবেন।');
       }
 
       return sendJson(res, 200, { success: true, article });
     }
 
-    // 10. ADMIN: CREATE ARTICLE
+    // 11. ADMIN: CREATE ARTICLE
     if (req.method === 'POST' && pathname === '/api/admin/articles') {
       const authUser = authenticateRequest(req);
       if (!authUser) return sendError(res, 401, 'Unauthorized');
@@ -906,7 +1000,8 @@ const server = http.createServer(async (req, res) => {
       const {
         title, slug, summary, content, category_id,
         image_url, image_caption, status, is_lead,
-        is_breaking, is_featured, tags
+        is_breaking, is_featured, tags,
+        is_guest, guest_name, guest_discipline, guest_student_id, guest_email, guest_phone
       } = await parseBody(req);
 
       if (!title || !content || !category_id) {
@@ -926,12 +1021,10 @@ const server = http.createServer(async (req, res) => {
       }
 
       // Status logic by role:
-      // Sub-editor can choose 'draft' or 'pending' (submit for review)
-      // Editor / IT Admin can publish directly
       let finalStatus = status || 'draft';
       if (authUser.role === 'sub_editor') {
         if (finalStatus !== 'draft' && finalStatus !== 'pending') {
-          finalStatus = 'pending'; // Sub-editor cannot directly publish
+          finalStatus = 'pending';
         }
       }
 
@@ -941,9 +1034,10 @@ const server = http.createServer(async (req, res) => {
         INSERT INTO articles (
           title, slug, summary, content, category_id, author_id,
           image_url, image_caption, status, is_lead, is_breaking,
-          is_featured, tags, published_at, created_at, updated_at
+          is_featured, tags, published_at, is_guest, guest_name, guest_discipline,
+          guest_student_id, guest_email, guest_phone, created_at, updated_at
         )
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
       `).run(
         title.trim(),
         finalSlug,
@@ -958,7 +1052,13 @@ const server = http.createServer(async (req, res) => {
         authUser.role === 'sub_editor' ? 0 : (is_breaking ? 1 : 0),
         authUser.role === 'sub_editor' ? 0 : (is_featured ? 1 : 0),
         tags || '',
-        publishedAt
+        publishedAt,
+        is_guest ? 1 : 0,
+        guest_name || null,
+        guest_discipline || null,
+        guest_student_id || null,
+        guest_email || null,
+        guest_phone || null
       );
 
       return sendJson(res, 201, {
@@ -972,7 +1072,7 @@ const server = http.createServer(async (req, res) => {
       });
     }
 
-    // 11. ADMIN: UPDATE ARTICLE
+    // 12. ADMIN: UPDATE ARTICLE
     if (req.method === 'PUT' && pathname.match(/^\/api\/admin\/articles\/(\d+)$/)) {
       const authUser = authenticateRequest(req);
       if (!authUser) return sendError(res, 401, 'Unauthorized');
@@ -981,15 +1081,16 @@ const server = http.createServer(async (req, res) => {
       const current = db.prepare('SELECT * FROM articles WHERE id = ?').get(articleId);
       if (!current) return sendError(res, 404, 'সংবাদ পাওয়া যায়নি।');
 
-      // Sub-editor check
-      if (authUser.role === 'sub_editor' && current.author_id !== authUser.id) {
+      // Sub-editor check: can edit their own articles or guest submissions
+      if (authUser.role === 'sub_editor' && current.author_id !== authUser.id && !current.is_guest) {
         return sendError(res, 403, 'অনুমতি নেই।');
       }
 
       const {
         title, slug, summary, content, category_id,
         image_url, image_caption, status, is_lead,
-        is_breaking, is_featured, tags, rejection_reason
+        is_breaking, is_featured, tags, rejection_reason,
+        guest_name, guest_discipline, guest_student_id, guest_email, guest_phone
       } = await parseBody(req);
 
       let newStatus = status || current.status;
@@ -1020,6 +1121,11 @@ const server = http.createServer(async (req, res) => {
           is_breaking = ?,
           is_featured = ?,
           tags = COALESCE(?, tags),
+          guest_name = COALESCE(?, guest_name),
+          guest_discipline = COALESCE(?, guest_discipline),
+          guest_student_id = COALESCE(?, guest_student_id),
+          guest_email = COALESCE(?, guest_email),
+          guest_phone = COALESCE(?, guest_phone),
           published_at = ?,
           updated_at = CURRENT_TIMESTAMP
         WHERE id = ?
@@ -1037,6 +1143,11 @@ const server = http.createServer(async (req, res) => {
         authUser.role === 'sub_editor' ? current.is_breaking : (is_breaking ? 1 : 0),
         authUser.role === 'sub_editor' ? current.is_featured : (is_featured ? 1 : 0),
         tags,
+        guest_name !== undefined ? guest_name : null,
+        guest_discipline !== undefined ? guest_discipline : null,
+        guest_student_id !== undefined ? guest_student_id : null,
+        guest_email !== undefined ? guest_email : null,
+        guest_phone !== undefined ? guest_phone : null,
         publishedAt,
         articleId
       );
@@ -1603,36 +1714,42 @@ const server = http.createServer(async (req, res) => {
       return serveStatic(res, uploadFile);
     }
 
-    // Admin UI Pages
-    if (pathname === '/admin' || pathname === '/admin/') {
+    // Admin UI Pages (/manage)
+    if (pathname === '/manage' || pathname === '/manage/') {
       return serveStatic(res, path.join(PUBLIC_DIR, 'admin', 'index.html'));
     }
-    if (pathname === '/admin/login') {
+    if (pathname === '/manage/login') {
       return serveStatic(res, path.join(PUBLIC_DIR, 'admin', 'login.html'));
     }
-    if (pathname === '/admin/articles') {
+    if (pathname === '/manage/articles') {
       return serveStatic(res, path.join(PUBLIC_DIR, 'admin', 'articles.html'));
     }
-    if (pathname === '/admin/editor') {
+    if (pathname === '/manage/editor') {
       return serveStatic(res, path.join(PUBLIC_DIR, 'admin', 'editor.html'));
     }
-    if (pathname === '/admin/honorboard') {
+    if (pathname === '/manage/honorboard') {
       return serveStatic(res, path.join(PUBLIC_DIR, 'admin', 'honorboard.html'));
     }
-    if (pathname === '/admin/gallery') {
+    if (pathname === '/manage/gallery') {
       return serveStatic(res, path.join(PUBLIC_DIR, 'admin', 'gallery.html'));
     }
-    if (pathname === '/admin/notices') {
+    if (pathname === '/manage/notices') {
       return serveStatic(res, path.join(PUBLIC_DIR, 'admin', 'notices.html'));
     }
-    if (pathname === '/admin/users') {
+    if (pathname === '/manage/users') {
       return serveStatic(res, path.join(PUBLIC_DIR, 'admin', 'users.html'));
     }
-    if (pathname === '/admin/categories') {
+    if (pathname === '/manage/categories') {
       return serveStatic(res, path.join(PUBLIC_DIR, 'admin', 'categories.html'));
     }
-    if (pathname === '/admin/settings') {
+    if (pathname === '/manage/settings') {
       return serveStatic(res, path.join(PUBLIC_DIR, 'admin', 'settings.html'));
+    }
+
+    // Block & Hide direct /admin access to prevent probing
+    if (pathname === '/admin' || pathname.startsWith('/admin/')) {
+      res.writeHead(404, { 'Content-Type': 'text/plain; charset=utf-8' });
+      return res.end('404 Not Found');
     }
 
     // Public Pages: Main Website & Literary Newsportal (Clean URLs + Dynamic Social Meta Injection)
@@ -1641,6 +1758,9 @@ const server = http.createServer(async (req, res) => {
     }
     if (pathname === '/portal' || pathname === '/writings') {
       return servePageWithMeta(req, res, path.join(PUBLIC_DIR, 'portal.html'));
+    }
+    if (pathname === '/write') {
+      return servePageWithMeta(req, res, path.join(PUBLIC_DIR, 'write.html'));
     }
     if (pathname === '/article') {
       return servePageWithMeta(req, res, path.join(PUBLIC_DIR, 'article.html'));
@@ -1688,6 +1808,7 @@ server.listen(PORT, () => {
   console.log(`🚀 KUWS Unified Server is running at http://localhost:${PORT}`);
   console.log(`🏛️ Main Society Site: http://localhost:${PORT}`);
   console.log(`📰 Literary Portal:   http://localhost:${PORT}/portal`);
-  console.log(`🔒 Admin Panel:       http://localhost:${PORT}/admin`);
+  console.log(`✍️ Guest Writer:      http://localhost:${PORT}/write`);
+  console.log(`🔒 Admin Panel:       http://localhost:${PORT}/manage`);
   console.log(`====================================================`);
 });

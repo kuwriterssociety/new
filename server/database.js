@@ -154,6 +154,19 @@ function initDatabase() {
     }
   });
 
+  // Safe migrations for articles guest columns
+  const articleExtraCols = [
+    'guest_name TEXT', 'guest_discipline TEXT', 'guest_student_id TEXT',
+    'guest_email TEXT', 'guest_phone TEXT', 'is_guest INTEGER DEFAULT 0'
+  ];
+  articleExtraCols.forEach(col => {
+    try {
+      db.exec(`ALTER TABLE articles ADD COLUMN ${col}`);
+    } catch (e) {
+      // Column already exists
+    }
+  });
+
   seedData();
 }
 

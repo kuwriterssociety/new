@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>লেখা জমা দিন | খুলনা বিশ্ববিদ্যালয় লেখক সংঘ (KUWS)</title>
+  <link rel="icon" type="image/png" href="favicon.png">
+  <link rel="stylesheet" href="/css/style.css?v=3.6">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;400;500;600;700&family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    body {
+      font-family: 'Hind Siliguri', 'Inter', -apple-system, sans-serif;
+      background-color: #f8fafc;
+      color: #1e293b;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    .write-hero {
+      background: linear-gradient(135deg, #0f233a 0%, #1a3a60 100%);
+      color: #ffffff;
+      padding: 48px 20px;
+      border-bottom: 4px solid #ffb703;
+      text-align: center;
+      position: relative;
+    }
+    .write-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(255, 183, 3, 0.18);
+      color: #ffb703;
+      border: 1px solid rgba(255, 183, 3, 0.4);
+      padding: 6px 18px;
+      border-radius: 9999px;
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      margin-bottom: 12px;
+    }
+    .write-title {
+      font-size: 34px;
+      font-weight: 800;
+      color: #ffffff;
+      margin: 0 0 10px 0;
+      line-height: 1.3;
+    }
+    .write-subtitle {
+      font-size: 15px;
+      color: #cbd5e1;
+      max-width: 720px;
+      margin: 0 auto;
+      line-height: 1.6;
+    }
+
+    .form-card {
+      background: #ffffff;
+      border-radius: 16px;
+      border: 1px solid #e2e8f0;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+      padding: 36px;
+      margin-top: -30px;
+      margin-bottom: 60px;
+      position: relative;
+      z-index: 10;
+    }
+    @media (max-width: 640px) {
+      .form-card {
+        padding: 20px;
+        margin-top: -20px;
+      }
+    }
+
+    .section-divider-title {
+      font-size: 17px;
+      font-weight: 700;
+      color: #1a3a60;
+      padding-bottom: 8px;
+      border-bottom: 2px solid #e2e8f0;
+      margin-top: 24px;
+      margin-bottom: 18px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .section-divider-title i {
+      color: #ffb703;
+    }
+
+    .form-grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+    @media (max-width: 640px) {
+      .form-grid-2 {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .image-drop-area {
+      border: 2px dashed #cbd5e1;
+      border-radius: 10px;
+      padding: 20px;
+      text-align: center;
+      background: #f8fafc;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .image-drop-area:hover {
+      border-color: #1a3a60;
+      background: #f1f5f9;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Site Header & Navigation -->
+    <!-- Fixed Sticky Header Wrapper -->
+  <div class="site-header-wrapper">
+    <!-- Top Bar -->
+    <div class="top-bar">
+      <div class="container top-bar-inner">
+        <div id="current-date"><i class="far fa-calendar-alt"></i> লোড হচ্ছে...</div>
+        <div style="display: flex; gap: 15px; align-items: center; flex-wrap: wrap;">
+          <span style="color: var(--accent); font-size: 13px; font-weight: 600;"><i class="fas fa-university"></i> খুলনা বিশ্ববিদ্যালয় লেখক সংঘ</span>
+          <span style="color: #94a3b8; font-size: 13px;"><i class="fas fa-feather-alt"></i> মুক্তচিন্তা ও সৃজনশীল সাহিত্য</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Main Header -->
+    <header class="main-header">
+      <div class="container header-inner">
+        <div class="brand-logo">
+          <a href="/" style="display: flex; align-items: center; gap: 14px; text-decoration: none;">
+            <div style="width: 48px; height: 48px; background: #fff3d6; color: var(--primary); border: 2px solid var(--accent); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 22px; flex-shrink: 0; box-shadow: 0 2px 6px rgba(0,0,0,0.08);">
+              <i class="fas fa-feather-alt" style="color: #e09f00;"></i>
+            </div>
+            <div>
+              <h1 id="site-name-display" style="color: var(--primary); font-size: 26px; font-weight: 800; margin: 0; line-height: 1.2;">খুলনা বিশ্ববিদ্যালয় লেখক সংঘ</h1>
+              <p id="site-tagline-display" style="color: var(--text-muted); font-size: 13px; margin: 2px 0 0 0;">মুক্তচিন্তা ও সৃজনশীল সাহিত্যের উন্মুক্ত প্রাঙ্গণ</p>
+            </div>
+          </a>
+        </div>
+        <div style="display: flex; gap: 10px; align-items: center; width: 100%; max-width: 320px;">
+          <form id="search-form" class="header-search-form" action="/category" method="GET" style="width: 100%;">
+            <input type="text" name="search" placeholder="কবিতা, গল্প বা লেখক খুঁজুন..." class="form-control" style="width: 100%; padding: 8px 12px;">
+            <button type="submit" class="btn btn-primary" style="background: var(--primary); border-color: var(--primary);"><i class="fas fa-search"></i></button>
+          </form>
+        </div>
+      </div>
+    </header>
+
+    <!-- Navigation Bar -->
+    <nav class="nav-bar">
+      <div class="container nav-inner">
+        <ul class="nav-links" id="category-nav">
+          <li><a href="/"><i class="fas fa-university"></i> আমাদের সম্পর্কে</a></li>
+          <li><a href="/portal">প্রচ্ছদ</a></li>
+        </ul>
+      </div>
+    </nav>
+  </div>
+
+  <!-- Hero Header -->
+  <section class="write-hero">
+    <div class="container">
+      <div class="write-badge">
+        <i class="fas fa-feather-alt"></i> মুক্ত সাহিত্যমঞ্চ (Open Submission)
+      </div>
+      <h1 class="write-title">আপনার সাহিত্যকর্ম জমা দিন</h1>
+      <p class="write-subtitle">
+        খুলনা বিশ্ববিদ্যালয়ের যেকোনো বর্ষ বা ডিসিপ্লিনের শিক্ষার্থী ও সাহিত্যের অনুরাগীদের জন্য উন্মুক্ত। কোনো অ্যাকাউন্ট বা পাসওয়ার্ডের প্রয়োজন নেই। আপনার মৌলিক লেখা জমা দিন, সম্পাদকীয় পর্যালোচনার পর তা ওয়েবসাইটে প্রকাশিত হবে।
+      </p>
+    </div>
+  </section>
+
+  <!-- Main Content Form Area -->
+  <main class="container" style="flex: 1; max-width: 860px;">
+    
+    <div class="form-card">
+      <form id="guest-write-form">
+        
+        <!-- Part 1: Writer Information -->
+        <div class="section-divider-title" style="margin-top: 0;">
+          <i class="fas fa-user-edit"></i> ১. লেখক পরিচিতি (Author Information)
+        </div>
+
+        <div class="form-grid-2">
+          <div class="form-group">
+            <label class="form-label">আপনার পূর্ণ নাম (বাংলায়) *</label>
+            <input type="text" id="g-name" class="form-control" placeholder="যেমন: কাজী মারুফ বিল্লাহ" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label">ডিসিপ্লিন / বিভাগ *</label>
+            <input type="text" id="g-discipline" class="form-control" placeholder="যেমন: বাংলা ডিসিপ্লিন, কুবি" required>
+          </div>
+        </div>
+
+        <div class="form-grid-2">
+          <div class="form-group">
+            <label class="form-label">স্টুডেন্ট আইডি / ব্যাচ (Student ID / Batch) *</label>
+            <input type="text" id="g-student-id" class="form-control" placeholder="যেমন: 220101 বা ২৩ ব্যাচ" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label">ইমেইল ঠিকানা (যোগাযোগের জন্য) *</label>
+            <input type="email" id="g-email" class="form-control" placeholder="yourname@gmail.com" required>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">মোবাইল / হোয়াটসঅ্যাপ নম্বর (ঐচ্ছিক)</label>
+          <input type="tel" id="g-phone" class="form-control" placeholder="যেমন: 017XXXXXXXX">
+        </div>
+
+        <!-- Part 2: Writing Details -->
+        <div class="section-divider-title">
+          <i class="fas fa-book-open"></i> ২. সাহিত্যকর্মের বিবরণ (Writing Details)
+        </div>
+
+        <div class="form-grid-2">
+          <div class="form-group">
+            <label class="form-label">সাহিত্যকর্মের বিভাগ (Category) *</label>
+            <select id="g-category" class="form-control" required>
+              <option value="">-- বিভাগ নির্বাচন করুন --</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">লেখার শিরোনাম (Title) *</label>
+            <input type="text" id="g-title" class="form-control" placeholder="যেমন: হেমন্তের নিঃশব্দ পদধ্বনি" required>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">সংক্ষিপ্ত পরিচিতি বা ভূমিকা (Summary / Excerpt - ঐচ্ছিক)</label>
+          <textarea id="g-summary" class="form-control" rows="2" placeholder="লেখাটি সম্পর্কে দু-এক লাইনে বলুন..."></textarea>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">মূল লেখা / সাহিত্যকর্ম (Full Content) *</label>
+          <textarea id="g-content" class="form-control" rows="12" placeholder="এখানে আপনার কবিতা, গল্প, প্রবন্ধ বা সাহিত্যকর্মটি বিস্তারিত লিখুন বা পেস্ট করুন..." style="font-size: 15px; line-height: 1.8;" required></textarea>
+        </div>
+
+        <!-- Part 3: Image / Illustration (Optional) -->
+        <div class="section-divider-title">
+          <i class="fas fa-image"></i> ৩. অলংকরণ বা ছবি (ঐচ্ছিক / Optional)
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">ছবি নির্বাচন করুন (কম্পিউটার বা মোবাইল থেকে আপলোড)</label>
+          <input type="file" id="g-image-file" accept="image/*" class="form-control" style="padding: 8px;">
+          <input type="hidden" id="g-image-url">
+        </div>
+
+        <div id="image-preview-wrapper" style="display: none; margin-bottom: 15px;">
+          <img id="image-preview" src="" style="max-height: 180px; border-radius: 8px; border: 1px solid #cbd5e1; object-fit: cover;">
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">ছবির ক্যাপশন বা আলোকচিত্রীর নাম (ঐচ্ছিক)</label>
+          <input type="text" id="g-image-caption" class="form-control" placeholder="যেমন: অলংকরণ - লেখক">
+        </div>
+
+        <!-- Declaration -->
+        <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 14px; margin-top: 20px; font-size: 13px; color: #475569;">
+          <label style="display: flex; align-items: flex-start; gap: 8px; cursor: pointer;">
+            <input type="checkbox" id="g-consent" required style="margin-top: 3px;">
+            <span>আমি নিশ্চয়তা দিচ্ছি যে এই সাহিত্যকর্মটি সম্পূর্ণ আমার মৌলিক সৃষ্টি এবং এটি খুলনা বিশ্ববিদ্যালয় লেখক সংঘের ওয়েবসাইটে প্রকাশের জন্য স্বেচ্ছায় প্রেরণ করছি।</span>
+          </label>
+        </div>
+
+        <!-- Submit Button -->
+        <div style="margin-top: 24px;">
+          <button type="submit" id="btn-submit-write" class="btn btn-primary" style="width: 100%; padding: 14px; font-size: 16px; font-weight: 700; border-radius: 8px; box-shadow: 0 4px 12px rgba(26, 58, 96, 0.2);">
+            <i class="fas fa-paper-plane"></i> লেখা জমা দিন (Submit Writing)
+          </button>
+        </div>
+
+      </form>
+    </div>
+
+  </main>
+
+  <!-- Success Notification Modal -->
+  <div id="success-modal" class="modal-overlay" style="display: none;">
+    <div class="modal-card" style="max-width: 540px; text-align: center; padding: 32px 24px;">
+      <div style="width: 64px; height: 64px; background: #dcfce7; color: #16a34a; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-size: 32px; margin-bottom: 16px;">
+        <i class="fas fa-check"></i>
+      </div>
+      <h2 style="font-size: 22px; font-weight: 800; color: #0f172a; margin: 0 0 10px 0;">লেখা সফলভাবে গৃহীত হয়েছে!</h2>
+      <p style="font-size: 14px; color: #475569; line-height: 1.6; margin-bottom: 24px;">
+        ধন্যবাদ! আপনার প্রেরিত সাহিত্যকর্মটি খুলনা বিশ্ববিদ্যালয় লেখক সংঘের সম্পাদকীয় পর্ষদের নিকট সফলভাবে জমা হয়েছে। সাব-এডিটর ও এডিটর কর্তৃক পর্যালোচনার পর এটি সাহিত্য পোর্টালে আপনার নামসহ প্রকাশিত হবে।
+      </p>
+      <div style="display: flex; gap: 12px; justify-content: center; flex-wrap: wrap;">
+        <button onclick="resetWriteForm()" class="btn btn-secondary">
+          <i class="fas fa-plus"></i> আরেকটি লেখা জমা দিন
+        </button>
+        <a href="/portal" class="btn btn-primary">
+          <i class="fas fa-book-reader"></i> সাহিত্য পোর্টালে যান &rarr;
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Universal Footer -->
+    <!-- Universal Footer -->
+  <footer style="background-color: #1a3a60; color: #ffffff; padding: 40px 0 20px 0; border-top: 4px solid #ffb703; margin-top: auto;">
+    <div class="container">
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 30px; margin-bottom: 30px;">
+        
+        <!-- Logo / Name -->
+        <div>
+          <span style="font-size: 20px; font-weight: 700; color: #ffb703; display: block; margin-bottom: 8px;">Khulna University Writers' Society</span>
+          <p style="font-size: 14px; line-height: 1.6; color: #cbd5e1; margin: 0;">
+            Powered by the passion of Khulna University students. মুক্তচিন্তা ও সৃজনশীল সাহিত্যের উন্মুক্ত প্রাঙ্গণ।
+          </p>
+        </div>
+
+        <!-- Quick Links -->
+        <div>
+          <h4 style="font-size: 16px; font-weight: 600; color: #ffffff; margin: 0 0 12px 0;">Quick Links</h4>
+          <ul style="list-style: none; padding: 0; margin: 0; font-size: 14px; display: flex; flex-direction: column; gap: 8px;">
+            <li><a href="/ourstory" style="color: #cbd5e1; text-decoration: none;" onmouseover="this.style.color='#ffb703'" onmouseout="this.style.color='#cbd5e1'">Our Story</a></li>
+            <li><a href="/notices" style="color: #cbd5e1; text-decoration: none;" onmouseover="this.style.color='#ffb703'" onmouseout="this.style.color='#cbd5e1'">Notices & Activities</a></li>
+            <li><a href="/portal" style="color: #cbd5e1; text-decoration: none;" onmouseover="this.style.color='#ffb703'" onmouseout="this.style.color='#cbd5e1'">Read Member Work</a></li>
+            <li><a href="/honorboard" style="color: #cbd5e1; text-decoration: none;" onmouseover="this.style.color='#ffb703'" onmouseout="this.style.color='#cbd5e1'">Honor Board</a></li>
+            <li><a href="/gallery" style="color: #cbd5e1; text-decoration: none;" onmouseover="this.style.color='#ffb703'" onmouseout="this.style.color='#cbd5e1'">Gallery</a></li>
+            <li><a href="/verification" style="color: #cbd5e1; text-decoration: none;" onmouseover="this.style.color='#ffb703'" onmouseout="this.style.color='#cbd5e1'">Verify Certificate</a></li>
+          </ul>
+        </div>
+
+        <!-- Resources -->
+        <div>
+          <h4 style="font-size: 16px; font-weight: 600; color: #ffffff; margin: 0 0 12px 0;">Resources</h4>
+          <ul style="list-style: none; padding: 0; margin: 0; font-size: 14px; display: flex; flex-direction: column; gap: 8px;">
+            <li><a href="/portal" style="color: #cbd5e1; text-decoration: none;" onmouseover="this.style.color='#ffb703'" onmouseout="this.style.color='#cbd5e1'">KUWS Literary Portal</a></li>
+            <li><a href="/notices" style="color: #cbd5e1; text-decoration: none;" onmouseover="this.style.color='#ffb703'" onmouseout="this.style.color='#cbd5e1'">All Announcements</a></li>
+            <li><a href="/honorboard" style="color: #cbd5e1; text-decoration: none;" onmouseover="this.style.color='#ffb703'" onmouseout="this.style.color='#cbd5e1'">Honor Board</a></li>
+            <li><a href="/gallery" style="color: #cbd5e1; text-decoration: none;" onmouseover="this.style.color='#ffb703'" onmouseout="this.style.color='#cbd5e1'">Photo Gallery</a></li>
+            <li><a href="/verification" style="color: #cbd5e1; text-decoration: none;" onmouseover="this.style.color='#ffb703'" onmouseout="this.style.color='#cbd5e1'">Verify Certificate</a></li>
+            <li><a href="https://ku.ac.bd" target="_blank" style="color: #cbd5e1; text-decoration: none;" onmouseover="this.style.color='#ffb703'" onmouseout="this.style.color='#cbd5e1'">KU Official Site</a></li>
+          </ul>
+        </div>
+
+        <!-- Contact Info -->
+        <div>
+          <h4 style="font-size: 16px; font-weight: 600; color: #ffffff; margin: 0 0 12px 0;">Get In Touch</h4>
+          <p style="font-size: 14px; color: #cbd5e1; margin: 0 0 6px 0;">Email: kuwriterssociety@gmail.com</p>
+          <p style="font-size: 14px; color: #cbd5e1; margin: 0 0 12px 0;">Khulna University, Khulna-9208</p>
+          <div style="display: flex; gap: 14px; font-size: 18px;">
+            <a href="https://www.facebook.com/KUWritersSociety/" target="_blank" style="color: #ffb703;"><i class="fab fa-facebook"></i></a>
+            <a href="https://www.facebook.com/groups/kuws2024" target="_blank" style="color: #ffb703;"><i class="fab fa-users"></i></a>
+            <a href="mailto:kuwriterssociety@gmail.com" style="color: #ffb703;"><i class="fas fa-envelope"></i></a>
+          </div>
+        </div>
+
+      </div>
+
+      <div style="border-top: 1px solid rgba(255, 183, 3, 0.3); padding-top: 18px; text-align: center; font-size: 13px; color: #94a3b8;">
+        &copy; 2026 Khulna University Writers' Society (KUWS). All rights reserved.
+      </div>
+    </div>
+  </footer>
+
+  <script src="/js/api.js"></script>
+  <script>
+    let uploadedImageUrl = '';
+
+    // Initialize Categories & Topbar Date
+    async function initPage() {
+      const dateEl = document.getElementById('current-date');
+      if (dateEl) {
+        dateEl.innerHTML = '<i class="far fa-calendar-alt"></i> ' + new Date().toLocaleDateString('bn-BD', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+      }
+
+      try {
+        const res = await fetch('/api/categories');
+        const data = await res.json();
+        if (data && data.categories) {
+          const select = document.getElementById('g-category');
+          const nav = document.getElementById('category-nav');
+          
+          data.categories.forEach(c => {
+            const opt = document.createElement('option');
+            opt.value = c.id;
+            opt.innerText = c.name_bn;
+            select.appendChild(opt);
+
+            if (nav) {
+              const li = document.createElement('li');
+              li.innerHTML = '<a href="/category?category=' + c.slug + '">' + c.name_bn + '</a>';
+              nav.appendChild(li);
+            }
+          });
+
+          if (nav) {
+            const extraNavItems = [
+              { title: 'লেখা জমা দিন', url: '/write', active: true },
+              { title: 'নোটিশ', url: '/notices' },
+              { title: 'অনার বোর্ড', url: '/honorboard' },
+              { title: 'গ্যালারি', url: '/gallery' },
+              { title: 'সার্টিফিকেট', url: '/verification' }
+            ];
+            extraNavItems.forEach(item => {
+              const li = document.createElement('li');
+              if (item.active) li.className = 'active';
+              li.innerHTML = '<a href="' + item.url + '">' + item.title + '</a>';
+              nav.appendChild(li);
+            });
+          }
+        }
+      } catch (err) {
+        console.error('Error loading categories:', err);
+      }
+    }
+
+    // Handle Image Upload File
+    document.getElementById('g-image-file').addEventListener('change', (e) => {
+      const file = e.target.files[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        uploadedImageUrl = event.target.result;
+        document.getElementById('g-image-url').value = uploadedImageUrl;
+        const preview = document.getElementById('image-preview');
+        preview.src = uploadedImageUrl;
+        document.getElementById('image-preview-wrapper').style.display = 'block';
+      };
+      reader.readAsDataURL(file);
+    });
+
+    // Handle Guest Form Submit
+    document.getElementById('guest-write-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const btn = document.getElementById('btn-submit-write');
+      btn.disabled = true;
+      btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> লেখা জমা নেওয়া হচ্ছে...';
+
+      const payload = {
+        name: document.getElementById('g-name').value.trim(),
+        discipline: document.getElementById('g-discipline').value.trim(),
+        student_id: document.getElementById('g-student-id').value.trim(),
+        email: document.getElementById('g-email').value.trim(),
+        phone: document.getElementById('g-phone').value.trim(),
+        category_id: document.getElementById('g-category').value,
+        title: document.getElementById('g-title').value.trim(),
+        summary: document.getElementById('g-summary').value.trim(),
+        content: document.getElementById('g-content').value.trim(),
+        image_url: document.getElementById('g-image-url').value.trim(),
+        image_caption: document.getElementById('g-image-caption').value.trim()
+      };
+
+      try {
+        const res = await fetch('/api/guest/submit', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+        const data = await res.json();
+        if (!res.ok || !data.success) {
+          throw new Error(data.error || 'লেখা জমা দিতে সমস্যা হয়েছে।');
+        }
+
+        document.getElementById('success-modal').style.display = 'flex';
+      } catch (err) {
+        alert('ত্রুটি: ' + err.message);
+      } finally {
+        btn.disabled = false;
+        btn.innerHTML = '<i class="fas fa-paper-plane"></i> লেখা জমা দিন (Submit Writing)';
+      }
+    });
+
+    function resetWriteForm() {
+      document.getElementById('guest-write-form').reset();
+      document.getElementById('g-image-url').value = '';
+      document.getElementById('image-preview-wrapper').style.display = 'none';
+      document.getElementById('success-modal').style.display = 'none';
+    }
+
+    document.addEventListener('DOMContentLoaded', initPage);
+  </script>
+</body>
+</html>
