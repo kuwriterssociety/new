@@ -160,15 +160,14 @@ function unifyPublicLayouts() {
     if (!fs.existsSync(filePath)) return;
     let html = fs.readFileSync(filePath, 'utf8');
 
-    // Do not remove Tailwind scripts on pages that use Tailwind
-    // Replace Header Wrapper
-    const headerRegex = /<div class="site-header-wrapper">[\s\S]*?<\/div>\s*<\/nav>\s*<\/div>|<div class="site-header-wrapper">[\s\S]*?<\/nav>\s*<\/div>/i;
+    // Replace Header Wrapper (cleaning up any repeated comment headers)
+    const headerRegex = /(?:\s*<!--\s*Fixed Sticky Header Wrapper\s*-->\s*)*<div class="site-header-wrapper">[\s\S]*?<\/div>\s*<\/nav>\s*<\/div>|(?:\s*<!--\s*Fixed Sticky Header Wrapper\s*-->\s*)*<div class="site-header-wrapper">[\s\S]*?<\/nav>\s*<\/div>/i;
     if (headerRegex.test(html)) {
       html = html.replace(headerRegex, standardHeader);
     }
 
-    // Replace Footer
-    const footerRegex = /<footer[\s\S]*?<\/footer>/i;
+    // Replace Footer (cleaning up any repeated comment footers)
+    const footerRegex = /(?:\s*<!--\s*Universal Footer\s*-->\s*)*<footer[\s\S]*?<\/footer>/i;
     if (footerRegex.test(html)) {
       html = html.replace(footerRegex, standardFooter);
     }

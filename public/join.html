@@ -12,70 +12,270 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;400;500;600;700&family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
-  <!-- Load Tailwind CSS -->
-  
-  
-  <link rel="stylesheet" href="/css/style.css?v=2.2">
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
   <style>
-    html {
-      scroll-behavior: smooth;
+    body {
+      background-color: #f8fafc;
+      color: #334155;
       font-family: 'Hind Siliguri', 'Inter', sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
     }
-    body::-webkit-scrollbar {
-      width: 8px;
-    }
-    body::-webkit-scrollbar-thumb {
-      background-color: #ffb703;
-      border-radius: 4px;
-    }
-    body::-webkit-scrollbar-track {
-      background-color: #1a3a60;
-    }
-    .join-hero {
-      background: linear-gradient(135deg, #1a3a60 0%, #0d223a 100%);
-      color: #ffffff;
+
+    .join-hero-card {
+      background: linear-gradient(135deg, #0f2744 0%, #1a3a60 50%, #0d223a 100%);
       border-radius: 16px;
-      padding: 40px 24px;
+      padding: 48px 24px;
       text-align: center;
       border-top: 4px solid #ffb703;
-      box-shadow: 0 10px 25px -5px rgba(26, 58, 96, 0.3);
-      margin-bottom: 30px;
+      box-shadow: 0 12px 30px -5px rgba(15, 39, 68, 0.4);
+      margin-bottom: 36px;
+      position: relative;
+      overflow: hidden;
     }
-    .benefit-card {
+
+    .join-hero-card::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      right: -20%;
+      width: 300px;
+      height: 300px;
+      background: radial-gradient(circle, rgba(255, 183, 3, 0.15) 0%, rgba(255, 183, 3, 0) 70%);
+      border-radius: 50%;
+      pointer-events: none;
+    }
+
+    .hero-badge {
+      display: inline-block;
+      background: rgba(255, 183, 3, 0.15);
+      border: 1px solid rgba(255, 183, 3, 0.4);
+      color: #ffb703;
+      font-size: 13px;
+      font-weight: 700;
+      padding: 6px 16px;
+      border-radius: 50px;
+      margin-bottom: 16px;
+      letter-spacing: 0.5px;
+    }
+
+    .hero-main-title {
+      color: #ffffff !important;
+      font-size: 32px;
+      font-weight: 800;
+      line-height: 1.3;
+      margin: 0 0 10px 0;
+      text-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+    }
+
+    @media (min-width: 768px) {
+      .hero-main-title {
+        font-size: 40px;
+      }
+    }
+
+    .hero-sub-title {
+      color: #ffb703 !important;
+      font-size: 18px;
+      font-weight: 700;
+      margin: 0 0 16px 0;
+      letter-spacing: 0.3px;
+    }
+
+    @media (min-width: 768px) {
+      .hero-sub-title {
+        font-size: 21px;
+      }
+    }
+
+    .hero-description {
+      color: #e2e8f0 !important;
+      font-size: 15px;
+      line-height: 1.8;
+      max-width: 700px;
+      margin: 0 auto 28px auto;
+    }
+
+    .join-btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: #ffb703;
+      color: #0f172a !important;
+      font-weight: 800;
+      font-size: 15px;
+      padding: 14px 28px;
+      border-radius: 50px;
+      text-decoration: none;
+      box-shadow: 0 4px 15px rgba(255, 183, 3, 0.4);
+      transition: all 0.25s ease;
+    }
+
+    .join-btn-primary:hover {
+      background: #e09f00;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(255, 183, 3, 0.6);
+      color: #000000 !important;
+    }
+
+    .join-btn-secondary {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: rgba(255, 255, 255, 0.12);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      color: #ffffff !important;
+      font-weight: 700;
+      font-size: 14px;
+      padding: 14px 24px;
+      border-radius: 50px;
+      text-decoration: none;
+      backdrop-filter: blur(4px);
+      transition: all 0.25s ease;
+    }
+
+    .join-btn-secondary:hover {
+      background: rgba(255, 255, 255, 0.22);
+      border-color: #ffffff;
+      transform: translateY(-2px);
+      color: #ffffff !important;
+    }
+
+    .benefits-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 20px;
+      margin-bottom: 36px;
+    }
+
+    .benefit-box {
       background: #ffffff;
       border: 1px solid #e2e8f0;
       border-radius: 12px;
       padding: 24px;
-      transition: transform 0.2s ease, box-shadow 0.2s ease;
-      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+      transition: all 0.25s ease;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.04);
+      display: flex;
+      flex-direction: column;
     }
-    .benefit-card:hover {
+
+    .benefit-box:hover {
       transform: translateY(-4px);
-      box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+      box-shadow: 0 10px 20px -3px rgba(15, 39, 68, 0.1);
       border-color: #ffb703;
     }
-    .icon-box {
-      width: 50px;
-      height: 50px;
-      border-radius: 12px;
-      background: #f0f4f8;
-      color: #1a3a60;
+
+    .benefit-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 10px;
+      background: #fff8e6;
+      color: #d97706;
+      border: 1px solid #fde68a;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 22px;
+      font-size: 20px;
+      margin-bottom: 16px;
+    }
+
+    .benefit-box:nth-child(2) .benefit-icon {
+      background: #eff6ff;
+      color: #2563eb;
+      border-color: #bfdbfe;
+    }
+
+    .benefit-box:nth-child(3) .benefit-icon {
+      background: #f0fdf4;
+      color: #16a34a;
+      border-color: #bbf7d0;
+    }
+
+    .benefit-box:nth-child(4) .benefit-icon {
+      background: #faf5ff;
+      color: #9333ea;
+      border-color: #e9d5ff;
+    }
+
+    .info-dual-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 24px;
+      margin-bottom: 36px;
+    }
+
+    .info-card {
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 14px;
+      padding: 26px;
+      box-shadow: 0 4px 8px -2px rgba(0, 0, 0, 0.05);
+    }
+
+    .info-card-header {
+      font-size: 18px;
+      font-weight: 700;
+      color: #0f172a;
+      padding-bottom: 14px;
+      margin-bottom: 16px;
+      border-bottom: 1px solid #f1f5f9;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .list-item-check {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
       margin-bottom: 14px;
+      font-size: 14px;
+      line-height: 1.6;
+      color: #334155;
+    }
+
+    .list-item-check:last-child {
+      margin-bottom: 0;
+    }
+
+    .list-item-check i {
+      color: #16a34a;
+      margin-top: 3px;
+      flex-shrink: 0;
+      font-size: 16px;
+    }
+
+    .step-number {
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      background: #1a3a60;
+      color: #ffffff;
+      font-size: 12px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    .bottom-cta-box {
+      background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+      border: 2px solid #ffb703;
+      border-radius: 16px;
+      padding: 36px 24px;
+      text-align: center;
+      color: #ffffff;
+      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.25);
+      margin-bottom: 24px;
     }
   </style>
 </head>
-<body>
-
-  <!-- Fixed Sticky Header Wrapper -->
-    <!-- Fixed Sticky Header Wrapper -->
-    <!-- Fixed Sticky Header Wrapper -->
-    <!-- Fixed Sticky Header Wrapper -->
-    <!-- Fixed Sticky Header Wrapper -->
-    <!-- Fixed Sticky Header Wrapper -->
+<body>  <!-- Fixed Sticky Header Wrapper -->
   <div class="site-header-wrapper">
     <!-- Top Bar -->
     <div class="top-bar">
@@ -123,177 +323,173 @@
   </div>
 
   <!-- Breadcrumb -->
-  <div class="container" style="padding-top: 15px; padding-bottom: 10px;">
+  <div class="container" style="padding-top: 18px; padding-bottom: 12px;">
     <div style="font-size: 13px; color: #64748b;">
       <a href="/" style="color: #1a3a60; text-decoration: none;"><i class="fas fa-home"></i> হোম</a>
       <span style="margin: 0 6px;">/</span>
-      <span style="color: #ffb703; font-weight: 600;">সদস্য হোন (Membership)</span>
+      <span style="color: #d97706; font-weight: 600;">সদস্য হোন (Membership)</span>
     </div>
   </div>
 
   <!-- Main Join Container -->
-  <main class="container py-4 flex-grow">
+  <main class="container" style="flex: 1; padding-top: 10px; padding-bottom: 30px;">
     
-    <!-- Hero Banner -->
-    <div class="join-hero">
-      <span style="font-size: 13px; color: #ffb703; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; display: block; margin-bottom: 6px;">
-        খুলনা বিশ্ববিদ্যালয় লেখক সংঘের পরিবারে স্বাগতম
-      </span>
-      <h1 class="text-2xl md:text-4xl font-extrabold text-white mb-2">
+    <!-- Hero Banner Card -->
+    <div class="join-hero-card">
+      <div class="hero-badge">
+        <i class="fas fa-feather-alt"></i> খুলনা বিশ্ববিদ্যালয় লেখক সংঘের পরিবারে স্বাগতম
+      </div>
+      <h1 class="hero-main-title">
         সাহিত্যচর্চায় আপনিও অংশ নিন
       </h1>
-      <h2 class="text-base md:text-lg font-semibold text-yellow-400 mb-4">
+      <h2 class="hero-sub-title">
         Be A Proud Member of KU Writers' Society
       </h2>
-      <p class="text-sm md:text-base text-slate-200 max-w-2xl mx-auto leading-relaxed mb-6">
+      <p class="hero-description">
         খুলনা বিশ্ববিদ্যালয়ের যেকোনো ডিসিপ্লিনের সাহিত্যপ্রেমী, কবি, গল্পকার ও সৃষ্টিশীল শিক্ষার্থীদের জন্য আমাদের দ্বার উন্মুক্ত। আপনার লেখনী ও মুক্তচিন্তাকে নতুন উচ্চতায় পৌঁছে দিতে যুক্ত হোন আমাদের সাথে।
       </p>
 
-      <div class="flex flex-wrap gap-4 justify-center">
-        <a href="https://forms.gle/1ZHep4fKWjWkJ5z39" target="_blank" class="inline-flex items-center gap-2 px-8 py-3.5 bg-yellow-500 hover:bg-yellow-400 text-slate-900 font-extrabold rounded-full transition shadow-lg text-base">
+      <div style="display: flex; flex-wrap: wrap; gap: 14px; justify-content: center; align-items: center;">
+        <a href="https://forms.gle/1ZHep4fKWjWkJ5z39" target="_blank" class="join-btn-primary">
           <i class="fas fa-file-signature"></i> অনলাইন সদস্য ফরম পূরণ করুন
         </a>
-        <a href="https://www.facebook.com/groups/kuws2024" target="_blank" class="inline-flex items-center gap-2 px-6 py-3.5 bg-white hover:bg-slate-100 text-slate-900 font-bold rounded-full transition shadow text-sm">
-          <i class="fab fa-facebook"></i> অফিশিয়াল গ্রুপে যুক্ত হোন
+        <a href="https://www.facebook.com/groups/kuws2024" target="_blank" class="join-btn-secondary">
+          <i class="fab fa-facebook"></i> অফিশিয়াল ফেসবুক গ্রুপ
+        </a>
+        <a href="/write" class="join-btn-secondary" style="background: rgba(255, 183, 3, 0.2); border-color: #ffb703; color: #ffb703 !important;">
+          <i class="fas fa-pen-nib"></i> লেখা জমা দিন (Guest Write)
         </a>
       </div>
     </div>
 
     <!-- Why Join Us Section -->
-    <section class="mb-10">
-      <div class="text-center mb-8">
-        <h2 class="text-2xl font-bold text-slate-800 mb-1">কেন যুক্ত হবেন লেখক সংঘে?</h2>
-        <p class="text-sm text-yellow-600 font-semibold">Benefits of Becoming a Member</p>
+    <section style="margin-bottom: 36px;">
+      <div style="text-align: center; margin-bottom: 24px;">
+        <h2 style="font-size: 24px; font-weight: 800; color: #0f172a; margin: 0 0 6px 0;">কেন যুক্ত হবেন লেখক সংঘে?</h2>
+        <p style="font-size: 14px; color: #d97706; font-weight: 600; margin: 0;">Benefits of Becoming a Member</p>
       </div>
 
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div class="benefits-grid">
         
         <!-- Card 1 -->
-        <div class="benefit-card">
-          <div class="icon-box">
-            <i class="fas fa-feather-alt text-yellow-600"></i>
+        <div class="benefit-box">
+          <div class="benefit-icon">
+            <i class="fas fa-feather-alt"></i>
           </div>
-          <h3 class="text-lg font-bold text-slate-800 mb-1">সাহিত্যকর্ম প্রকাশ</h3>
-          <p class="text-xs text-yellow-600 font-semibold mb-2">Publishing Opportunities</p>
-          <p class="text-sm text-slate-600 leading-relaxed">
-            KUWS অফিসিয়াল পোর্টাল, বার্ষিক সাময়িকী ও দেয়াল পত্রিকায় আপনার কবিতা, গল্প ও কলাম প্রকাশের উন্মুক্ত সুযোগ।
+          <h3 style="font-size: 17px; font-weight: 700; color: #0f172a; margin: 0 0 4px 0;">সাহিত্যকর্ম প্রকাশ</h3>
+          <p style="font-size: 12px; color: #d97706; font-weight: 600; margin: 0 0 8px 0;">Publishing Opportunities</p>
+          <p style="font-size: 14px; color: #475569; line-height: 1.6; margin: 0;">
+            KUWS অফিসিয়াল পোর্টাল, বার্ষিক সাময়িকী ও দেয়াল পত্রিকায় আপনার কবিতা, গল্প, প্রবন্ধ ও কলাম প্রকাশের উন্মুক্ত সুযোগ।
           </p>
         </div>
 
         <!-- Card 2 -->
-        <div class="benefit-card">
-          <div class="icon-box">
-            <i class="fas fa-comments text-blue-700"></i>
+        <div class="benefit-box">
+          <div class="benefit-icon">
+            <i class="fas fa-comments"></i>
           </div>
-          <h3 class="text-lg font-bold text-slate-800 mb-1">সাহিত্য আড্ডা ও কর্মশালা</h3>
-          <p class="text-xs text-yellow-600 font-semibold mb-2">Workshops & Sessions</p>
-          <p class="text-sm text-slate-600 leading-relaxed">
-            লেখালেখির কৌশল, সম্পাদনা ও সাহিত্য আলোচনার নিয়মিত সাপ্তাহিক আড্ডা এবং বিশেষজ্ঞ লেখকদের কর্মশালা।
+          <h3 style="font-size: 17px; font-weight: 700; color: #0f172a; margin: 0 0 4px 0;">সাহিত্য আড্ডা ও কর্মশালা</h3>
+          <p style="font-size: 12px; color: #2563eb; font-weight: 600; margin: 0 0 8px 0;">Workshops & Sessions</p>
+          <p style="font-size: 14px; color: #475569; line-height: 1.6; margin: 0;">
+            লেখালেখির কলাকৌশল, পাণ্ডুলিপি সম্পাদনা ও সাহিত্য আলোচনার নিয়মিত সাপ্তাহিক আড্ডা এবং প্রথিতযশা লেখকদের কর্মশালা।
           </p>
         </div>
 
         <!-- Card 3 -->
-        <div class="benefit-card">
-          <div class="icon-box">
-            <i class="fas fa-award text-yellow-600"></i>
+        <div class="benefit-box">
+          <div class="benefit-icon">
+            <i class="fas fa-award"></i>
           </div>
-          <h3 class="text-lg font-bold text-slate-800 mb-1">প্রতিযোগিতা ও সনদ</h3>
-          <p class="text-xs text-yellow-600 font-semibold mb-2">Contests & Certification</p>
-          <p class="text-sm text-slate-600 leading-relaxed">
-            জাতীয় ও আন্তঃডিসিপ্লিন সাহিত্য প্রতিযোগিতায় অংশগ্রহণ, পুরস্কার অর্জন এবং অফিশিয়াল ডিজিটাল ভেরিফায়েড সার্টিফিকেট।
+          <h3 style="font-size: 17px; font-weight: 700; color: #0f172a; margin: 0 0 4px 0;">প্রতিযোগিতা ও সনদ</h3>
+          <p style="font-size: 12px; color: #16a34a; font-weight: 600; margin: 0 0 8px 0;">Contests & Certification</p>
+          <p style="font-size: 14px; color: #475569; line-height: 1.6; margin: 0;">
+            জাতীয় ও আন্তঃবিশ্ববিদ্যালয় সাহিত্য প্রতিযোগিতায় অংশগ্রহণ, বিশেষ সম্মাননা ও অফিশিয়াল ভেরিফায়েড ডিজিটাল সার্টিফিকেট।
           </p>
         </div>
 
         <!-- Card 4 -->
-        <div class="benefit-card">
-          <div class="icon-box">
-            <i class="fas fa-users text-blue-700"></i>
+        <div class="benefit-box">
+          <div class="benefit-icon">
+            <i class="fas fa-users"></i>
           </div>
-          <h3 class="text-lg font-bold text-slate-800 mb-1">লেখক নেটওয়ার্ক ও নেতৃত্ব</h3>
-          <p class="text-xs text-yellow-600 font-semibold mb-2">Community & Leadership</p>
-          <p class="text-sm text-slate-600 leading-relaxed">
-            বিশ্ববিদ্যালয়ের সমমনা সাহিত্যপ্রেমী ও পাঠকদের বিশাল কমিউনিটি এবং সংগঠনে নেতৃত্ব দেওয়ার সুযোগ।
+          <h3 style="font-size: 17px; font-weight: 700; color: #0f172a; margin: 0 0 4px 0;">লেখক নেটওয়ার্ক ও নেতৃত্ব</h3>
+          <p style="font-size: 12px; color: #9333ea; font-weight: 600; margin: 0 0 8px 0;">Community & Leadership</p>
+          <p style="font-size: 14px; color: #475569; line-height: 1.6; margin: 0;">
+            বিশ্ববিদ্যালয়ের সমমনা সাহিত্যপ্রেমী ও পাঠকদের বিশাল মিলনমেলা এবং সাংগঠনিক নেতৃত্ব বিকাশের প্ল্যাটফর্ম।
           </p>
         </div>
 
       </div>
     </section>
 
-    <!-- Eligibility & Membership Process -->
-    <section class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-10">
+    <!-- Eligibility & Process Dual Grid -->
+    <section class="info-dual-grid">
       
       <!-- Eligibility -->
-      <div class="bg-white rounded-xl border border-slate-200 p-6 shadow-sm">
-        <h3 class="text-lg font-bold text-slate-800 mb-3 flex items-center gap-2 border-b border-slate-100 pb-3">
-          <i class="fas fa-user-check text-blue-700"></i> সদস্য হওয়ার যোগ্যতা ও শর্তাবলী
-        </h3>
-        <ul class="space-y-3 text-sm text-slate-700">
-          <li class="flex items-start gap-2.5">
-            <i class="fas fa-check-circle text-green-600 mt-1 flex-shrink-0"></i>
+      <div class="info-card">
+        <div class="info-card-header">
+          <i class="fas fa-user-check" style="color: #2563eb;"></i> সদস্য হওয়ার যোগ্যতা ও শর্তাবলী
+        </div>
+        <div>
+          <div class="list-item-check">
+            <i class="fas fa-check-circle"></i>
             <span>খুলনা বিশ্ববিদ্যালয়ের যেকোনো ডিসিপ্লিন বা ইন্সটিটিউটের নিয়মিত শিক্ষার্থী হতে হবে।</span>
-          </li>
-          <li class="flex items-start gap-2.5">
-            <i class="fas fa-check-circle text-green-600 mt-1 flex-shrink-0"></i>
-            <span>বাংলা বা বিশ্ব সাহিত্যের প্রতি গভীর অনুরাগ ও সৃষ্টিশীল চিন্তাচেতনার মানসিকতা।</span>
-          </li>
-          <li class="flex items-start gap-2.5">
-            <i class="fas fa-check-circle text-green-600 mt-1 flex-shrink-0"></i>
-            <span>সংগঠনের আদর্শ, গঠনতন্ত্র ও নিয়মনীতি মেনে চলার অঙ্গীকার।</span>
-          </li>
-          <li class="flex items-start gap-2.5">
-            <i class="fas fa-check-circle text-green-600 mt-1 flex-shrink-0"></i>
-            <span>অনলাইন রেজিস্ট্রেশন ফরম নির্ভুল তথ্য দিয়ে সম্পন্ন করতে হবে।</span>
-          </li>
-        </ul>
+          </div>
+          <div class="list-item-check">
+            <i class="fas fa-check-circle"></i>
+            <span>বাংলা ও বিশ্ব সাহিত্যের প্রতি গভীর অনুরাগ ও সৃষ্টিশীল চিন্তাচেতনার মানসিকতা।</span>
+          </div>
+          <div class="list-item-check">
+            <i class="fas fa-check-circle"></i>
+            <span>সংগঠনের আদর্শ, গঠনতন্ত্র ও নিয়মনীতি শ্রদ্ধার সাথে মেনে চলার অঙ্গীকার।</span>
+          </div>
+          <div class="list-item-check">
+            <i class="fas fa-check-circle"></i>
+            <span>অনলাইন রেজিস্ট্রেশন ফরম নির্ভুল ব্যক্তিগত ও একাডেমিক তথ্য দিয়ে সম্পন্ন করতে হবে।</span>
+          </div>
+        </div>
       </div>
 
       <!-- Quick Steps -->
-      <div class="bg-white rounded-xl border border-slate-200 p-6 shadow-sm">
-        <h3 class="text-lg font-bold text-slate-800 mb-3 flex items-center gap-2 border-b border-slate-100 pb-3">
-          <i class="fas fa-route text-yellow-600"></i> যেভাবে যুক্ত হবেন (ধাপসমূহ)
-        </h3>
-        <ol class="space-y-3 text-sm text-slate-700">
-          <li class="flex items-start gap-3">
-            <span class="w-6 h-6 rounded-full bg-blue-100 text-blue-800 font-bold flex items-center justify-center text-xs flex-shrink-0">১</span>
+      <div class="info-card">
+        <div class="info-card-header">
+          <i class="fas fa-route" style="color: #d97706;"></i> যেভাবে যুক্ত হবেন (ধাপসমূহ)
+        </div>
+        <div>
+          <div class="list-item-check">
+            <span class="step-number">১</span>
             <span>অনলাইন মেম্বারশিপ গুগল ফর্মটি ওপেন করে আপনার ব্যক্তিগত ও শিক্ষা সংক্রান্ত তথ্য দিন।</span>
-          </li>
-          <li class="flex items-start gap-3">
-            <span class="w-6 h-6 rounded-full bg-blue-100 text-blue-800 font-bold flex items-center justify-center text-xs flex-shrink-0">২</span>
-            <span>KUWS ফেসবুক অফিশিয়াল গ্রুপে রিকোয়েস্ট পাঠান।</span>
-          </li>
-          <li class="flex items-start gap-3">
-            <span class="w-6 h-6 rounded-full bg-blue-100 text-blue-800 font-bold flex items-center justify-center text-xs flex-shrink-0">৩</span>
-            <span>কার্যনির্বাহী পর্ষদ কর্তৃক যাচাইয়ের পর আপনাকে মূল গ্রুপে ও কার্যক্রমে অন্তর্ভুক্ত করা হবে।</span>
-          </li>
-        </ol>
+          </div>
+          <div class="list-item-check">
+            <span class="step-number">২</span>
+            <span>KUWS ফেসবুক অফিশিয়াল গ্রুপ ও পেইজে যুক্ত হয়ে রিকোয়েস্ট পাঠান।</span>
+          </div>
+          <div class="list-item-check">
+            <span class="step-number">৩</span>
+            <span>কার্যনির্বাহী পর্ষদ কর্তৃক যাচাইয়ের পর আপনাকে মূল গ্রুপে ও সাহিত্য কার্যক্রমে অন্তর্ভুক্ত করা হবে।</span>
+          </div>
+        </div>
       </div>
 
     </section>
 
-    <!-- Direct Links CTA -->
-    <div class="bg-slate-900 text-white rounded-2xl p-8 text-center border-2 border-yellow-500 shadow-xl mb-6">
-      <h2 class="text-2xl md:text-3xl font-extrabold mb-2">দেরি না করে এখনই ফরম পূরণ করুন</h2>
-      <p class="text-sm text-slate-300 max-w-xl mx-auto mb-6">
-        আপনার সাহিত্যিক প্রতিভাকে ফুটিয়ে তোলার এই অনন্য সুযোগ হাতছাড়া করবেন না।
+    <!-- Direct Links CTA Box -->
+    <div class="bottom-cta-box">
+      <h2 style="color: #ffffff; font-size: 24px; font-weight: 800; margin: 0 0 8px 0;">দেরি না করে এখনই ফরম পূরণ করুন</h2>
+      <p style="color: #cbd5e1; font-size: 14px; max-width: 580px; margin: 0 auto 22px auto; line-height: 1.6;">
+        আপনার সাহিত্যিক প্রতিভাকে ফুটিয়ে তোলার ও লেখক সংঘের একজন গর্বিত সদস্য হওয়ার এই সুযোগ গ্রহণ করুন।
       </p>
-      <div class="flex flex-wrap gap-4 justify-center">
-        <a href="https://forms.gle/1ZHep4fKWjWkJ5z39" target="_blank" class="inline-flex items-center gap-2 px-8 py-3.5 bg-yellow-500 hover:bg-yellow-400 text-slate-900 font-extrabold rounded-full transition shadow-lg text-base">
+      <div style="display: flex; flex-wrap: wrap; gap: 14px; justify-content: center; align-items: center;">
+        <a href="https://forms.gle/1ZHep4fKWjWkJ5z39" target="_blank" class="join-btn-primary">
           <i class="fas fa-external-link-alt"></i> অনলাইন সদস্য ফরম (Google Form)
         </a>
-        <a href="/portal" class="inline-flex items-center gap-2 px-6 py-3.5 bg-slate-800 hover:bg-slate-700 text-yellow-400 font-bold rounded-full transition border border-yellow-500/30 text-sm">
+        <a href="/portal" class="join-btn-secondary">
           <i class="fas fa-book-open"></i> সাহিত্য পোর্টাল ঘুরে দেখুন
         </a>
       </div>
     </div>
 
-  </main>
-
-  <!-- Universal Footer -->
-    <!-- Universal Footer -->
-    <!-- Universal Footer -->
-    <!-- Universal Footer -->
-    <!-- Universal Footer -->
-    <!-- Universal Footer -->
+  </main>  <!-- Universal Footer -->
   <footer style="background-color: #1a3a60; color: #ffffff; padding: 40px 0 20px 0; border-top: 4px solid #ffb703; margin-top: auto;">
     <div class="container">
       <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 30px; margin-bottom: 30px;">
@@ -353,13 +549,13 @@
   </footer>
 
   <!-- Scripts -->
-  <script src="/js/api.js?v=2.2"></script>
+  <script src="/js/api.js"></script>
   <script>
     document.addEventListener('DOMContentLoaded', async () => {
       // Date
       const dateEl = document.getElementById('current-date');
       if (dateEl) {
-        dateEl.innerHTML = `<i class="far fa-calendar-alt"></i> ${Utils.getCurrentBengaliDate()}`;
+        dateEl.innerHTML = '<i class="far fa-calendar-alt"></i> ' + new Date().toLocaleDateString('bn-BD', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
       }
 
       // Load Nav Categories
@@ -369,18 +565,21 @@
           const nav = document.getElementById('category-nav');
           catRes.categories.forEach(c => {
             const li = document.createElement('li');
-            li.innerHTML = `<a href="/category?category=${c.slug}">${c.name_bn}</a>`;
+            li.innerHTML = '<a href="/category?category=' + c.slug + '">' + c.name_bn + '</a>';
             nav.appendChild(li);
           });
           const extraNavItems = [
+            { title: 'লেখা জমা দিন', url: '/write' },
             { title: 'নোটিশ', url: '/notices' },
             { title: 'অনার বোর্ড', url: '/honorboard' },
             { title: 'গ্যালারি', url: '/gallery' },
-            { title: 'সার্টিফিকেট', url: '/verification' }
+            { title: 'সার্টিফিকেট', url: '/verification' },
+            { title: 'সদস্য হোন', url: '/join', active: true }
           ];
           extraNavItems.forEach(item => {
             const li = document.createElement('li');
-            li.innerHTML = `<a href="${item.url}">${item.title}</a>`;
+            if (item.active) li.className = 'active';
+            li.innerHTML = '<a href="' + item.url + '">' + item.title + '</a>';
             nav.appendChild(li);
           });
         }
