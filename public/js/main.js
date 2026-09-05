@@ -69,9 +69,9 @@ document.addEventListener('DOMContentLoaded', async () => {
       // Append Honor Board, Gallery, and Certificate links to Navbar
       if (nav) {
         const extraNavItems = [
-          { title: 'অনার বোর্ড', url: '/honorboard.html' },
-          { title: 'গ্যালারি', url: '/gallery.html' },
-          { title: 'সার্টিফিকেট', url: '/verification.html' }
+          { title: 'অনার বোর্ড', url: '/honorboard' },
+          { title: 'গ্যালারি', url: '/gallery' },
+          { title: 'সার্টিফিকেট', url: '/verification' }
         ];
         extraNavItems.forEach(item => {
           const li = document.createElement('li');
