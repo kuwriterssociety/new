@@ -5,39 +5,52 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Member Profile | Khulna University Writers' Society (KUWS)</title>
   <link rel="icon" type="image/png" href="favicon.png">
-  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/css/style.css?v=3.5">
   <!-- Font Awesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;400;500;600;700&family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+  
   <!-- Load Tailwind CSS -->
-  
-  
-  <link rel="stylesheet" href="/css/style.css?v=3.5">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      corePlugins: {
+        preflight: false,
+      },
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', '"Hind Siliguri"', 'sans-serif'],
+          },
+          colors: {
+            'ku-blue': '#1a3a60',
+            'ku-gold': '#ffb703',
+            'ku-dark-blue': '#0f233a',
+            'ku-light': '#f8fafc',
+          }
+        }
+      }
+    }
+  </script>
+
   <style>
-    html {
-      scroll-behavior: smooth;
-      font-family: 'Inter', 'Hind Siliguri', sans-serif;
-    }
-    body::-webkit-scrollbar {
-      width: 8px;
-    }
-    body::-webkit-scrollbar-thumb {
-      background-color: #ffb703;
-      border-radius: 4px;
-    }
-    body::-webkit-scrollbar-track {
-      background-color: #1a3a60;
+    body {
+      font-family: 'Inter', 'Hind Siliguri', -apple-system, sans-serif;
+      background-color: #f8fafc;
+      color: #1e293b;
     }
     .profile-hero-card {
       background: linear-gradient(135deg, #1a3a60 0%, #0d223a 100%);
       color: #ffffff;
       border-radius: 16px;
+      padding: 32px 28px;
       box-shadow: 0 10px 25px -5px rgba(26, 58, 96, 0.3);
       position: relative;
       overflow: hidden;
+      margin-bottom: 30px;
     }
     .profile-hero-card::after {
       content: '';
@@ -57,6 +70,7 @@
       object-fit: cover;
       border: 4px solid #ffb703;
       box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+      flex-shrink: 0;
     }
     .contact-badge {
       display: inline-flex;
@@ -82,6 +96,7 @@
       border: 1px solid #e2e8f0;
       padding: 24px;
       box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+      margin-bottom: 20px;
     }
     .info-card h3 {
       font-size: 18px;
@@ -109,9 +124,6 @@
 <body>
 
   <!-- Fixed Sticky Header Wrapper -->
-    <!-- Fixed Sticky Header Wrapper -->
-    <!-- Fixed Sticky Header Wrapper -->
-    <!-- Fixed Sticky Header Wrapper -->
   <div class="site-header-wrapper">
     <!-- Top Bar -->
     <div class="top-bar">
@@ -168,14 +180,14 @@
         <span style="margin: 0 6px;">/</span>
         <span id="breadcrumb-name" style="color: #ffb703; font-weight: 600;">Profile</span>
       </div>
-      <a href="/honorboard" class="btn btn-sm btn-secondary" style="background: #ffffff; border: 1px solid #cbd5e1; color: #1a3a60; font-weight: 600;">
+      <a href="/honorboard" class="btn btn-sm btn-secondary" style="background: #ffffff; border: 1px solid #cbd5e1; color: #1a3a60; font-weight: 600; padding: 6px 14px; border-radius: 6px; text-decoration: none; display: inline-flex; align-items: center; gap: 6px;">
         <i class="fas fa-arrow-left"></i> Back to Honor Board
       </a>
     </div>
   </div>
 
   <!-- Main Profile Content -->
-  <main class="container py-4 flex-grow">
+  <main class="container py-4 flex-grow" style="margin-bottom: 40px;">
     
     <div id="profile-loading" style="text-align: center; padding: 60px 20px;">
       <i class="fas fa-circle-notch fa-spin fa-2x" style="color: #1a3a60;"></i>
@@ -186,7 +198,7 @@
       <i class="fas fa-user-slash fa-3x" style="color: #ef4444; margin-bottom: 15px;"></i>
       <h3 style="font-size: 20px; font-weight: 700; color: #991b1b; margin-bottom: 8px;">Member Not Found</h3>
       <p style="color: #64748b; margin-bottom: 20px;">The requested member profile could not be found or is not currently active.</p>
-      <a href="/honorboard" class="btn btn-primary" style="background: #1a3a60; border-color: #1a3a60;">Back to Honor Board</a>
+      <a href="/honorboard" class="btn btn-primary" style="background: #1a3a60; border-color: #1a3a60; color: #fff; padding: 8px 18px; border-radius: 6px; text-decoration: none;">Back to Honor Board</a>
     </div>
 
     <div id="profile-content" style="display: none;">
@@ -205,7 +217,7 @@
             
             <!-- Large Font: English Name, Small Font: Bengali Name -->
             <h1 id="p-name-en" class="text-2xl md:text-4xl font-extrabold text-white mb-1">Ekramul Haque</h1>
-            <h2 id="p-name-bn" class="text-base md:text-lg font-semibold text-yellow-400 mb-2">ইকরামুল হক</h2>
+            <h2 id="p-name-bn" class="text-base md:text-lg font-semibold text-yellow-400 mb-2">একরামুল হক</h2>
             
             <div class="text-sm md:text-base text-slate-200 mb-4 flex flex-col md:flex-row flex-wrap gap-2 md:gap-4 justify-center md:justify-start">
               <div><i class="fas fa-award text-yellow-400 mr-1"></i> <span id="p-designation-en" class="font-bold text-white">President</span> <span id="p-designation-bn" class="text-xs text-yellow-300">(সভাপতি)</span></div>
@@ -262,7 +274,7 @@
           <!-- 3. Contact & Information Summary (Bottom on Right) -->
           <div class="info-card">
             <h3><i class="fas fa-address-card text-blue-700"></i> Contact & Details | যোগাযোগের তথ্য</h3>
-            <ul class="space-y-3 text-sm text-slate-700 mt-2">
+            <ul class="space-y-3 text-sm text-slate-700 mt-2" style="list-style: none; padding: 0;">
               <li class="flex items-center gap-3">
                 <span class="w-8 h-8 rounded-full bg-blue-50 text-blue-800 flex items-center justify-center flex-shrink-0"><i class="fas fa-id-badge"></i></span>
                 <div>
@@ -319,7 +331,7 @@
 
       <!-- Bottom Action Button -->
       <div class="text-center pb-8">
-        <a href="/honorboard" class="inline-flex items-center gap-2 px-8 py-3.5 rounded-full bg-ku-blue hover:bg-slate-900 text-white font-bold transition shadow-lg text-sm">
+        <a href="/honorboard" class="inline-flex items-center gap-2 px-8 py-3.5 rounded-full bg-ku-blue hover:bg-slate-900 text-white font-bold transition shadow-lg text-sm" style="background: #1a3a60; text-decoration: none; color: #ffffff;">
           <i class="fas fa-users"></i> View All Honor Board Members | সকল সদস্য দেখুন
         </a>
       </div>
@@ -329,9 +341,6 @@
   </main>
 
   <!-- Universal Footer -->
-    <!-- Universal Footer -->
-    <!-- Universal Footer -->
-    <!-- Universal Footer -->
   <footer style="background-color: #1a3a60; color: #ffffff; padding: 40px 0 20px 0; border-top: 4px solid #ffb703; margin-top: auto;">
     <div class="container">
       <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 30px; margin-bottom: 30px;">
@@ -499,7 +508,7 @@
           el.style.display = 'inline-flex';
           document.getElementById('p-email-text').innerText = member.email;
           document.getElementById('p-email-li').style.display = 'flex';
-          document.getElementById('p-email-val').innerHTML = `<a href="mailto:${member.email}" class="text-blue-600 hover:underline">${member.email}</a>`;
+          document.getElementById('p-email-val').innerHTML = `<a href="mailto:${member.email}" class="text-blue-600 hover:underline" style="color: #2563eb;">${member.email}</a>`;
         }
         if (member.phone) {
           const el = document.getElementById('p-phone-link');
@@ -507,7 +516,7 @@
           el.style.display = 'inline-flex';
           document.getElementById('p-phone-text').innerText = member.phone;
           document.getElementById('p-phone-li').style.display = 'flex';
-          document.getElementById('p-phone-val').innerHTML = `<a href="tel:${member.phone}" class="text-blue-600 hover:underline">${member.phone}</a>`;
+          document.getElementById('p-phone-val').innerHTML = `<a href="tel:${member.phone}" class="text-blue-600 hover:underline" style="color: #2563eb;">${member.phone}</a>`;
         }
         if (member.facebook_url) {
           const el = document.getElementById('p-fb-link');
@@ -524,7 +533,7 @@
           el.href = member.website_url.startsWith('http') ? member.website_url : `https://${member.website_url}`;
           el.style.display = 'inline-flex';
           document.getElementById('p-web-li').style.display = 'flex';
-          document.getElementById('p-web-val').innerHTML = `<a href="${el.href}" target="_blank" class="text-blue-600 hover:underline">${member.website_url} <i class="fas fa-external-link-alt text-xs"></i></a>`;
+          document.getElementById('p-web-val').innerHTML = `<a href="${el.href}" target="_blank" class="text-blue-600 hover:underline" style="color: #2563eb;">${member.website_url} <i class="fas fa-external-link-alt text-xs"></i></a>`;
         }
 
         // Bio (Left Side Big Section)
