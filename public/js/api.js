@@ -255,6 +255,36 @@ const API = {
     return this.request(`/admin/gallery/${id}`, {
       method: 'DELETE'
     });
+  },
+
+  // Notices & Events
+  async getNotices(params = {}) {
+    const queryString = new URLSearchParams(params).toString();
+    return this.request(`/notices?${queryString}`);
+  },
+
+  async getAdminNotices() {
+    return this.request('/admin/notices');
+  },
+
+  async createAdminNotice(data) {
+    return this.request('/admin/notices', {
+      method: 'POST',
+      body: JSON.stringify(data)
+    });
+  },
+
+  async updateAdminNotice(id, data) {
+    return this.request(`/admin/notices/${id}`, {
+      method: 'PUT',
+      body: JSON.stringify(data)
+    });
+  },
+
+  async deleteAdminNotice(id) {
+    return this.request(`/admin/notices/${id}`, {
+      method: 'DELETE'
+    });
   }
 };
 

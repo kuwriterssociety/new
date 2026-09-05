@@ -83,7 +83,9 @@ function serveStatic(res, filePath) {
     res.writeHead(200, {
       'Content-Type': contentType,
       'Content-Length': stats.size,
-      'Cache-Control': ext === '.html' ? 'no-cache' : 'public, max-age=86400'
+      'Cache-Control': 'no-cache, no-store, must-revalidate',
+      'Pragma': 'no-cache',
+      'Expires': '0'
     });
 
     const stream = fs.createReadStream(filePath);
@@ -364,7 +366,11 @@ const server = http.createServer(async (req, res) => {
         sql += ' AND a.is_featured = 1';
       }
 
-      sql += ' ORDER BY a.is_lead DESC, a.published_at DESC, a.id DESC LIMIT ? OFFSET ?';
+      if (query.sort === 'views' || query.popular === '1' || query.popular === 'true') {
+        sql += ' ORDER BY a.views DESC, a.published_at DESC LIMIT ? OFFSET ?';
+      } else {
+        sql += ' ORDER BY a.is_lead DESC, a.published_at DESC, a.id DESC LIMIT ? OFFSET ?';
+      }
       params.push(Number(limit), Number(offset));
 
       const articles = db.prepare(sql).all(...params);
@@ -1010,6 +1016,115 @@ const server = http.createServer(async (req, res) => {
       }
     }
 
+    // 19. NOTICE & EVENTS APIs
+    if (pathname === '/api/notices' && req.method === 'GET') {
+      const { limit = 10 } = query;
+      const notices = db.prepare(`
+        SELECT id, title, title_en, description, description_en, date_text, badge_text, badge_type, link_url, is_pinned, order_index, created_at
+        FROM notices
+        WHERE status = 'published'
+        ORDER BY is_pinned DESC, order_index ASC, id DESC
+        LIMIT ?
+      `).all(Number(limit));
+      return sendJson(res, 200, { success: true, notices });
+    }
+
+    if (pathname.startsWith('/api/admin/notices')) {
+      const authUser = authenticateRequest(req);
+      if (!authUser) return sendError(res, 401, 'Unauthorized');
+
+      // GET ALL NOTICES
+      if (req.method === 'GET') {
+        const notices = db.prepare(`
+          SELECT n.*, u.name as creator_name
+          FROM notices n
+          LEFT JOIN users u ON n.created_by = u.id
+          ORDER BY n.is_pinned DESC, n.order_index ASC, n.id DESC
+        `).all();
+        return sendJson(res, 200, { success: true, notices });
+      }
+
+      // CREATE NOTICE
+      if (req.method === 'POST') {
+        const { title, title_en, description, description_en, date_text, badge_text, badge_type, link_url, is_pinned, status, order_index } = await parseBody(req);
+        if (!title) {
+          return sendError(res, 400, 'নোটিশের শিরোনাম আবশ্যক।');
+        }
+        let finalStatus = (authUser.role === 'sub_editor') ? 'published' : (status || 'published');
+        const resInsert = db.prepare(`
+          INSERT INTO notices (title, title_en, description, description_en, date_text, badge_text, badge_type, link_url, is_pinned, status, order_index, created_by)
+          VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        `).run(
+          title.trim(),
+          title_en ? title_en.trim() : '',
+          description || '',
+          description_en || '',
+          date_text || '',
+          badge_text || 'নোটিশ / Notice',
+          badge_type || 'primary',
+          link_url || '',
+          is_pinned ? 1 : 0,
+          finalStatus,
+          Number(order_index) || 0,
+          authUser.id
+        );
+        return sendJson(res, 201, {
+          success: true,
+          id: Number(resInsert.lastInsertRowid),
+          message: 'নোটিশ সফলভাবে যুক্ত হয়েছে।'
+        });
+      }
+
+      // UPDATE NOTICE
+      if (req.method === 'PUT' && pathname.match(/^\/api\/admin\/notices\/(\d+)$/)) {
+        const id = Number(pathname.split('/')[4]);
+        const current = db.prepare('SELECT * FROM notices WHERE id = ?').get(id);
+        if (!current) return sendError(res, 404, 'নোটিশ পাওয়া যায়নি।');
+
+        const { title, title_en, description, description_en, date_text, badge_text, badge_type, link_url, is_pinned, status, order_index } = await parseBody(req);
+
+        db.prepare(`
+          UPDATE notices SET
+            title = COALESCE(?, title),
+            title_en = COALESCE(?, title_en),
+            description = COALESCE(?, description),
+            description_en = COALESCE(?, description_en),
+            date_text = COALESCE(?, date_text),
+            badge_text = COALESCE(?, badge_text),
+            badge_type = COALESCE(?, badge_type),
+            link_url = COALESCE(?, link_url),
+            is_pinned = COALESCE(?, is_pinned),
+            status = COALESCE(?, status),
+            order_index = COALESCE(?, order_index)
+          WHERE id = ?
+        `).run(
+          title ? title.trim() : null,
+          title_en !== undefined ? title_en.trim() : null,
+          description !== undefined ? description : null,
+          description_en !== undefined ? description_en : null,
+          date_text !== undefined ? date_text : null,
+          badge_text !== undefined ? badge_text : null,
+          badge_type !== undefined ? badge_type : null,
+          link_url !== undefined ? link_url : null,
+          is_pinned !== undefined ? (is_pinned ? 1 : 0) : null,
+          status !== undefined ? status : null,
+          order_index !== undefined ? Number(order_index) : null,
+          id
+        );
+        return sendJson(res, 200, { success: true, message: 'নোটিশ আপডেট হয়েছে।' });
+      }
+
+      // DELETE NOTICE
+      if (req.method === 'DELETE' && pathname.match(/^\/api\/admin\/notices\/(\d+)$/)) {
+        if (authUser.role === 'sub_editor') {
+          return sendError(res, 403, 'কেবল সম্পাদক বা আইটি এডমিন নোটিশ মুছতে পারবেন।');
+        }
+        const id = Number(pathname.split('/')[4]);
+        db.prepare('DELETE FROM notices WHERE id = ?').run(id);
+        return sendJson(res, 200, { success: true, message: 'নোটিশ মুছে ফেলা হয়েছে।' });
+      }
+    }
+
     // ==========================================
     // STATIC FILE SERVING & CLIENT ROUTES
     // ==========================================
@@ -1038,6 +1153,9 @@ const server = http.createServer(async (req, res) => {
     }
     if (pathname === '/admin/gallery') {
       return serveStatic(res, path.join(PUBLIC_DIR, 'admin', 'gallery.html'));
+    }
+    if (pathname === '/admin/notices') {
+      return serveStatic(res, path.join(PUBLIC_DIR, 'admin', 'notices.html'));
     }
     if (pathname === '/admin/users') {
       return serveStatic(res, path.join(PUBLIC_DIR, 'admin', 'users.html'));

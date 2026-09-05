@@ -1,4 +1,4 @@
-﻿const { DatabaseSync } = require('node:sqlite');
+const { DatabaseSync } = require('node:sqlite');
 const path = require('node:path');
 const fs = require('node:fs');
 const crypto = require('node:crypto');
@@ -99,6 +99,24 @@ function initDatabase() {
       category TEXT DEFAULT 'General',
       image_url TEXT NOT NULL,
       status TEXT DEFAULT 'pending' CHECK(status IN ('pending', 'published', 'rejected')),
+      order_index INTEGER DEFAULT 0,
+      created_by INTEGER,
+      created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+      FOREIGN KEY (created_by) REFERENCES users(id)
+    );
+
+    CREATE TABLE IF NOT EXISTS notices (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      title TEXT NOT NULL,
+      title_en TEXT,
+      description TEXT,
+      description_en TEXT,
+      date_text TEXT,
+      badge_text TEXT DEFAULT 'নোটিশ / Notice',
+      badge_type TEXT DEFAULT 'primary',
+      link_url TEXT,
+      is_pinned INTEGER DEFAULT 0,
+      status TEXT DEFAULT 'published' CHECK(status IN ('published', 'draft', 'archived')),
       order_index INTEGER DEFAULT 0,
       created_by INTEGER,
       created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
@@ -384,6 +402,61 @@ function seedData() {
       1,
       930,
       'মতামত, Opinions, খুবির সাহিত্য'
+    );
+  }
+
+  // Check notices
+  const noticeCount = db.prepare('SELECT COUNT(*) as count FROM notices').get().count;
+  if (noticeCount === 0) {
+    console.log('Seeding initial KUWS notices and activities...');
+    const insertNotice = db.prepare(`
+      INSERT INTO notices (title, title_en, description, description_en, date_text, badge_text, badge_type, link_url, is_pinned, status, order_index, created_by)
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+    `);
+
+    insertNotice.run(
+      'বসন্ত উৎসব ও কবিতা পাঠের আসর ২০২৬',
+      'Spring Festival & Poetry Recitation Gathering 2026',
+      'খুলনা বিশ্ববিদ্যালয় লেখক সংঘের আয়োজনে ঋতুরাজ বসন্ত উপলক্ষে বিশেষ কবিতা পাঠ ও সাহিত্য আসর অনুষ্ঠিত হবে।',
+      'A special open-air poetry recitation session celebrating the arrival of spring at KU campus.',
+      '১৫ মার্চ ২০২৬ / 15 March 2026',
+      'আসন্ন আয়োজন / Upcoming Event',
+      'warning',
+      '/portal?category=events',
+      1,
+      'published',
+      1,
+      1
+    );
+
+    insertNotice.run(
+      'নতুন সদস্য সংগ্রহ ও রেজিস্ট্রেশন কার্যক্রম',
+      'Spring Membership Recruitment & Registration',
+      'খুলনা বিশ্ববিদ্যালয়ের সকল বর্ষের শিক্ষার্থীদের জন্য লেখক সংঘের প্রাথমিক সদস্য ফরম উন্মুক্ত করা হয়েছে।',
+      'Annual membership drive is now open for all passionate writers across disciplines.',
+      'চলমান / Ongoing 2026',
+      'সদস্যপদ / Membership',
+      'primary',
+      'https://forms.gle/1ZHep4fKWjWkJ5z39',
+      1,
+      'published',
+      2,
+      1
+    );
+
+    insertNotice.run(
+      'সাহিত্য সাময়িকী "কলম" এর জন্য লেখা আহ্বান',
+      'Call for Submissions: KUWS Literary Magazine "Kalam"',
+      'আমাদের বার্ষিক সাহিত্য পত্রিকা ও অনলাইন পোর্টালে প্রকাশের জন্য কবিতা, গল্প ও সাহিত্য প্রবন্ধ জমা নেওয়া হচ্ছে।',
+      'Inviting original poetry, short stories, and analytical essays from KU students.',
+      '৩০ মার্চ ২০২৬ পর্যন্ত / Till 30 March 2026',
+      'লেখা আহ্বান / Call for Submissions',
+      'info',
+      '/portal',
+      0,
+      'published',
+      3,
+      1
     );
   }
 }

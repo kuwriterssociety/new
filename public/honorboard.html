@@ -3,14 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Khulna University Writers' Society</title>
-    <!-- Load Tailwind CSS --><script src="https://cdn.tailwindcss.com"></script>
-    <!-- Configure Tailwind for Inter Font --><script>
+    <title>অনার বোর্ড ও নেতৃত্ব | Khulna University Writers' Society (KUWS)</title>
+    <link rel="icon" type="image/png" href="favicon.png">
+    <link rel="stylesheet" href="/css/style.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;400;500;600;700&family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <!-- Load Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Configure Tailwind for Inter Font -->
+    <script>
         tailwind.config = {
+            corePlugins: {
+                preflight: false,
+            },
             theme: {
                 extend: {
                     fontFamily: {
-                        sans: ['Inter', 'sans-serif'],
+                        sans: ['"Hind Siliguri"', 'Inter', 'sans-serif'],
                     },
                     colors: {
                         'ku-blue': '#1a3a60',
@@ -21,11 +34,12 @@
             }
         }
     </script>
+    <link rel="stylesheet" href="/css/style.css?v=2.2">
     <style>
         /* Ensuring smooth scrolling for navigation links */
         html {
             scroll-behavior: smooth;
-            font-family: 'Inter', sans-serif;
+            font-family: 'Hind Siliguri', 'Inter', sans-serif;
         }
         /* Custom scrollbar for aesthetics */
         body::-webkit-scrollbar {
@@ -40,61 +54,54 @@
         }
     </style>
 </head>
-<body class="bg-ku-light text-gray-800">
+<body class="bg-ku-light text-gray-800 flex flex-col min-h-screen">
 
-    <!-- Header & Navigation --><header class="bg-ku-blue shadow-lg sticky top-0 z-50">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between items-center h-20">
-                <a href="#home" class="flex items-center space-x-3">
-                    <!-- LOGO IMAGE HERE --><img src="images/logo.jpg" alt="KU Writers' Society Logo" class="h-10 w-10 rounded-full object-cover">
-                    <span class="text-2xl font-bold text-white tracking-wide">KU Writers' Society</span>
-                </a>
-                
-                <style>
-                .blink {
-                  color: #fab303 !important;
-                  font-weight: 700 !important;
-                  text-decoration: none;
-                  animation: blinkText 1.2s infinite;
-                  display: inline-block;
-                }
-                @keyframes blinkText {
-                  0%   { opacity: 1; transform: scale(1); }
-                  50%  { opacity: 0.25; transform: scale(1.04); }
-                  100% { opacity: 1; transform: scale(1); }
-                }
-                </style>
-                <!-- Desktop Navigation -->
-                <nav class="hidden md:flex space-x-8 items-center">
-                    <a href="/" class="text-white hover:text-ku-gold transition duration-300 font-medium">Home</a>
-                    <a href="/#about" class="text-white hover:text-ku-gold transition duration-300 font-medium">About</a>
-                    <a href="/portal?category=events" class="text-white hover:text-ku-gold transition duration-300 font-medium">Events</a>
-                    <a href="/portal" class="blink">Read Our Writings</a>
-                    <a href="/honorboard.html" class="text-white hover:text-ku-gold transition duration-300 font-bold border-b-2 border-ku-gold">Honor Board</a>
-                    <a href="/#gallery" class="text-white hover:text-ku-gold transition duration-300 font-medium">Gallery</a>
-                    <a href="/#contact" class="text-white hover:text-ku-gold transition duration-300 font-medium">Join Us</a>
-                    <a href="/verification.html" class="text-white hover:text-ku-gold transition duration-300 font-medium">Verify Certificate</a>
-                </nav>
-
-                <!-- Mobile Menu Button -->
-                <button id="mobile-menu-button" class="md:hidden text-white hover:text-ku-gold focus:outline-none">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
-                </button>
+    <!-- Fixed Sticky Header Wrapper -->
+    <div class="site-header-wrapper">
+        <!-- Top Bar -->
+        <div class="top-bar">
+            <div class="container top-bar-inner">
+                <div id="current-date"><i class="far fa-calendar-alt"></i> লোড হচ্ছে...</div>
+                <div style="display: flex; gap: 15px; align-items: center; flex-wrap: wrap;">
+                    <span style="color: var(--accent); font-size: 13px; font-weight: 600;"><i class="fas fa-award"></i> অনার বোর্ড ও নেতৃত্ব</span>
+                    <span style="color: #94a3b8; font-size: 13px;"><i class="fas fa-university"></i> খুলনা বিশ্ববিদ্যালয়</span>
+                </div>
             </div>
         </div>
 
-        <!-- Mobile Menu (Hidden by default) -->
-        <div id="mobile-menu" class="hidden md:hidden bg-ku-blue pb-4 border-t border-ku-gold/30">
-            <a href="/" class="block px-4 py-2 text-white hover:bg-ku-blue/70 transition duration-300 font-medium" onclick="toggleMenu()">Home</a>
-            <a href="/#about" class="block px-4 py-2 text-white hover:bg-ku-blue/70 transition duration-300 font-medium" onclick="toggleMenu()">About</a>
-            <a href="/portal?category=events" class="block px-4 py-2 text-white hover:bg-ku-blue/70 transition duration-300 font-medium" onclick="toggleMenu()">Events</a>
-            <a href="/portal" class="block px-4 py-2 text-ku-gold font-bold hover:bg-ku-blue/70 transition duration-300 blink" onclick="toggleMenu()">Read Our Writings</a>
-            <a href="/honorboard.html" class="block px-4 py-2 text-white hover:bg-ku-blue/70 transition duration-300 font-medium" onclick="toggleMenu()">Honor Board</a>
-            <a href="/#gallery" class="block px-4 py-2 text-white hover:bg-ku-blue/70 transition duration-300 font-medium" onclick="toggleMenu()">Gallery</a>
-            <a href="/#contact" class="block px-4 py-2 text-white hover:bg-ku-blue/70 transition duration-300 font-medium" onclick="toggleMenu()">Join Us</a>
-            <a href="/verification.html" class="block px-4 py-2 text-white hover:bg-ku-blue/70 transition duration-300 font-medium" onclick="toggleMenu()">Verify Certificate</a>
-        </div>
-    </header>
+        <!-- Main Header -->
+        <header class="main-header">
+            <div class="container header-inner">
+                <div class="brand-logo">
+                    <a href="/" style="display: flex; align-items: center; gap: 14px;">
+                        <div style="width: 48px; height: 48px; background: #fff3d6; color: var(--primary); border: 2px solid var(--accent); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 22px; flex-shrink: 0; box-shadow: 0 2px 6px rgba(0,0,0,0.08);">
+                            <i class="fas fa-feather-alt" style="color: #e09f00;"></i>
+                        </div>
+                        <div>
+                            <h1 id="site-name-display" style="color: var(--primary); font-size: 26px; font-weight: 800;">খুলনা বিশ্ববিদ্যালয় লেখক সংঘ</h1>
+                            <p id="site-tagline-display" style="color: var(--text-muted); font-size: 13px;">মুক্তচিন্তা ও সৃজনশীল সাহিত্যের উন্মুক্ত প্রাঙ্গণ</p>
+                        </div>
+                    </a>
+                </div>
+                <div style="display: flex; gap: 10px; align-items: center; width: 100%; max-width: 320px;">
+                    <form id="search-form" class="header-search-form" action="/category.html" method="GET" style="width: 100%;">
+                        <input type="text" name="search" placeholder="কবিতা, গল্প বা লেখক খুঁজুন..." class="form-control" style="width: 100%; padding: 8px 12px;">
+                        <button type="submit" class="btn btn-primary" style="background: var(--primary); border-color: var(--primary);"><i class="fas fa-search"></i></button>
+                    </form>
+                </div>
+            </div>
+        </header>
+
+        <!-- Navigation Bar -->
+        <nav class="nav-bar">
+            <div class="container nav-inner">
+                <ul class="nav-links" id="category-nav">
+                    <li style="background: rgba(255, 183, 3, 0.2); border-radius: 4px;"><a href="/" style="color: var(--accent); font-weight: 700;"><i class="fas fa-university"></i> আমাদের সম্পর্কে</a></li>
+                    <li><a href="/portal">প্রচ্ছদ</a></li>
+                </ul>
+            </div>
+        </nav>
+    </div>
 
     <main>
 
@@ -247,34 +254,59 @@
     </footer>
 
     <script>
-        // Get the current year for the footer copyright
-        document.getElementById('current-year').textContent = new Date().getFullYear();
+        document.addEventListener('DOMContentLoaded', async () => {
+            // Set Bengali Date
+            const dateEl = document.getElementById('current-date');
+            if (dateEl) {
+                dateEl.innerHTML = `<i class="far fa-calendar-alt"></i> ${new Date().toLocaleDateString('bn-BD', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}`;
+            }
 
-        // JavaScript for Mobile Menu Toggle
-        const mobileMenuButton = document.getElementById('mobile-menu-button');
-        const mobileMenu = document.getElementById('mobile-menu');
+            // Load Categories & Append Portal Nav Links
+            try {
+                const catRes = await fetch('/api/categories');
+                const catData = await catRes.json();
+                if (catData.categories) {
+                    const nav = document.getElementById('category-nav');
+                    catData.categories.forEach(c => {
+                        const li = document.createElement('li');
+                        li.innerHTML = `<a href="/category.html?category=${c.slug}">${c.name_bn}</a>`;
+                        nav.appendChild(li);
+                    });
 
-        function toggleMenu() {
-            mobileMenu.classList.toggle('hidden');
+                    // Append Honor Board, Gallery, and Certificate links
+                    const extraNavItems = [
+                        { title: 'অনার বোর্ড', url: '/honorboard.html' },
+                        { title: 'গ্যালারি', url: '/gallery.html' },
+                        { title: 'সার্টিফিকেট', url: '/verification.html' }
+                    ];
+                    extraNavItems.forEach(item => {
+                        const li = document.createElement('li');
+                        if (item.url === '/honorboard.html') {
+                            li.className = 'active';
+                        }
+                        li.innerHTML = `<a href="${item.url}">${item.title}</a>`;
+                        nav.appendChild(li);
+                    });
+                }
+            } catch (e) {
+                console.error('Navbar category load error:', e);
+            }
+        });
+
+        function openProfile(image, name, description) {
+            document.getElementById('profileImage').src = image;
+            document.getElementById('profileName').innerText = name;
+            document.getElementById('profileDescription').innerText = description;
+
+            document.getElementById('profileModal').classList.remove('hidden');
+            document.getElementById('profileModal').classList.add('flex');
         }
 
-        mobileMenuButton.addEventListener('click', toggleMenu);
-        
-    </script>  <script>
-  function openProfile(image, name, description) {
-    document.getElementById('profileImage').src = image;
-    document.getElementById('profileName').innerText = name;
-    document.getElementById('profileDescription').innerText = description;
-
-    document.getElementById('profileModal').classList.remove('hidden');
-    document.getElementById('profileModal').classList.add('flex');
-  }
-
-  function closeProfile() {
-    document.getElementById('profileModal').classList.add('hidden');
-    document.getElementById('profileModal').classList.remove('flex');
-  }
-</script>
+        function closeProfile() {
+            document.getElementById('profileModal').classList.add('hidden');
+            document.getElementById('profileModal').classList.remove('flex');
+        }
+    </script>
 
 <!-- Profile Popup -->
 <div id="profileModal"

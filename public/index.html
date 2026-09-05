@@ -1,570 +1,763 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="bn">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Khulna University Writers' Society</title>
-    <link rel="icon" type="image/png" sizes="32x32" href="favicon.png">
-    <!-- Load Tailwind CSS --><script src="https://cdn.tailwindcss.com"></script>
-    <!-- Configure Tailwind for Inter Font --><script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    fontFamily: {
-                        sans: ['Inter', 'sans-serif'],
-                    },
-                    colors: {
-                        'ku-blue': '#1a3a60',
-                        'ku-gold': '#ffb703',
-                        'ku-light': '#f0f4f8',
-                    }
-                }
-            }
-        }
-    </script>
-    <style>
-        /* Ensuring smooth scrolling for navigation links */
-        html {
-            scroll-behavior: smooth;
-            font-family: 'Inter', sans-serif;
-        }
-        /* Custom scrollbar for aesthetics */
-        body::-webkit-scrollbar {
-            width: 8px;
-        }
-        body::-webkit-scrollbar-thumb {
-            background-color: #ffb703;
-            border-radius: 4px;
-        }
-        body::-webkit-scrollbar-track {
-            background-color: #1a3a60;
-        }
-/* Custom class to manage Go Up button visibility */
-    .show-go-up {
-        opacity: 1 !important;
-        visibility: visible !important;
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>আমাদের সম্পর্কে | খুলনা বিশ্ববিদ্যালয় লেখক সংঘ (KUWS)</title>
+  <link rel="icon" type="image/png" href="favicon.png">
+  <link rel="stylesheet" href="/css/style.css?v=2.2">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;400;500;600;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <style>
+    body {
+      font-family: 'Hind Siliguri', 'Inter', sans-serif;
+      background-color: #f8fafc;
+      color: #1e293b;
+    }
+    
+    /* Blinking Button Animation */
+    .blink {
+      color: #fab303 !important;
+      font-weight: 700 !important;
+      text-decoration: none;
+      animation: blinkText 1.2s infinite;
+      display: inline-block;
+    }
+    @keyframes blinkText {
+      0%   { opacity: 1; transform: scale(1); }
+      50%  { opacity: 0.25; transform: scale(1.04); }
+      100% { opacity: 1; transform: scale(1); }
     }
 
-    /* Blinking Animation for CLICK HERE (স্পিড বাড়ানো হয়েছে) */
-    @keyframes blink {
-        0%, 100% { opacity: 1; }
-        50% { opacity: 0.2; }
+    .notice-marquee a {
+      color: #b91c1c;
+      text-decoration: underline;
+      font-weight: 700;
+      margin: 0 8px;
+    }
+    .notice-marquee a:hover {
+      color: #7f1d1d;
     }
 
-    .blink-effect {
-        animation: blink 0.6s infinite ease-in-out; /* 0.6 সেকেন্ডে দ্রুত ব্লিঙ্ক করবে */
-        color: #E53E3E !important; /* টেক্সটের রং লাল (#E53E3E) করা হয়েছে */
+    /* Society Card Hover */
+    .society-card {
+      background: #ffffff;
+      border-radius: 10px;
+      border: 1px solid var(--border-color);
+      overflow: hidden;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
     }
-    </style>
+    .society-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 12px 20px -3px rgba(26, 58, 96, 0.12);
+      border-color: rgba(26, 58, 96, 0.3);
+    }
+
+    .hero-banner {
+      background: linear-gradient(135deg, #112940 0%, #1a3a60 60%, #204975 100%);
+      color: #ffffff;
+      padding: 50px 0;
+      border-radius: 12px;
+      margin-bottom: 35px;
+      border-bottom: 4px solid var(--accent);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-banner::before {
+      content: "";
+      position: absolute;
+      top: -50%;
+      right: -10%;
+      width: 400px;
+      height: 400px;
+      background: radial-gradient(circle, rgba(255, 183, 3, 0.12) 0%, rgba(255,183,3,0) 70%);
+      border-radius: 50%;
+      pointer-events: none;
+    }
+
+    .honor-profile-card {
+      background: #ffffff;
+      border-radius: 12px;
+      padding: 24px;
+      text-align: center;
+      border: 1px solid var(--border-color);
+      border-bottom: 4px solid var(--accent);
+      box-shadow: 0 4px 10px rgba(0,0,0,0.04);
+      transition: all 0.3s ease;
+    }
+    .honor-profile-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 20px rgba(26, 58, 96, 0.12);
+    }
+
+    .gallery-thumb-card {
+      background: #ffffff;
+      border-radius: 10px;
+      overflow: hidden;
+      border: 1px solid var(--border-color);
+      box-shadow: 0 4px 6px rgba(0,0,0,0.04);
+      transition: all 0.3s ease;
+    }
+    .gallery-thumb-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 10px 18px rgba(0,0,0,0.1);
+    }
+    .gallery-thumb-card img {
+      width: 100%;
+      height: 200px;
+      object-cover: cover;
+      transition: transform 0.4s ease;
+    }
+    .gallery-thumb-card:hover img {
+      transform: scale(1.05);
+    }
+  </style>
 </head>
-<body class="bg-ku-light text-gray-800">
+<body>
 
-    <!-- Header & Navigation --><header class="bg-ku-blue shadow-lg sticky top-0 z-50">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between items-center h-20">
-                <a href="#home" class="flex items-center space-x-3">
-                    <!-- LOGO IMAGE HERE --><img src="images/logo.jpg" alt="KU Writers' Society Logo" class="h-10 w-10 rounded-full object-cover">
-                    <span class="text-2xl font-bold text-white tracking-wide">KU Writers' Society</span>
-                </a>
-                
-                <!-- Desktop Navigation -->
-                <style>
-                .blink {
-                  color: #fab303 !important;
-                  font-weight: 700 !important;
-                  text-decoration: none;
-                  animation: blinkText 1.2s infinite;
-                  display: inline-block;
-                }
-                @keyframes blinkText {
-                  0%   { opacity: 1; transform: scale(1); }
-                  50%  { opacity: 0.25; transform: scale(1.04); }
-                  100% { opacity: 1; transform: scale(1); }
-                }
-                </style>
-                <nav class="hidden md:flex space-x-8 items-center">
-                    <a href="#home" class="text-white hover:text-ku-gold transition duration-300 font-medium">Home</a>
-                    <a href="#about" class="text-white hover:text-ku-gold transition duration-300 font-medium">About</a>
-                    <a href="/portal?category=events" class="text-white hover:text-ku-gold transition duration-300 font-medium">Events</a>
-                    <a href="/portal" class="blink">Read Our Writings</a>
-                    <a href="/honorboard.html" class="text-white hover:text-ku-gold transition duration-300 font-medium">Honor Board</a>
-                    <a href="#gallery" class="text-white hover:text-ku-gold transition duration-300 font-medium">Gallery</a>
-                    <a href="#contact" class="text-white hover:text-ku-gold transition duration-300 font-medium">Join Us</a>
-                    <a href="/verification.html" class="text-white hover:text-ku-gold transition duration-300 font-medium">Verify Certificate</a>
-                </nav>
+  <!-- Fixed Sticky Header Wrapper -->
+  <div class="site-header-wrapper">
+    <!-- Top Bar -->
+    <div class="top-bar">
+      <div class="container top-bar-inner">
+        <div id="current-date"><i class="far fa-calendar-alt"></i> লোড হচ্ছে...</div>
+        <div style="display: flex; gap: 15px; align-items: center; flex-wrap: wrap;">
+          <span style="color: var(--accent); font-size: 13px; font-weight: 600;"><i class="fas fa-university"></i> খুলনা বিশ্ববিদ্যালয় লেখক সংঘ</span>
+          <span style="color: #94a3b8; font-size: 13px;"><i class="fas fa-feather-alt"></i> মুক্তচিন্তা ও সৃজনশীল সাহিত্য</span>
+        </div>
+      </div>
+    </div>
 
-                <!-- Mobile Menu Button -->
-                <button id="mobile-menu-button" class="md:hidden text-white hover:text-ku-gold focus:outline-none">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
-                </button>
+    <!-- Main Header -->
+    <header class="main-header">
+      <div class="container header-inner">
+        <div class="brand-logo">
+          <a href="/" style="display: flex; align-items: center; gap: 14px; text-decoration: none;">
+            <div style="width: 48px; height: 48px; background: #fff3d6; color: var(--primary); border: 2px solid var(--accent); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 22px; flex-shrink: 0; box-shadow: 0 2px 6px rgba(0,0,0,0.08);">
+              <i class="fas fa-feather-alt" style="color: #e09f00;"></i>
             </div>
+            <div>
+              <h1 id="site-name-display" style="color: var(--primary); font-size: 26px; font-weight: 800; margin: 0; line-height: 1.2;">খুলনা বিশ্ববিদ্যালয় লেখক সংঘ</h1>
+              <p id="site-tagline-display" style="color: var(--text-muted); font-size: 13px; margin: 2px 0 0 0;">মুক্তচিন্তা ও সৃজনশীল সাহিত্যের উন্মুক্ত প্রাঙ্গণ</p>
+            </div>
+          </a>
         </div>
-
-        <!-- Mobile Menu (Hidden by default) -->
-        <div id="mobile-menu" class="hidden md:hidden bg-ku-blue pb-4 border-t border-ku-gold/30">
-            <a href="#home" class="block px-4 py-2 text-white hover:bg-ku-blue/70 transition duration-300 font-medium" onclick="toggleMenu()">Home</a>
-            <a href="#about" class="block px-4 py-2 text-white hover:bg-ku-blue/70 transition duration-300 font-medium" onclick="toggleMenu()">About</a>
-            <a href="/portal?category=events" class="block px-4 py-2 text-white hover:bg-ku-blue/70 transition duration-300 font-medium" onclick="toggleMenu()">Events</a>
-            <a href="/portal" class="block px-4 py-2 text-ku-gold font-bold hover:bg-ku-blue/70 transition duration-300 blink" onclick="toggleMenu()">Read Our Writings</a>
-            <a href="/honorboard.html" class="block px-4 py-2 text-white hover:bg-ku-blue/70 transition duration-300 font-medium" onclick="toggleMenu()">Honor Board</a>
-            <a href="#gallery" class="block px-4 py-2 text-white hover:bg-ku-blue/70 transition duration-300 font-medium" onclick="toggleMenu()">Gallery</a>
-            <a href="#contact" class="block px-4 py-2 text-white hover:bg-ku-blue/70 transition duration-300 font-medium" onclick="toggleMenu()">Join Us</a>
-            <a href="/verification.html" class="block px-4 py-2 text-white hover:bg-ku-blue/70 transition duration-300 font-medium" onclick="toggleMenu()">Verify Certificate</a>
+        <div style="display: flex; gap: 10px; align-items: center; width: 100%; max-width: 320px;">
+          <form id="search-form" class="header-search-form" action="/category.html" method="GET" style="width: 100%;">
+            <input type="text" name="search" placeholder="কবিতা, গল্প বা লেখক খুঁজুন..." class="form-control" style="width: 100%; padding: 8px 12px;">
+            <button type="submit" class="btn btn-primary" style="background: var(--primary); border-color: var(--primary);"><i class="fas fa-search"></i></button>
+          </form>
         </div>
+      </div>
     </header>
 
+    <!-- Navigation Bar (Unified Newsportal & Society Categories) -->
+    <nav class="nav-bar">
+      <div class="container nav-inner">
+        <ul class="nav-links" id="category-nav">
+          <li class="active" style="background: rgba(255, 183, 3, 0.2); border-radius: 4px;">
+            <a href="/" style="color: var(--accent); font-weight: 700;"><i class="fas fa-university"></i> আমাদের সম্পর্কে</a>
+          </li>
+          <li><a href="/portal">প্রচ্ছদ</a></li>
+        </ul>
+      </div>
+    </nav>
+  </div>
 
-<!-- Notice Banner (Joruri Biggapti) - এখন Marquee Loop করবে -->
-        <div id="urgentNotice" class="bg-ku-gold p-4 text-center text-ku-blue font-semibold shadow-xl flex justify-between items-center transition-[max-height,padding] duration-500 ease-in-out" style="max-height: 200px; padding-top: 0.25rem; padding-bottom: 0.25rem;">
-            
-            <!-- Marquee Tag পুনরায় যোগ করা হয়েছে -->
-            <marquee behavior="scroll" direction="left" scrollamount="6" class="flex-grow max-w-5xl mx-auto" loop="100">
-                <p class="flex items-center justify-center space-x-4 text-sm sm:text-base whitespace-nowrap">
-                    <span class="font-bold text-lg mr-3 flex-shrink-0">🔔 Notice:</span>
+  <!-- Urgent Notice Marquee Bar -->
+  <div class="container" style="margin-top: 14px;">
+    <div class="breaking-bar" style="background: #fff8e1; border: 1px solid #ffe082;">
+      <div class="breaking-label" style="background: #f59e0b; color: #111827;">
+        <i class="fas fa-bullhorn"></i> জরুরি নোটিশ
+      </div>
+      <div class="breaking-marquee notice-marquee" id="urgent-notice-marquee">
+        <marquee behavior="scroll" direction="left" scrollamount="6" loop="infinite" onmouseover="this.stop();" onmouseout="this.start();">
+          <span>🔔 <b>শীতকালীন লেখা প্রতিযোগিতা শুরু হয়েছে!</b> <a href="https://kuws-online.blogspot.com/2026/01/blog-post_1.html" target="_blank">বিস্তারিত জানতে ক্লিক করুন &rarr;</a></span>
+          <span style="margin-left: 24px;">📝 <b>অফিশিয়াল ফেসবুক গ্রুপে যোগ দিন:</b> <a href="https://www.facebook.com/groups/kuws2024" target="_blank">গ্রুপ লিংক &rarr;</a></span>
+          <span style="margin-left: 24px;">🎓 <b>এডিটরিয়াল কুইজের সার্টিফিকেট ডাউনলোড করতে:</b> <a href="/Certificate Download.html">এখানে ক্লিক করুন &rarr;</a></span>
+        </marquee>
+      </div>
+    </div>
+  </div>
 
-                    <span class="text-base font-medium flex-shrink-0">Winter Writing Competition Is Now <b>Open!</b></span>
-                    <a href="https://kuws-online.blogspot.com/2026/01/blog-post_1.html" class="ml-4 underline hover:text-red-600 transition duration-200 font-bold flex-shrink-0 blink-effect">Click here to learn more</a>
-                    <a href="https://www.facebook.com/groups/kuws2024" class="ml-4 underline hover:text-red-600 transition duration-200 font-bold flex-shrink-0 blink-effect">(Click here to join our group)</a>
-                    
-                    <span class="text-base font-medium flex-shrink-0">To download your Editorial Quiz participation certificate</span>
-                    <a href="Certificate Download.html" class="ml-4 underline hover:text-red-600 transition duration-200 font-bold flex-shrink-0 blink-effect">CLICK HERE &rarr;</a>
-                    
-                    <!-- ডাবল লুপের জন্য টেক্সট রিপিট করা হলো -->
-                    <span class="font-bold text-lg ml-10 mr-3 flex-shrink-0">*** Important Update:</span>
+  <!-- Main Container -->
+  <main class="container" style="margin-top: 24px; margin-bottom: 50px;">
+    
+    <!-- ========================================================
+         SECTION 1: HERO 2-COLUMN GRID
+         Left (2.3fr): About KUWS / আমাদের সম্পর্কে (#1a3a60 theme)
+         Right (1fr): Notices & Events / নোটিশ ও কার্যক্রম (Dynamic)
+         ======================================================== -->
+    <section class="main-two-col-grid" id="hero-grid">
+      
+      <!-- Left Column: About KUWS (আমাদের সম্পর্কে - #1a3a60 Navy Theme) -->
+      <div class="navy-hero-card">
+        <div>
+          <div style="display: inline-flex; align-items: center; gap: 6px; background: rgba(255, 183, 3, 0.15); color: var(--accent); padding: 5px 14px; border-radius: 20px; font-size: 13px; font-weight: 700; margin-bottom: 14px; border: 1px solid rgba(255, 183, 3, 0.3);">
+            <i class="fas fa-feather-alt" style="color: var(--accent);"></i> আমাদের সম্পর্কে | About Us
+          </div>
+          
+          <h2 style="font-size: 28px; font-weight: 800; color: #ffffff; line-height: 1.3; margin-bottom: 4px;">
+            খুলনা বিশ্ববিদ্যালয় লেখক সংঘ (KUWS)
+          </h2>
+          <span class="en-sub" style="font-size: 15px; font-weight: 600; color: var(--accent); margin-bottom: 16px; display: block;">
+            Where Ideas Take Flight — An Open Platform for Free Thought & Literature
+          </span>
 
-                    <span class="text-base font-medium flex-shrink-0">Winter Writing Competition Is Now <b>Open!</b></span>
-                    <a href="https://kuws-online.blogspot.com/2026/01/blog-post_1.html" class="ml-4 underline hover:text-red-600 transition duration-200 font-bold flex-shrink-0 blink-effect">Click here to learn more</a>
-                    <a href="https://www.facebook.com/groups/kuws2024" class="ml-4 underline hover:text-red-600 transition duration-200 font-bold flex-shrink-0 blink-effect">(Click here to join our group)</a>
-                    
-                    <span class="text-base font-medium flex-shrink-0">To download your Editorial Quiz participation certificate</span>
-                    <a href="Certificate Download.html" class="ml-4 underline hover:text-red-600 transition duration-200 font-bold flex-shrink-0 blink-effect">CLICK HERE &rarr;</a>
-                </p>
-            </marquee>
-
-            <button id="closeNotice" class="text-ku-blue hover:text-ku-blue/80 text-2xl leading-none font-bold ml-4 p-1 rounded-full hover:bg-ku-blue/10 flex-shrink-0" aria-label="Close Notice">
-                &times;
-            </button>
+          <p style="font-size: 15px; color: #e2e8f0; line-height: 1.7; margin-bottom: 10px;">
+            খুলনা বিশ্ববিদ্যালয় লেখক সংঘ (KUWS) খুলনা বিশ্ববিদ্যালয়ের সাহিত্যপ্রেমী ও সৃষ্টিশীল শিক্ষার্থীদের একটি স্বতঃস্ফূর্ত সৃজনশীল সংগঠন। মুক্তচিন্তা ও মননশীল সাহিত্যচর্চা, লেখালেখির মানোন্নয়ন এবং নতুন প্রজন্মের তরুণ লেখকদের সঠিক দিকনির্দেশনা ও অনুপ্রেরণা প্রদান করাই আমাদের মূল ব্রত।
+          </p>
+          <p style="font-size: 14px; color: #94a3b8; line-height: 1.6; margin-bottom: 24px; font-style: italic;">
+            Khulna University Writers' Society (KUWS) is a vibrant literary and creative platform powered by students. Our core mission is to cultivate literary talent, foster free thought, mentor emerging writers, and celebrate creative expression.
+          </p>
         </div>
 
-    <main>
-        <!-- Hero Section --><section id="home" class="relative bg-ku-blue py-20 md:py-32 text-center overflow-hidden">
-            <! (image can be added in this section)img src="images/" alt="Hero background" class="absolute inset-0 w-full h-full object-cover opacity-20">
-            
-            <div class="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-                <h1 class="text-4xl sm:text-6xl font-extrabold text-white mb-4 leading-tight">
-                    Where Ideas Take Flight
-                </h1>
-                <p class="text-xl sm:text-2xl text-ku-gold font-light mb-8 max-w-2xl mx-auto">
-                    A community for the creative minds of Khulna University to read, write, and inspire.
-                </p>
-                <a href="#contact" class="inline-block bg-ku-gold text-ku-blue hover:bg-ku-gold/80 transition duration-300 text-lg font-semibold py-3 px-8 rounded-full shadow-xl transform hover:scale-105 active:scale-95 focus:outline-none focus:ring-4 focus:ring-ku-gold/50">
-                    Join with Us Today
-                </a>
-            </div>
-        </section>
-
-        <!-- About Section --><section id="about" class="py-16 md:py-24 bg-white">
-            <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="text-center mb-12">
-                    <span class="text-ku-gold text-sm font-semibold uppercase tracking-wider">Our Mission</span>
-                    <h2 class="mt-2 text-3xl sm:text-4xl font-extrabold text-ku-blue">Cultivating Literary Talent</h2>
-                </div>
-                
-                <div class="grid md:grid-cols-3 gap-10 text-center">
-                    <div class="p-6 bg-ku-light rounded-xl shadow-lg hover:shadow-2xl transition duration-300 border-t-4 border-ku-gold">
-                        <!-- IMAGE_PLACEHOLDER: A diverse group of university students engaged in a lively discussion or brainstorming session, perhaps with notebooks and pens. --><img src="images/Guide New Writers.jpg" alt="Students inspiring creativity" class="w-full h-40 object-cover rounded-lg mb-4 shadow-md">
-                        <h3 class="text-xl font-bold mb-2 text-ku-blue">Guide New Writers</h3>
-                        <p class="text-gray-600">We mentor and inspire emerging writers, offering guidance to help them find their voice and grow with confidence.</p>
-                    </div>
-                    <div class="p-6 bg-ku-light rounded-xl shadow-lg hover:shadow-2xl transition duration-300 border-t-4 border-ku-gold">
-                        <!-- IMAGE_PLACEHOLDER: A close-up of hands writing in a notebook or typing on a laptop, emphasizing the act of writing and refinement. --><img src="images/Inspire Creativity.jpg" alt="Hands writing and refining craft" class="w-full h-40 object-cover rounded-lg mb-4 shadow-md">
-                        <h3 class="text-xl font-bold mb-2 text-ku-blue">Inspire Creativity</h3>
-                        <p class="text-gray-600">We host workshops and reading sessions to spark new ideas and push the boundaries of creative expression among students.</p>
-                    </div>
-                    <div class="p-6 bg-ku-light rounded-xl shadow-lg hover:shadow-2xl transition duration-300 border-t-4 border-ku-gold">
-                        <!-- IMAGE_PLACEHOLDER: A group of university students socializing, laughing, and interacting in a campus setting, symbolizing community. --><img src="images/Support Publication.jpg" alt="Students building community" class="w-full h-40 object-cover rounded-lg mb-4 shadow-md">
-                        <h3 class="text-xl font-bold mb-2 text-ku-blue">Support Publication & Build Community</h3>
-                        <p class="text-gray-600">We support young authors in editing, publishing, and showcasing their work, connecting them with the wider literary community.</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Showcase Section -->
-        <section id="showcase" class="py-16 md:py-24 bg-ku-blue/90">
-            <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="text-center mb-12">
-                    <span class="text-ku-gold text-sm font-semibold uppercase tracking-wider">Member Work</span>
-                    <h2 class="mt-2 text-3xl sm:text-4xl font-extrabold text-white">The KU Literary Showcase</h2>
-                    <p class="text-sm text-gray-300 mt-2">সর্বাধিক পঠিত ও নির্বাচিত সাহিত্যকর্ম</p>
-                </div>
-
-                <!-- Dynamic Showcase Container (3 Top Articles) -->
-                <div id="dynamic-showcase-container" class="grid md:grid-cols-3 gap-8">
-                    <!-- Showcase Card 1 -->
-                    <div class="bg-white rounded-xl shadow-xl overflow-hidden p-6 border-b-4 border-ku-gold">
-                        <img src="images/machshikar.png" alt="MachShikar" class="w-full h-40 object-cover rounded-lg mb-4 shadow-md">
-                        <h4 class="text-xl font-bold text-ku-blue mb-1">কবিতা- মাছ শিকার</h4>
-                        <p class="text-sm font-medium text-ku-gold mb-3">— By Md. Arafat Hossain</p>
-                        <p class="text-gray-600 text-sm italic line-clamp-4">
-                            "বৃষ্টির দিনে পুকুর পাড়ে/ মাছের আনাগোনা,/ বড়শি দিয়ে মাছ ধরিবে/ ছোট্ট খোকন সোনা।..."
-                        </p>
-                        <a href="/portal" class="mt-3 block text-right text-sm text-ku-blue font-semibold hover:text-ku-gold transition duration-300">Read More &rarr;</a>
-                    </div>
-                    
-                    <!-- Showcase Card 2 -->
-                    <div class="bg-white rounded-xl shadow-xl overflow-hidden p-6 border-b-4 border-ku-gold">
-                        <img src="images/TeachersDAy.png" alt="Ode to a Campus Evening" class="w-full h-40 object-cover rounded-lg mb-4 shadow-md">
-                        <h4 class="text-xl font-bold text-ku-blue mb-1">বই পড়ার অভ্যাস বাড়াতে হবে</h4>
-                        <p class="text-sm font-medium text-ku-gold mb-3">— By Sanjida Akter</p>
-                        <p class="text-gray-600 text-sm italic line-clamp-4">
-                            "আজকের এই ব্যস্ত, যান্ত্রিক জীবনে বই যেন হারিয়ে যাচ্ছে মানুষের মন থেকে..."
-                        </p>
-                        <a href="/portal" class="mt-3 block text-right text-sm text-ku-blue font-semibold hover:text-ku-gold transition duration-300">Read More &rarr;</a>
-                    </div>
-
-                    <!-- Showcase Card 3 -->
-                    <div class="bg-white rounded-xl shadow-xl overflow-hidden p-6 border-b-4 border-ku-gold">
-                        <img src="images/ghaser deshe.jpg" alt="Ghaser Deshe" class="w-full h-40 object-cover rounded-lg mb-4 shadow-md">
-                        <h4 class="text-xl font-bold text-ku-blue mb-1">কবিতা- ঘাসের দেশে</h4>
-                        <p class="text-sm font-medium text-ku-gold mb-3">— By Parvez Mosharrof</p>
-                        <p class="text-gray-600 text-sm italic line-clamp-4">
-                            "শিশির ভেজা ঘাসের দেশে/মুক্ত মনে হেসে,/ তেপান্তরের মাঠে মাঠে/ বেড়াই আমি ভেসে..."
-                        </p>
-                        <a href="/portal" class="mt-3 block text-right text-sm text-ku-blue font-semibold hover:text-ku-gold transition duration-300">Read More &rarr;</a>
-                    </div>
-                </div>
-
-                <!-- See More Showcase Button -->
-                <div class="mt-12 text-center">
-                    <a href="/portal" class="inline-block bg-ku-gold text-ku-blue hover:bg-yellow-400 transition duration-300 text-lg font-bold py-3 px-8 rounded-full shadow-xl transform hover:scale-105 active:scale-95 focus:outline-none focus:ring-4 focus:ring-ku-gold/50">
-                        Read More Work &rarr;
-                    </a>
-                </div>
-            </div>
-        </section>
-
-        <!-- Honor Board Section -->
-        <section id="honor-board" class="py-16 md:py-24 bg-white">
-            <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="text-center mb-12">
-                    <span class="text-ku-gold text-sm font-semibold uppercase tracking-wider">A Legacy of Leadership</span>
-                    <h2 class="mt-2 text-3xl sm:text-4xl font-extrabold text-ku-blue">Honor Board</h2>
-                </div>
-
-                <!-- Dynamic Honor Board Container -->
-                <div id="dynamic-honor-container" class="grid grid-cols-1 sm:grid-cols-2 max-w-4xl mx-auto gap-8"> 
-                    <!-- President Card -->
-                    <div class="bg-ku-light rounded-xl shadow-lg p-6 text-center border-b-4 border-ku-gold">
-                        <img src="images/President1.png" alt="President" class="w-32 h-32 rounded-full object-cover mx-auto mb-4 shadow-md">
-                        <h3 class="text-xl font-bold text-ku-blue mb-1">Ekramul Haque</h3>
-                        <p class="text-ku-gold text-sm mb-2 font-semibold">President (2025)</p>
-                        <p class="text-gray-600 text-sm">Current and Founding President</p>
-                    </div>
-
-                    <!-- General Secretary Card -->
-                    <div class="bg-ku-light rounded-xl shadow-lg p-6 text-center border-b-4 border-ku-gold">
-                        <img src="images/mahfuz.png" alt="General Secretary" class="w-32 h-32 rounded-full object-cover mx-auto mb-4 shadow-md">
-                        <h3 class="text-xl font-bold text-ku-blue mb-1">Mahfujur Rahman</h3>
-                        <p class="text-ku-gold text-sm mb-2 font-semibold">General Secretary (2025)</p>
-                        <p class="text-gray-600 text-sm">Current and Founding Secretary</p>
-                    </div>
-                </div>
-                <!-- Full List Button -->
-                <div class="mt-12 text-center">
-                    <a href="/honorboard.html" class="inline-block bg-ku-gold text-ku-blue hover:bg-yellow-400 transition duration-300 text-lg font-bold py-3 px-8 rounded-full shadow-xl transform hover:scale-105 active:scale-95 focus:outline-none focus:ring-4 focus:ring-ku-gold/50">
-                        View Full List &rarr;
-                    </a>
-                </div>
-            </div>
-        </section>
-
-        <!-- Photo Gallery Section -->
-        <section id="gallery" class="py-16 md:py-24 bg-ku-blue/90">
-            <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="text-center mb-12">
-                    <span class="text-ku-gold text-sm font-semibold uppercase tracking-wider">Moments & Memories</span>
-                    <h2 class="mt-2 text-3xl sm:text-4xl font-extrabold text-white">Our Society in Action</h2>
-                </div>
-
-                <!-- Dynamic Gallery Container -->
-                <div id="dynamic-gallery-container" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                    <!-- Gallery Item 1 -->
-                    <div class="bg-white rounded-xl shadow-lg overflow-hidden group">
-                        <img src="images/Club Fair.jpg" alt="Club Fair Event" class="w-full h-56 object-cover transform group-hover:scale-105 transition duration-300">
-                        <div class="p-4">
-                            <h4 class="font-semibold text-ku-blue">Participating KU Club Fair</h4>
-                        </div>
-                    </div>
-
-                    <!-- Gallery Item 2 -->
-                    <div class="bg-white rounded-xl shadow-lg overflow-hidden group">
-                        <img src="images/Helpdesk.jpg" alt="KU Admission Helpdesk" class="w-full h-56 object-cover transform group-hover:scale-105 transition duration-300">
-                        <div class="p-4">
-                            <h4 class="font-semibold text-ku-blue">Help desk during KU Admission Test</h4>
-                        </div>
-                    </div>
-
-                    <!-- Gallery Item 3 -->
-                    <div class="bg-white rounded-xl shadow-lg overflow-hidden group">
-                        <img src="images/News.jpg" alt="Fresher's Reception" class="w-full h-56 object-cover transform group-hover:scale-105 transition duration-300">
-                        <div class="p-4">
-                            <h4 class="font-semibold text-ku-blue">New Members' Reception</h4>
-                        </div>
-                    </div>
-
-                    <!-- Gallery Item 4 -->
-                    <div class="bg-white rounded-xl shadow-lg overflow-hidden group">
-                        <img src="images/gm.jpg" alt="General Meeting" class="w-full h-56 object-cover transform group-hover:scale-105 transition duration-300">
-                        <div class="p-4">
-                            <h4 class="font-semibold text-ku-blue">Monthly Meeting</h4>
-                        </div>
-                    </div>
-
-                    <!-- Gallery Item 5 -->
-                    <div class="bg-white rounded-xl shadow-lg overflow-hidden group">
-                        <img src="images/Executive Meeting.jpg" alt="Executive Meeting Photo" class="w-full h-56 object-cover transform group-hover:scale-105 transition duration-300">
-                        <div class="p-4">
-                            <h4 class="font-semibold text-ku-blue">Executive Meeting</h4>
-                        </div>
-                    </div>
-
-                    <!-- Gallery Item 6 -->
-                    <div class="bg-white rounded-xl shadow-lg overflow-hidden group">
-                        <img src="images/mela.jpeg" alt="Club Fair" class="w-full h-56 object-cover transform group-hover:scale-105 transition duration-300">
-                        <div class="p-4">
-                            <h4 class="font-semibold text-ku-blue">Club Fair</h4>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- See More Gallery Button -->
-                <div class="mt-12 text-center">
-                    <a href="/gallery.html" class="inline-block bg-ku-gold text-ku-blue hover:bg-yellow-400 transition duration-300 text-lg font-bold py-3 px-8 rounded-full shadow-xl transform hover:scale-105 active:scale-95 focus:outline-none focus:ring-4 focus:ring-ku-gold/50">
-                        Explore More Events & Photos &rarr;
-                    </a>
-                </div>
-            </div>
-        </section>
-
-        <!-- 7. Contact / Call to Action Section --><section id="contact" class="py-16 md:py-24 bg-ku-light">
-            <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-                <h2 class="text-3xl sm:text-4xl font-extrabold text-ku-blue mb-4">Ready to Start Writing?</h2>
-                <p class="text-lg text-gray-600 mb-8">
-                    We welcome writers and readers of all departments and skill levels. Your voice matters here.
-                </p>
-
-                <div class="md:flex justify-center space-y-4 md:space-y-0 md:space-x-6">
-                    <a href="https://forms.gle/1ZHep4fKWjWkJ5z39" class="inline-flex items-center justify-center w-full md:w-auto bg-ku-blue text-white hover:bg-ku-blue/80 transition duration-300 font-semibold py-3 px-8 rounded-full shadow-lg transform hover:scale-105 active:scale-95">
-                        <svg class="w-5 h-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
-                        Be A Member
-                    </a>
-                    <a href="https://www.facebook.com/KUWritersSociety/" target="_blank" class="inline-flex items-center justify-center w-full md:w-auto bg-ku-gold text-ku-blue hover:bg-ku-gold/80 transition duration-300 font-semibold py-3 px-8 rounded-full shadow-lg transform hover:scale-105 active:scale-95">
-                        <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-3 7h-2.5v-1.5c0-.827.673-1.5 1.5-1.5h1v-2h-2c-2.206 0-3 1.05-3 2.5v1.5h-2v2h2v7h3v-7h3l.5-2z"/></svg>
-                        Follow on Facebook
-                    </a>
-                    <a href="https://www.facebook.com/groups/kuws2024" target="_blank" class="inline-flex items-center justify-center w-full md:w-auto bg-ku-gold text-ku-blue hover:bg-ku-gold/80 transition duration-300 font-semibold py-3 px-8 rounded-full shadow-lg transform hover:scale-105 active:scale-95">
-                        <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-3 7h-2.5v-1.5c0-.827.673-1.5 1.5-1.5h1v-2h-2c-2.206 0-3 1.05-3 2.5v1.5h-2v2h2v7h3v-7h3l.5-2z"/></svg>
-                        Join Group
-                    </a>
-                </div>
-
-                <p class="mt-8 text-sm text-gray-500">
-                    Program Schedules are shared in our official group.
-                </p>
-            </div>
-        </section>
-    </main>
-
-    <!-- Universal Footer -->
-    <footer class="bg-ku-blue text-white py-10 border-t-4 border-ku-gold mt-auto">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-2 md:grid-cols-4 gap-8">
-            
-            <!-- Logo/Name -->
-            <div>
-                <span class="text-xl font-bold text-ku-gold">Khulna University Writers' Society</span>
-                <p class="mt-2 text-sm text-gray-300">
-                    Powered by the passion of Khulna University students. মুক্তচিন্তা ও সৃজনশীল সাহিত্যের উন্মুক্ত প্রাঙ্গণ।
-                </p>
-            </div>
-
-            <!-- Quick Links -->
-            <div>
-                <h5 class="text-lg font-semibold mb-3">Quick Links</h5>
-                <ul class="space-y-2 text-sm">
-                    <li><a href="/ourstory.html" class="hover:text-ku-gold transition duration-200">Our Story</a></li>
-                    <li><a href="/portal?category=events" class="hover:text-ku-gold transition duration-200">Upcoming Activities</a></li>
-                    <li><a href="/portal" class="hover:text-ku-gold transition duration-200">Read Member Work</a></li>
-                    <li><a href="/honorboard.html" class="hover:text-ku-gold transition duration-200">Honor Board</a></li>
-                    <li><a href="/gallery.html" class="hover:text-ku-gold transition duration-200">Gallery</a></li>
-                    <li><a href="/verification.html" class="hover:text-ku-gold transition duration-200">Verify Certificate</a></li>
-                </ul>
-            </div>
-
-            <!-- Resources -->
-            <div>
-                <h5 class="text-lg font-semibold mb-3">Resources</h5>
-                <ul class="space-y-2 text-sm">
-                    <li><a href="/portal" class="hover:text-ku-gold transition duration-200">KUWS Literary Portal</a></li>
-                    <li><a href="/honorboard.html" class="hover:text-ku-gold transition duration-200">Honor Board</a></li>
-                    <li><a href="/gallery.html" class="hover:text-ku-gold transition duration-200">Photo Gallery</a></li>
-                    <li><a href="/verification.html" class="hover:text-ku-gold transition duration-200">Verify Certificate</a></li>
-                    <li><a href="https://ku.ac.bd" target="_blank" class="hover:text-ku-gold transition duration-200">KU Official Site</a></li>
-                </ul>
-            </div>
-
-            <!-- Contact Info -->
-            <div>
-                <h5 class="text-lg font-semibold mb-3">Get In Touch</h5>
-                <p class="text-sm">
-                    <span class="block">Email: kuwriterssociety@gmail.com</span>
-                    <span class="block mt-2">Khulna University, Khulna-9208</span>
-                </p>
-                <div class="mt-3 flex gap-3 text-lg">
-                    <a href="https://www.facebook.com/KUWritersSociety/" target="_blank" class="text-ku-gold hover:text-yellow-400"><i class="fab fa-facebook"></i></a>
-                    <a href="https://www.facebook.com/groups/kuws2024" target="_blank" class="text-ku-gold hover:text-yellow-400"><i class="fab fa-users"></i></a>
-                    <a href="mailto:kuwriterssociety@gmail.com" class="text-ku-gold hover:text-yellow-400"><i class="fas fa-envelope"></i></a>
-                </div>
-            </div>
+        <div style="display: flex; gap: 12px; flex-wrap: wrap; border-top: 1px solid rgba(255, 255, 255, 0.12); padding-top: 20px;">
+          <a href="#contact" class="btn btn-primary" style="background: var(--accent); color: var(--primary); font-weight: 700; border: none; border-radius: 25px; padding: 10px 24px; box-shadow: 0 4px 12px rgba(255, 183, 3, 0.35);">
+            <i class="fas fa-user-plus"></i> সদস্য হোন / Be A Member
+          </a>
+          <a href="/portal" class="btn btn-secondary blink" style="background: rgba(255,255,255,0.1); color: #ffffff; border: 1px solid rgba(255,255,255,0.3); border-radius: 25px; padding: 10px 24px; font-weight: 600;">
+            <i class="fas fa-book-open"></i> সাহিত্যকর্ম পড়ুন / Read Writings &rarr;
+          </a>
         </div>
+      </div>
+
+      <!-- Right Column: Notices & Upcoming Events (Dynamic Auto Fetch) -->
+      <div class="notice-sidebar-card">
+        <div>
+          <div class="section-title" style="margin-top: 0; margin-bottom: 16px; font-size: 18px; display: flex; justify-content: space-between; align-items: center;">
+            <span><i class="fas fa-bullhorn" style="color: var(--accent);"></i> নোটিশ ও কার্যক্রম</span>
+            <span class="badge badge-gold" style="font-size: 11px;">সর্বশেষ আপডেট</span>
+          </div>
+          
+          <div id="notices-container" style="display: flex; flex-direction: column; gap: 10px;">
+            <div style="text-align: center; padding: 20px; color: #64748b;">
+              <i class="fas fa-spinner fa-spin"></i> নোটিশ লোড হচ্ছে...
+            </div>
+          </div>
+        </div>
+
+        <a href="/portal?category=events" class="btn btn-secondary btn-sm" style="width: 100%; text-align: center; margin-top: 14px; font-size: 13px; font-weight: 600; padding: 8px 12px;">
+          <i class="fas fa-bullhorn"></i> সকল নোটিশ ও ইভেন্ট দেখুন (See All Notices) &rarr;
+        </a>
+      </div>
+
+    </section>
+
+    <!-- ========================================================
+         SECTION 2: MULTI-COLUMN CARDS (Mirrors Recent Writings Grid)
+         আমাদের লক্ষ্য ও উদ্দেশ্য / Our Mission & Objectives
+         ======================================================== -->
+    <section style="margin-top: 36px; margin-bottom: 40px;">
+      <div class="section-header">
+        <div>
+          <h2 class="section-title" style="margin: 0;">আমাদের লক্ষ্য ও উদ্দেশ্য (Our Mission & Objectives)</h2>
+          <span class="en-sub">Cultivating literary talent, inspiring creativity, and building a supportive writing community</span>
+        </div>
+      </div>
+
+      <div class="news-card-grid">
         
-        <div class="mt-10 pt-6 border-t border-ku-gold/30 text-center text-sm text-gray-400">
-            &copy; 2026 Khulna University Writers' Society (KUWS). All rights reserved.
+        <!-- Mission Pillar 1 -->
+        <div class="society-card" style="border-top: 4px solid var(--accent);">
+          <div style="height: 180px; overflow: hidden; background: #e2e8f0;">
+            <img src="images/Guide New Writers.jpg" alt="Guide New Writers" style="width: 100%; height: 100%; object-fit: cover;">
+          </div>
+          <div style="padding: 20px;">
+            <h3 style="font-size: 18px; font-weight: 700; color: var(--primary); margin-bottom: 2px;">
+              নতুন লেখকদের দিকনির্দেশনা
+            </h3>
+            <span class="en-sub" style="font-weight: 600; color: var(--accent); margin-bottom: 8px;">Guide New Writers</span>
+            <p style="font-size: 14px; color: #475569; line-height: 1.6; margin-bottom: 8px;">
+              উদীয়মান ও তরুণ লেখকদের লেখার মানোন্নয়ন, গঠনশৈলী এবং সাহিত্যিক দৃষ্টিভঙ্গি গঠনে অভিজ্ঞদের মাধ্যমে সার্বক্ষণিক মেন্টরশিপ ও দিকনির্দেশনা প্রদান।
+            </p>
+            <p style="font-size: 13px; color: #64748b; line-height: 1.5; font-style: italic;">
+              We mentor and inspire emerging writers, offering guidance to help them find their voice and refine their craft.
+            </p>
+          </div>
         </div>
-    </footer>
 
-    <!-- GO UP BUTTON -->
-    <a id="goUpButton" href="#home" class="fixed bottom-6 right-6 p-3 bg-ku-blue text-white rounded-full shadow-2xl transition duration-300 opacity-0 invisible hover:bg-ku-blue/80 transform hover:scale-110 z-50" aria-label="Go to top">
-        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18"></path>
-        </svg>
-    </a>
+        <!-- Mission Pillar 2 -->
+        <div class="society-card" style="border-top: 4px solid var(--accent);">
+          <div style="height: 180px; overflow: hidden; background: #e2e8f0;">
+            <img src="images/Inspire Creativity.jpg" alt="Inspire Creativity" style="width: 100%; height: 100%; object-fit: cover;">
+          </div>
+          <div style="padding: 20px;">
+            <h3 style="font-size: 18px; font-weight: 700; color: var(--primary); margin-bottom: 2px;">
+              সৃজনশীলতার বিকাশ
+            </h3>
+            <span class="en-sub" style="font-weight: 600; color: var(--accent); margin-bottom: 8px;">Inspire Creativity</span>
+            <p style="font-size: 14px; color: #475569; line-height: 1.6; margin-bottom: 8px;">
+              নিয়মিত সাহিত্য আড্ডা, কবিতা পাঠের আসর, গল্প ও প্রবন্ধের কর্মশালা এবং বিভিন্ন সৃজনশীল প্রতিযোগিতার মাধ্যমে শিক্ষার্থীদের সৃষ্টিশীল মেধার উন্মেষ ঘটানো।
+            </p>
+            <p style="font-size: 13px; color: #64748b; line-height: 1.5; font-style: italic;">
+              We host workshops, open-mic sessions, and reading circles to spark fresh ideas and expand creative expression.
+            </p>
+          </div>
+        </div>
 
-    <script>
-        document.getElementById('current-year').textContent = new Date().getFullYear();
+        <!-- Mission Pillar 3 -->
+        <div class="society-card" style="border-top: 4px solid var(--accent);">
+          <div style="height: 180px; overflow: hidden; background: #e2e8f0;">
+            <img src="images/Support Publication.jpg" alt="Support Publication" style="width: 100%; height: 100%; object-fit: cover;">
+          </div>
+          <div style="padding: 20px;">
+            <h3 style="font-size: 18px; font-weight: 700; color: var(--primary); margin-bottom: 2px;">
+              প্রকাশনা ও সমাজ গঠন
+            </h3>
+            <span class="en-sub" style="font-weight: 600; color: var(--accent); margin-bottom: 8px;">Support Publication & Community</span>
+            <p style="font-size: 14px; color: #475569; line-height: 1.6; margin-bottom: 8px;">
+              সদস্যদের রচিত সাহিত্যকর্ম মূল্যায়ন, সম্পাদনা, সাময়িকী ও ডিজিটাল পোর্টালে প্রকাশ এবং বৃহত্তর সাহিত্য সমাজের সাথে লেখকদের নিবিড় সেতুবন্ধন তৈরি করা।
+            </p>
+            <p style="font-size: 13px; color: #64748b; line-height: 1.5; font-style: italic;">
+              We support authors in editing and showcasing work, connecting them with readers and the national literary space.
+            </p>
+          </div>
+        </div>
 
-        // Mobile Menu Toggle
-        const mobileMenuButton = document.getElementById('mobile-menu-button');
-        const mobileMenu = document.getElementById('mobile-menu');
+      </div>
+    </section>
 
-        function toggleMenu() {
-            mobileMenu.classList.toggle('hidden');
-        }
-        if (mobileMenuButton) mobileMenuButton.addEventListener('click', toggleMenu);
+    <!-- 3. Two-Column Grid: Literary Showcase (Left) + Honor Board (Right) -->
+    <div class="main-two-col-grid" style="margin-bottom: 45px;">
+      
+      <!-- Left Column: The KU Literary Showcase (Auto Fetch Top 3 Most Read) -->
+      <div class="main-left-col">
+        <div class="section-header" style="border-bottom: 2px solid var(--accent); padding-bottom: 10px; margin-bottom: 20px;">
+          <div>
+            <h2 class="section-title" style="margin: 0; font-size: 22px;">সর্বাধিক পঠিত ও নির্বাচিত সাহিত্যকর্ম</h2>
+            <span class="en-sub" style="font-weight: 600; color: var(--accent);">The KU Literary Showcase (Top Read)</span>
+            <p style="font-size: 13px; color: var(--text-muted); margin-top: 4px;">পোর্টালের সর্বাধিক পঠিত ও পাঠক নন্দিত সৃজনশীল সাহিত্যকর্ম / Most popular and top read writings from KUWS members</p>
+          </div>
+          <a href="/portal" class="btn btn-secondary btn-sm" style="background: var(--primary); color: #ffffff; border-color: var(--primary);">
+            সব লেখা পড়ুন / Read All <i class="fas fa-arrow-right"></i>
+          </a>
+        </div>
+
+        <div class="category-sub-grid" id="showcase-container">
+          <!-- Dynamically Loaded via API.getArticles({ sort: 'views', limit: 3 }) -->
+          <div style="grid-column: 1 / -1; text-align: center; padding: 30px; color: #64748b;">
+            <i class="fas fa-spinner fa-spin"></i> সাহিত্যকর্ম লোড হচ্ছে...
+          </div>
+        </div>
+      </div>
+
+      <!-- Right Column: Honor Board & Leadership (#1a3a60 border styled) -->
+      <div class="main-right-col">
+        <div class="honor-board-container-box">
+          <div class="sidebar-title" style="display: flex; justify-content: space-between; align-items: flex-start; border-bottom: 2px solid var(--accent); padding-bottom: 8px; margin-bottom: 14px;">
+            <div>
+              <span style="font-size: 17px; font-weight: 700; color: var(--primary); display: block;"><i class="fas fa-award" style="color: var(--accent);"></i> অনার বোর্ড ও নেতৃত্ব</span>
+              <span class="en-sub" style="font-size: 13px; font-weight: 600; color: var(--accent);">Honor Board & Leadership</span>
+            </div>
+            <a href="/honorboard.html" style="font-size: 12px; color: var(--primary); font-weight: 700; text-decoration: none;">
+              সব দেখুন &rarr;
+            </a>
+          </div>
+
+          <div style="display: flex; flex-direction: column; gap: 16px;">
+            <!-- President Card -->
+            <div class="honor-profile-card" style="padding: 16px; border: 1px solid var(--border-color); border-radius: 8px; text-align: center; background: #fafcff;">
+              <img src="images/President1.png" alt="President" style="width: 80px; height: 80px; border-radius: 50%; object-fit: cover; margin: 0 auto 10px auto; border: 3px solid var(--accent); box-shadow: 0 4px 8px rgba(0,0,0,0.08);">
+              <h4 style="font-size: 16px; font-weight: 700; color: var(--primary); margin: 0 0 2px 0;">একরামুল হক</h4>
+              <span class="en-sub" style="font-size: 13px; font-weight: 600; color: #475569; margin-bottom: 4px;">Md. Ekramul Haque</span>
+              <span class="badge badge-gold" style="font-size: 11px; margin-bottom: 6px;">সভাপতি / President (2025)</span>
+              <p style="font-size: 12px; color: var(--text-muted); line-height: 1.4; margin: 0;">
+                প্রতিষ্ঠাতা সভাপতি, খুলনা বিশ্ববিদ্যালয় লেখক সংঘ<br>
+                <span style="font-style: italic; font-size: 11px;">Founding President, KUWS</span>
+              </p>
+            </div>
+
+            <!-- General Secretary Card -->
+            <div class="honor-profile-card" style="padding: 16px; border: 1px solid var(--border-color); border-radius: 8px; text-align: center; background: #fafcff;">
+              <img src="images/mahfuz.png" alt="General Secretary" style="width: 80px; height: 80px; border-radius: 50%; object-fit: cover; margin: 0 auto 10px auto; border: 3px solid var(--accent); box-shadow: 0 4px 8px rgba(0,0,0,0.08);">
+              <h4 style="font-size: 16px; font-weight: 700; color: var(--primary); margin: 0 0 2px 0;">মাহফুজুর রহমান</h4>
+              <span class="en-sub" style="font-size: 13px; font-weight: 600; color: #475569; margin-bottom: 4px;">Mahfujur Rahman</span>
+              <span class="badge badge-gold" style="font-size: 11px; margin-bottom: 6px;">সাধারণ সম্পাদক / Secretary (2025)</span>
+              <p style="font-size: 12px; color: var(--text-muted); line-height: 1.4; margin: 0;">
+                প্রতিষ্ঠাতা সাধারণ সম্পাদক, খুলনা বিশ্ববিদ্যালয় লেখক সংঘ<br>
+                <span style="font-style: italic; font-size: 11px;">Founding General Secretary, KUWS</span>
+              </p>
+            </div>
+
+            <a href="/honorboard.html" class="btn btn-secondary btn-sm" style="width: 100%; text-align: center; font-weight: 600; background: #1a3a60; color: #ffffff; border-color: #1a3a60;">
+              <i class="fas fa-award"></i> সম্পূর্ণ অনার বোর্ড দেখুন / View Full Honor Board &rarr;
+            </a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- 4. Photo Gallery Preview -->
+    <section style="margin-bottom: 45px;">
+      <div class="section-header" style="border-bottom: 2px solid var(--accent); padding-bottom: 10px; margin-bottom: 20px;">
+        <div>
+          <h2 class="section-title" style="margin: 0; font-size: 22px;">স্মৃতিময় মুহূর্ত ও ফটো গ্যালারি</h2>
+          <span class="en-sub" style="font-weight: 600; color: var(--accent);">Moments & Photo Gallery</span>
+          <p style="font-size: 13px; color: var(--text-muted); margin-top: 4px;">আমাদের উৎসব, কর্মশালা, মেলা ও সাহিত্য আড্ডার স্থিরচিত্র / Photo archive of events, workshops & sessions</p>
+        </div>
+        <a href="/gallery.html" class="btn btn-secondary btn-sm" style="background: var(--primary); color: #ffffff; border-color: var(--primary);">
+          সম্পূর্ণ গ্যালারি / View Gallery <i class="fas fa-arrow-right"></i>
+        </a>
+      </div>
+
+      <div class="news-card-grid">
+        <!-- Gallery Card 1 -->
+        <div class="gallery-thumb-card">
+          <img src="images/Club Fair.jpg" alt="Participating KU Club Fair">
+          <div style="padding: 14px 16px;">
+            <h4 style="font-size: 15px; font-weight: 700; color: var(--primary); margin: 0 0 2px 0;">খুবি ক্লাব ফেয়ারে অংশগ্রহণ</h4>
+            <span class="en-sub" style="font-size: 13px; font-weight: 600; color: var(--accent);">Participating in KU Club Fair</span>
+            <p style="font-size: 12px; color: var(--text-muted); margin-top: 4px;">সাহিত্যপ্রেমী শিক্ষার্থীদের সাথে পরিচিতি পর্ব</p>
+          </div>
+        </div>
+
+        <!-- Gallery Card 2 -->
+        <div class="gallery-thumb-card">
+          <img src="images/Helpdesk.jpg" alt="Help desk during KU Admission Test">
+          <div style="padding: 14px 16px;">
+            <h4 style="font-size: 15px; font-weight: 700; color: var(--primary); margin: 0 0 2px 0;">ভর্তি পরীক্ষায় তথ্য ও সেবা সহায়তা</h4>
+            <span class="en-sub" style="font-size: 13px; font-weight: 600; color: var(--accent);">Help Desk during KU Admission Test</span>
+            <p style="font-size: 12px; color: var(--text-muted); margin-top: 4px;">ভর্তিচ্ছু শিক্ষার্থীদের আন্তরিক দিকনির্দেশনা</p>
+          </div>
+        </div>
+
+        <!-- Gallery Card 3 -->
+        <div class="gallery-thumb-card">
+          <img src="images/News.jpg" alt="New Members Reception">
+          <div style="padding: 14px 16px;">
+            <h4 style="font-size: 15px; font-weight: 700; color: var(--primary); margin: 0 0 2px 0;">নবীন বরণ ও সংবর্ধনা</h4>
+            <span class="en-sub" style="font-size: 13px; font-weight: 600; color: var(--accent);">New Members' Reception</span>
+            <p style="font-size: 12px; color: var(--text-muted); margin-top: 4px;">নতুন লেখকদের ফুলেল শুভেচ্ছা ও বরণ</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 5. Join Us & Contact Section -->
+    <section id="contact" style="background: linear-gradient(135deg, #1a3a60 0%, #112940 100%); color: #ffffff; border-radius: 12px; padding: 40px 24px; text-align: center; border-top: 4px solid var(--accent); box-shadow: 0 8px 24px rgba(0,0,0,0.08); margin-bottom: 40px;">
+      <div style="max-width: 760px; margin: 0 auto;">
+        <span style="font-size: 13px; color: var(--accent); font-weight: 700; text-transform: uppercase; letter-spacing: 1px; display: block; margin-bottom: 4px;">
+          আমাদের সাথে যুক্ত হোন / Join With Us
+        </span>
+        <h2 style="font-size: 26px; font-weight: 800; color: #ffffff; margin: 6px 0 2px 0;">
+          সাহিত্যচর্চায় আপনিও অংশ নিন
+        </h2>
+        <span class="en-sub" style="font-size: 16px; font-weight: 600; color: var(--accent); margin-bottom: 14px;">
+          Ready to Start Your Literary Journey?
+        </span>
+        <p style="font-size: 15px; color: #e2e8f0; line-height: 1.6; margin-bottom: 8px;">
+          খুলনা বিশ্ববিদ্যালয়ের যেকোনো ডিসিপ্লিনের সাহিত্যপ্রেমী ও সৃষ্টিশীল শিক্ষার্থীদের জন্য আমাদের দ্বার সর্বদা উন্মুক্ত। যুক্ত হোন মুক্তচিন্তার এই নান্দনিক সাহিত্য কাফেলায়।
+        </p>
+        <p style="font-size: 13px; color: #94a3b8; line-height: 1.5; font-style: italic; margin-bottom: 24px;">
+          Our doors are always open to passionate writers and literature enthusiasts across all disciplines of Khulna University.
+        </p>
+
+        <div style="display: flex; gap: 12px; justify-content: center; flex-wrap: wrap;">
+          <a href="https://forms.gle/1ZHep4fKWjWkJ5z39" target="_blank" class="btn btn-primary" style="background: #ffffff; color: var(--primary); border: none; font-weight: 700; padding: 10px 22px; border-radius: 25px;">
+            <i class="fas fa-file-signature"></i> সদস্য ফরম (Be A Member)
+          </a>
+          <a href="https://www.facebook.com/KUWritersSociety/" target="_blank" class="btn btn-secondary" style="background: rgba(255, 183, 3, 0.9); color: var(--primary); border: none; font-weight: 700; padding: 10px 22px; border-radius: 25px;">
+            <i class="fab fa-facebook"></i> ফেসবুক পেজ (Facebook Page)
+          </a>
+          <a href="https://www.facebook.com/groups/kuws2024" target="_blank" class="btn btn-secondary" style="background: rgba(255, 183, 3, 0.9); color: var(--primary); border: none; font-weight: 700; padding: 10px 22px; border-radius: 25px;">
+            <i class="fab fa-users"></i> অফিশিয়াল গ্রুপ (Official Group)
+          </a>
+          <a href="/verification.html" class="btn btn-secondary" style="background: rgba(255,255,255,0.15); color: #ffffff; border: 1px solid rgba(255,255,255,0.3); font-weight: 600; padding: 10px 22px; border-radius: 25px;">
+            <i class="fas fa-certificate"></i> সার্টিফিকেট যাচাই (Verify Certificate)
+          </a>
+        </div>
+
+        <p style="font-size: 13px; color: #94a3b8; margin-top: 20px;">
+          <i class="fas fa-info-circle"></i> খুলনা বিশ্ববিদ্যালয় লেখক সংঘের সকল কর্মসূচি ও নিয়মিত আপডেট আমাদের অফিশিয়াল গ্রুপে প্রকাশিত হয়।<br>
+          <span style="font-size: 12px;">All activities and regular updates of KUWS are announced through our official Facebook community group.</span>
+        </p>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Universal Footer -->
+  <footer style="background-color: #1a3a60; color: #ffffff; padding: 40px 0 20px 0; border-top: 4px solid #ffb703;">
+    <div class="container">
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 30px; margin-bottom: 30px;">
         
-        // Go Up Button
-        const goUpButton = document.getElementById('goUpButton');
-        const scrollThreshold = 300;
+        <!-- Logo / Name -->
+        <div>
+          <span style="font-size: 20px; font-weight: 700; color: #ffb703; display: block; margin-bottom: 8px;">Khulna University Writers' Society</span>
+          <p style="font-size: 14px; line-height: 1.6; color: #cbd5e1;">
+            Powered by the passion of Khulna University students. মুক্তচিন্তা ও সৃজনশীল সাহিত্যের উন্মুক্ত প্রাঙ্গণ।
+          </p>
+        </div>
 
-        window.addEventListener('scroll', () => {
-            if (window.scrollY > scrollThreshold) {
-                goUpButton.classList.add('show-go-up');
-            } else {
-                goUpButton.classList.remove('show-go-up');
-            }
-        });
+        <!-- Quick Links -->
+        <div>
+          <h4 style="font-size: 16px; font-weight: 600; color: #ffffff; margin-bottom: 12px;">Quick Links</h4>
+          <ul style="list-style: none; padding: 0; margin: 0; font-size: 14px; display: flex; flex-direction: column; gap: 8px;">
+            <li><a href="/ourstory.html" style="color: #cbd5e1; text-decoration: none;" onmouseover="this.style.color='#ffb703'" onmouseout="this.style.color='#cbd5e1'">Our Story</a></li>
+            <li><a href="/portal?category=events" style="color: #cbd5e1; text-decoration: none;" onmouseover="this.style.color='#ffb703'" onmouseout="this.style.color='#cbd5e1'">Upcoming Activities</a></li>
+            <li><a href="/portal" style="color: #cbd5e1; text-decoration: none;" onmouseover="this.style.color='#ffb703'" onmouseout="this.style.color='#cbd5e1'">Read Member Work</a></li>
+            <li><a href="/honorboard.html" style="color: #cbd5e1; text-decoration: none;" onmouseover="this.style.color='#ffb703'" onmouseout="this.style.color='#cbd5e1'">Honor Board</a></li>
+            <li><a href="/gallery.html" style="color: #cbd5e1; text-decoration: none;" onmouseover="this.style.color='#ffb703'" onmouseout="this.style.color='#cbd5e1'">Gallery</a></li>
+            <li><a href="/verification.html" style="color: #cbd5e1; text-decoration: none;" onmouseover="this.style.color='#ffb703'" onmouseout="this.style.color='#cbd5e1'">Verify Certificate</a></li>
+          </ul>
+        </div>
 
-        if (goUpButton) {
-            goUpButton.addEventListener('click', (e) => {
-                e.preventDefault();
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-            });
+        <!-- Resources -->
+        <div>
+          <h4 style="font-size: 16px; font-weight: 600; color: #ffffff; margin-bottom: 12px;">Resources</h4>
+          <ul style="list-style: none; padding: 0; margin: 0; font-size: 14px; display: flex; flex-direction: column; gap: 8px;">
+            <li><a href="/portal" style="color: #cbd5e1; text-decoration: none;" onmouseover="this.style.color='#ffb703'" onmouseout="this.style.color='#cbd5e1'">KUWS Literary Portal</a></li>
+            <li><a href="/honorboard.html" style="color: #cbd5e1; text-decoration: none;" onmouseover="this.style.color='#ffb703'" onmouseout="this.style.color='#cbd5e1'">Honor Board</a></li>
+            <li><a href="/gallery.html" style="color: #cbd5e1; text-decoration: none;" onmouseover="this.style.color='#ffb703'" onmouseout="this.style.color='#cbd5e1'">Photo Gallery</a></li>
+            <li><a href="/verification.html" style="color: #cbd5e1; text-decoration: none;" onmouseover="this.style.color='#ffb703'" onmouseout="this.style.color='#cbd5e1'">Verify Certificate</a></li>
+            <li><a href="https://ku.ac.bd" target="_blank" style="color: #cbd5e1; text-decoration: none;" onmouseover="this.style.color='#ffb703'" onmouseout="this.style.color='#cbd5e1'">KU Official Site</a></li>
+          </ul>
+        </div>
+
+        <!-- Contact Info -->
+        <div>
+          <h4 style="font-size: 16px; font-weight: 600; color: #ffffff; margin-bottom: 12px;">Get In Touch</h4>
+          <p style="font-size: 14px; color: #cbd5e1; margin-bottom: 6px;">Email: kuwriterssociety@gmail.com</p>
+          <p style="font-size: 14px; color: #cbd5e1; margin-bottom: 12px;">Khulna University, Khulna-9208</p>
+          <div style="display: flex; gap: 14px; font-size: 18px;">
+            <a href="https://www.facebook.com/KUWritersSociety/" target="_blank" style="color: #ffb703;"><i class="fab fa-facebook"></i></a>
+            <a href="https://www.facebook.com/groups/kuws2024" target="_blank" style="color: #ffb703;"><i class="fab fa-users"></i></a>
+            <a href="mailto:kuwriterssociety@gmail.com" style="color: #ffb703;"><i class="fas fa-envelope"></i></a>
+          </div>
+        </div>
+
+      </div>
+
+      <div style="border-top: 1px solid rgba(255, 183, 3, 0.3); padding-top: 18px; text-align: center; font-size: 13px; color: #94a3b8;">
+        &copy; 2026 Khulna University Writers' Society (KUWS). All rights reserved.
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="/js/api.js?v=2.2"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', async () => {
+      // Set Bengali Date
+      const dateEl = document.getElementById('current-date');
+      if (dateEl) {
+        dateEl.innerHTML = `<i class="far fa-calendar-alt"></i> ${Utils.getCurrentBengaliDate()}`;
+      }
+
+      // Load Categories & Append Portal Nav Links
+      try {
+        const catRes = await API.getCategories();
+        if (catRes && catRes.categories) {
+          const nav = document.getElementById('category-nav');
+          catRes.categories.forEach(c => {
+            const li = document.createElement('li');
+            li.innerHTML = `<a href="/category.html?category=${c.slug}">${c.name_bn}</a>`;
+            nav.appendChild(li);
+          });
+
+          // Append Honor Board, Gallery, and Certificate links
+          const extraNavItems = [
+            { title: 'অনার বোর্ড', url: '/honorboard.html' },
+            { title: 'গ্যালারি', url: '/gallery.html' },
+            { title: 'সার্টিফিকেট', url: '/verification.html' }
+          ];
+          extraNavItems.forEach(item => {
+            const li = document.createElement('li');
+            li.innerHTML = `<a href="${item.url}">${item.title}</a>`;
+            nav.appendChild(li);
+          });
         }
+      } catch (e) {
+        console.error('Navbar category load error:', e);
+      }
 
-        // Dismissible Urgent Notice
-        const urgentNotice = document.getElementById('urgentNotice');
-        const closeNoticeButton = document.getElementById('closeNotice');
-
-        if (closeNoticeButton) {
-            closeNoticeButton.addEventListener('click', () => {
-                urgentNotice.style.maxHeight = '0';
-                urgentNotice.style.paddingTop = '0';
-                urgentNotice.style.paddingBottom = '0';
-                urgentNotice.style.overflow = 'hidden';
-                setTimeout(() => { urgentNotice.classList.add('hidden'); }, 500);
-            });
+      // 1. Fetch & Render Dynamic Notices
+      async function loadDynamicNotices() {
+        const container = document.getElementById('notices-container');
+        if (!container) return;
+        try {
+          const res = await API.getNotices({ limit: 4 });
+          if (res && res.notices && res.notices.length > 0) {
+            container.innerHTML = res.notices.map(n => `
+              <a href="${n.link_url || '#'}" ${n.link_url && n.link_url.startsWith('http') ? 'target="_blank"' : ''} class="notice-item-box" style="text-decoration: none; display: block;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 3px;">
+                  <span class="badge ${n.badge_type === 'secondary' ? 'badge-secondary' : 'badge-primary'}" style="font-size: 10px;">${n.badge_text || 'নোটিশ / Notice'}</span>
+                  <span style="font-size: 11px; color: #64748b;"><i class="far fa-clock"></i> ${n.date_text || 'চলমান'}</span>
+                </div>
+                <h4 style="font-size: 14px; font-weight: 700; color: var(--primary); margin: 0 0 2px 0; line-height: 1.3;">${n.title}</h4>
+                ${n.title_en ? `<span class="en-sub" style="font-size: 12px; margin-top: 1px; color: var(--accent); display: block;">${n.title_en}</span>` : ''}
+              </a>
+            `).join('');
+          } else {
+            container.innerHTML = '<p style="font-size: 13px; color: #64748b; text-align: center; padding: 15px;">কোনো সক্রিয় নোটিশ নেই।</p>';
+          }
+        } catch (err) {
+          console.error('Error loading notices:', err);
+          container.innerHTML = `
+            <a href="https://kuws-online.blogspot.com/2026/01/blog-post_1.html" target="_blank" class="notice-item-box" style="text-decoration: none; display: block;">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 3px;">
+                <span class="badge badge-primary" style="font-size: 10px;">প্রতিযোগিতা / Contest</span>
+                <span style="font-size: 11px; color: #64748b;"><i class="far fa-clock"></i> চলমান</span>
+              </div>
+              <h4 style="font-size: 14px; font-weight: 700; color: var(--primary); margin: 0;">শীতকালীন লেখা প্রতিযোগিতা ২০২৬</h4>
+              <span class="en-sub" style="font-size: 12px; margin-top: 1px; color: var(--accent); display: block;">Winter Writing Competition 2026</span>
+            </a>
+            <a href="/Certificate Download.html" class="notice-item-box" style="text-decoration: none; display: block;">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 3px;">
+                <span class="badge badge-secondary" style="font-size: 10px;">সার্টিফিকেট / Certificate</span>
+                <span style="font-size: 11px; color: #64748b;"><i class="fas fa-download"></i> অনলাইন</span>
+              </div>
+              <h4 style="font-size: 14px; font-weight: 700; color: var(--primary); margin: 0;">এডিটরিয়াল কুইজের সার্টিফিকেট ডাউনলোড</h4>
+              <span class="en-sub" style="font-size: 12px; margin-top: 1px; color: var(--accent); display: block;">Download Editorial Quiz Certificate</span>
+            </a>
+          `;
         }
+      }
 
-        // ===============================================
-        // DYNAMIC CONTENT LOADER (SHOWCASE, HONOR, GALLERY)
-        // ===============================================
-        document.addEventListener('DOMContentLoaded', async () => {
-            // 1. Load Top 3 Showcase Articles from API
-            try {
-                const res = await fetch('/api/articles?limit=3');
-                const data = await res.json();
-                if (data.articles && data.articles.length > 0) {
-                    const showcaseBox = document.getElementById('dynamic-showcase-container');
-                    if (showcaseBox) {
-                        showcaseBox.innerHTML = data.articles.map(a => `
-                            <div class="bg-white rounded-xl shadow-xl overflow-hidden p-6 border-b-4 border-ku-gold flex flex-col justify-between transform hover:-translate-y-1 transition duration-300">
-                                <div>
-                                    <img src="${a.image_url || 'images/machshikar.png'}" alt="${a.title}" class="w-full h-44 object-cover rounded-lg mb-4 shadow-md">
-                                    <span class="inline-block bg-blue-50 text-ku-blue text-xs font-bold px-2.5 py-1 rounded mb-2 border border-blue-200">${a.category_name_bn || 'সাহিত্যকর্ম'}</span>
-                                    <h4 class="text-xl font-bold text-ku-blue mb-1 line-clamp-2">${a.title}</h4>
-                                    <p class="text-sm font-semibold text-ku-gold mb-3">— By ${a.author_name}</p>
-                                    <p class="text-gray-600 text-sm italic line-clamp-3">
-                                        "${a.summary || ''}"
-                                    </p>
-                                </div>
-                                <a href="/article.html?id=${a.id}" class="mt-4 block text-right text-sm text-ku-blue font-bold hover:text-ku-gold transition duration-300">Read More &rarr;</a>
-                            </div>
-                        `).join('');
-                    }
-                }
-            } catch (err) {
-                console.error('Error loading showcase articles:', err);
-            }
+      // 2. Fetch & Render Top 3 Most Read Articles in Showcase
+      async function loadShowcaseArticles() {
+        const container = document.getElementById('showcase-container');
+        if (!container) return;
+        try {
+          const res = await API.getArticles({ sort: 'views', limit: 3 });
+          if (res && res.articles && res.articles.length > 0) {
+            let html = '';
+            res.articles.forEach((art, idx) => {
+              const imgUrl = art.image_url || 'images/logo.jpg';
+              const viewsText = Utils.toBengaliNumber(art.views || 0);
+              const authorName = art.author_name_bn || art.author_name || 'লেখক সংঘ সদস্য';
+              const catName = art.category_name_bn || 'সাহিত্য';
+              
+              if (idx < 2) {
+                // First 2 cards
+                html += `
+                  <div class="society-card" style="border-top: 3px solid var(--accent); display: flex; flex-direction: column; justify-content: space-between;">
+                    <div>
+                      <div style="height: 150px; overflow: hidden; background: #f1f5f9;">
+                        <img src="${imgUrl}" alt="${art.title}" style="width: 100%; height: 100%; object-fit: cover;" onerror="this.src='images/logo.jpg'">
+                      </div>
+                      <div style="padding: 16px;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+                          <span class="badge badge-primary" style="font-size: 11px;">${catName}</span>
+                          <span style="font-size: 11px; color: #64748b;"><i class="far fa-eye"></i> ${viewsText} বার পঠিত</span>
+                        </div>
+                        <h4 style="font-size: 16px; font-weight: 700; color: var(--primary); margin: 4px 0 2px 0; line-height: 1.3;">
+                          <a href="/article.html?id=${art.id}" style="color: var(--primary); text-decoration: none;">${art.title}</a>
+                        </h4>
+                        ${art.title_en ? `<span class="en-sub" style="font-size: 13px; font-weight: 600; color: var(--accent); margin-bottom: 6px; display: block;">${art.title_en}</span>` : ''}
+                        <p style="font-size: 12px; color: #475569; font-weight: 600; margin: 6px 0;">— ${authorName}</p>
+                        <p style="font-size: 13px; color: var(--text-muted); line-height: 1.5; font-style: italic; margin-bottom: 6px;">
+                          ${art.excerpt ? (art.excerpt.length > 90 ? art.excerpt.substring(0, 90) + '...' : art.excerpt) : ''}
+                        </p>
+                      </div>
+                    </div>
+                    <div style="padding: 0 16px 16px 16px; text-align: right;">
+                      <a href="/article.html?id=${art.id}" style="color: var(--primary); font-size: 13px; font-weight: 700; text-decoration: none;">সম্পূর্ণ পড়ুন / Read More &rarr;</a>
+                    </div>
+                  </div>
+                `;
+              } else {
+                // 3rd card span 2 columns
+                html += `
+                  <div class="society-card" style="border-top: 3px solid var(--accent); grid-column: span 2;">
+                    <div style="display: grid; grid-template-columns: 200px 1fr; gap: 16px;">
+                      <div style="height: 100%; min-height: 150px; overflow: hidden; background: #f1f5f9;">
+                        <img src="${imgUrl}" alt="${art.title}" style="width: 100%; height: 100%; object-fit: cover;" onerror="this.src='images/logo.jpg'">
+                      </div>
+                      <div style="padding: 16px 16px 16px 0; display: flex; flex-direction: column; justify-content: space-between;">
+                        <div>
+                          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+                            <span class="badge badge-primary" style="font-size: 11px;">${catName}</span>
+                            <span style="font-size: 11px; color: #64748b;"><i class="far fa-eye"></i> ${viewsText} বার পঠিত</span>
+                          </div>
+                          <h4 style="font-size: 17px; font-weight: 700; color: var(--primary); margin: 4px 0 2px 0;">
+                            <a href="/article.html?id=${art.id}" style="color: var(--primary); text-decoration: none;">${art.title}</a>
+                          </h4>
+                          ${art.title_en ? `<span class="en-sub" style="font-size: 13px; font-weight: 600; color: var(--accent); margin-bottom: 4px; display: block;">${art.title_en}</span>` : ''}
+                          <p style="font-size: 12px; color: #475569; font-weight: 600; margin: 4px 0;">— ${authorName}</p>
+                          <p style="font-size: 13px; color: var(--text-muted); line-height: 1.5; font-style: italic; margin-bottom: 4px;">
+                            ${art.excerpt ? (art.excerpt.length > 130 ? art.excerpt.substring(0, 130) + '...' : art.excerpt) : ''}
+                          </p>
+                        </div>
+                        <div style="text-align: right; margin-top: 8px;">
+                          <a href="/article.html?id=${art.id}" style="color: var(--primary); font-size: 13px; font-weight: 700; text-decoration: none;">সম্পূর্ণ পড়ুন / Read More &rarr;</a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                `;
+              }
+            });
+            container.innerHTML = html;
+          } else {
+            showFallbackShowcase(container);
+          }
+        } catch (err) {
+          console.error('Error loading showcase:', err);
+          showFallbackShowcase(container);
+        }
+      }
 
-            // 2. Load Honor Board from API
-            try {
-                const res = await fetch('/api/honorboard');
-                const data = await res.json();
-                if (data.members && data.members.length > 0) {
-                    const honorBox = document.getElementById('dynamic-honor-container');
-                    if (honorBox) {
-                        honorBox.innerHTML = data.members.slice(0, 4).map(m => `
-                            <div class="bg-ku-light rounded-xl shadow-lg p-6 text-center border-b-4 border-ku-gold">
-                                <img src="${m.image_url || 'images/President1.png'}" alt="${m.name}" class="w-32 h-32 rounded-full object-cover mx-auto mb-4 shadow-md">
-                                <h3 class="text-xl font-bold text-ku-blue mb-1">${m.name}</h3>
-                                <p class="text-ku-gold text-sm mb-2 font-semibold">${m.designation} (${m.session_year || 'Founding'})</p>
-                                <p class="text-gray-600 text-sm">${m.bio || ''}</p>
-                            </div>
-                        `).join('');
-                    }
-                }
-            } catch (err) {
-                console.error('Error loading honor board:', err);
-            }
+      function showFallbackShowcase(container) {
+        container.innerHTML = `
+          <div class="society-card" style="border-top: 3px solid var(--accent);">
+            <div style="height: 150px; overflow: hidden; background: #f1f5f9;">
+              <img src="images/machshikar.png" alt="Mach Shikar" style="width: 100%; height: 100%; object-fit: cover;">
+            </div>
+            <div style="padding: 16px;">
+              <span class="badge badge-primary" style="font-size: 11px;">কবিতা / Poetry</span>
+              <h4 style="font-size: 16px; font-weight: 700; color: var(--primary); margin: 8px 0 2px 0;">মাছ শিকার</h4>
+              <span class="en-sub" style="font-size: 13px; font-weight: 600; color: var(--accent); margin-bottom: 6px;">The Fish Hunt</span>
+              <p style="font-size: 12px; color: #475569; font-weight: 600; margin-bottom: 8px;">— মো. আরাফাত হোসেন / Md. Arafat Hossain</p>
+              <div style="margin-top: 12px; text-align: right;">
+                <a href="/portal" style="color: var(--primary); font-size: 13px; font-weight: 700; text-decoration: none;">সম্পূর্ণ পড়ুন / Read More &rarr;</a>
+              </div>
+            </div>
+          </div>
+          <div class="society-card" style="border-top: 3px solid var(--accent);">
+            <div style="height: 150px; overflow: hidden; background: #f1f5f9;">
+              <img src="images/TeachersDAy.png" alt="Reading" style="width: 100%; height: 100%; object-fit: cover;">
+            </div>
+            <div style="padding: 16px;">
+              <span class="badge badge-primary" style="font-size: 11px;">প্রবন্ধ ও কলাম / Essay & Column</span>
+              <h4 style="font-size: 16px; font-weight: 700; color: var(--primary); margin: 8px 0 2px 0;">বই পড়ার অভ্যাস বাড়াতে হবে</h4>
+              <span class="en-sub" style="font-size: 13px; font-weight: 600; color: var(--accent); margin-bottom: 6px;">Cultivating the Habit of Reading</span>
+              <p style="font-size: 12px; color: #475569; font-weight: 600; margin-bottom: 8px;">— সানজিদা আক্তার / Sanjida Akter</p>
+              <div style="margin-top: 12px; text-align: right;">
+                <a href="/portal" style="color: var(--primary); font-size: 13px; font-weight: 700; text-decoration: none;">সম্পূর্ণ পড়ুন / Read More &rarr;</a>
+              </div>
+            </div>
+          </div>
+          <div class="society-card" style="border-top: 3px solid var(--accent); grid-column: span 2;">
+            <div style="display: grid; grid-template-columns: 200px 1fr; gap: 16px;">
+              <div style="height: 100%; min-height: 140px; overflow: hidden; background: #f1f5f9;">
+                <img src="images/ghaser deshe.jpg" alt="Ghaser Deshe" style="width: 100%; height: 100%; object-fit: cover;">
+              </div>
+              <div style="padding: 16px 16px 16px 0;">
+                <span class="badge badge-primary" style="font-size: 11px;">কবিতা / Poetry</span>
+                <h4 style="font-size: 16px; font-weight: 700; color: var(--primary); margin: 6px 0 2px 0;">ঘাসের দেশে</h4>
+                <span class="en-sub" style="font-size: 13px; font-weight: 600; color: var(--accent); margin-bottom: 4px;">In the Land of Grass</span>
+                <p style="font-size: 12px; color: #475569; font-weight: 600; margin-bottom: 6px;">— পারভেজ মোশাররফ / Parvez Mosharraf</p>
+                <div style="margin-top: 8px; text-align: right;">
+                  <a href="/portal" style="color: var(--primary); font-size: 13px; font-weight: 700; text-decoration: none;">সম্পূর্ণ পড়ুন / Read More &rarr;</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        `;
+      }
 
-            // 3. Load Gallery from API
-            try {
-                const res = await fetch('/api/gallery');
-                const data = await res.json();
-                if (data.photos && data.photos.length > 0) {
-                    const galleryBox = document.getElementById('dynamic-gallery-container');
-                    if (galleryBox) {
-                        galleryBox.innerHTML = data.photos.slice(0, 6).map(g => `
-                            <div class="bg-white rounded-xl shadow-lg overflow-hidden group">
-                                <img src="${g.image_url}" alt="${g.title}" class="w-full h-56 object-cover transform group-hover:scale-105 transition duration-300">
-                                <div class="p-4">
-                                    <h4 class="font-semibold text-ku-blue">${g.title}</h4>
-                                    ${g.caption ? `<p class="text-xs text-gray-500 mt-1">${g.caption}</p>` : ''}
-                                </div>
-                            </div>
-                        `).join('');
-                    }
-                }
-            } catch (err) {
-                console.error('Error loading gallery:', err);
-            }
-        });
-    </script>
+      // Initialize
+      loadDynamicNotices();
+      loadShowcaseArticles();
+    });
+  </script>
 </body>
 </html>
-
-
-
-
-
-

@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>নোটিশ ও কার্যক্রম ব্যবস্থাপনা | KUWS Admin Panel</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+  <div class="admin-layout">
+    
+    <!-- Sidebar -->
+    <aside class="admin-sidebar">
+      <div class="admin-sidebar-header">
+        <h2 style="font-size: 17px; color: #fff;"><i class="fas fa-feather-alt" style="color: var(--accent);"></i> KUWS কন্ট্রোল</h2>
+        <div style="font-size: 12px; color: #94a3b8; margin-top: 4px;">খুলনা বিশ্ববিদ্যালয় লেখক সংঘ</div>
+      </div>
+
+      <ul class="admin-nav">
+        <li><a href="/admin"><i class="fas fa-chart-line"></i> ড্যাশবোর্ড</a></li>
+        <li><a href="/admin/articles"><i class="fas fa-file-alt"></i> সাহিত্যকর্ম ব্যবস্থাপনা</a></li>
+        <li><a href="/admin/editor"><i class="fas fa-plus-circle"></i> নতুন লেখা প্রকাশ</a></li>
+        <li class="active"><a href="/admin/notices"><i class="fas fa-bullhorn"></i> নোটিশ ও কার্যক্রম (Notices)</a></li>
+        <li><a href="/admin/honorboard"><i class="fas fa-award"></i> অনার বোর্ড (Honor Board)</a></li>
+        <li><a href="/admin/gallery"><i class="fas fa-images"></i> ফটো গ্যালারি (Gallery)</a></li>
+        <li class="nav-editor"><a href="/admin/categories"><i class="fas fa-folder"></i> সাহিত্যের বিভাগসমূহ</a></li>
+        <li class="nav-it-admin"><a href="/admin/users"><i class="fas fa-users-cog"></i> লেখক ও ইউজার কন্ট্রোল</a></li>
+        <li class="nav-it-admin"><a href="/admin/settings"><i class="fas fa-cogs"></i> সাইট সেটিংস</a></li>
+        <li style="margin-top: 20px;"><a href="/" target="_blank"><i class="fas fa-external-link-alt"></i> মূল পোর্টাল দেখুন</a></li>
+        <li><a href="javascript:void(0)" onclick="logout()" style="color: #f87171;"><i class="fas fa-sign-out-alt"></i> লগআউট</a></li>
+      </ul>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="admin-main">
+      
+      <!-- Topbar -->
+      <div class="admin-topbar">
+        <div>
+          <h2 style="font-size: 20px; font-weight: 700;">নোটিশ ও সাম্প্রতিক কার্যক্রম ব্যবস্থাপনা</h2>
+        </div>
+        <div style="display: flex; align-items: center; gap: 14px;">
+          <img id="admin-user-avatar" src="" style="width: 36px; height: 36px; border-radius: 50%; object-fit: cover;">
+          <div>
+            <div id="admin-user-name" style="font-weight: 700; font-size: 14px;">লোড হচ্ছে...</div>
+            <div id="admin-user-role" style="font-size: 12px;"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Content Area -->
+      <div class="admin-content">
+        
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 10px;">
+          <p style="color: var(--text-muted); font-size: 14px;">
+            হোমপেজের নোটিশ ও ইভেন্ট সেকশনে প্রকাশিত সকল নোটিশ, কর্মশালা ও ঘোষণার তালিকা।
+          </p>
+          <button class="btn btn-primary" onclick="openNoticeModal()">
+            <i class="fas fa-plus"></i> নতুন নোটিশ / ইভেন্ট যোগ করুন
+          </button>
+        </div>
+
+        <!-- Table Responsive -->
+        <div class="table-responsive">
+          <table class="table">
+            <thead>
+              <tr>
+                <th style="width: 60px;">পিন</th>
+                <th>শিরোনাম (বাংলা ও ইংরেজি)</th>
+                <th>বিভাগ / ব্যাজ</th>
+                <th>তারিখ / সময়</th>
+                <th>লিংক</th>
+                <th>স্ট্যাটাস</th>
+                <th style="text-align: right;">অ্যাকশন</th>
+              </tr>
+            </thead>
+            <tbody id="notices-tbody">
+              <tr>
+                <td colspan="7" style="text-align: center; padding: 30px;">
+                  <i class="fas fa-spinner fa-spin"></i> লোড হচ্ছে...
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+      </div>
+
+    </main>
+  </div>
+
+  <!-- Add / Edit Modal -->
+  <div id="notice-modal" class="modal-overlay" style="display: none;">
+    <div class="modal-card" style="max-width: 650px;">
+      <div class="modal-header">
+        <h3 id="n-modal-title">নতুন নোটিশ যোগ</h3>
+        <button onclick="closeNoticeModal()" style="background: none; border: none; font-size: 20px; cursor: pointer; color: #fff;">&times;</button>
+      </div>
+      <form id="notice-form">
+        <div class="modal-body">
+          <input type="hidden" id="edit-notice-id">
+          
+          <div class="form-group">
+            <label class="form-label">নোটিশের শিরোনাম (বাংলা) *</label>
+            <input type="text" id="n-title" class="form-control" placeholder="যেমন: বসন্ত উৎসব ও কবিতা পাঠের আসর ২০২৬" required>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">শিরোনাম (ইংরেজি / English Title)</label>
+            <input type="text" id="n-title-en" class="form-control" placeholder="e.g. Spring Poetry Recitation Gathering 2026">
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">সংক্ষিপ্ত বিবরণ (বাংলা)</label>
+            <textarea id="n-desc" class="form-control" rows="2" placeholder="নোটিশের বিস্তারিত বিবরণ..."></textarea>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">বিবরণ (ইংরেজি / English Description)</label>
+            <textarea id="n-desc-en" class="form-control" rows="2" placeholder="Short description in English..."></textarea>
+          </div>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+            <div class="form-group">
+              <label class="form-label">তারিখ / সময় টেক্সট</label>
+              <input type="text" id="n-date-text" class="form-control" placeholder="যেমন: ১৫ মার্চ ২০২৬ / 15 March 2026">
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">ব্যাজ টেক্সট</label>
+              <input type="text" id="n-badge-text" class="form-control" placeholder="যেমন: আসন্ন আয়োজন / Event">
+            </div>
+          </div>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+            <div class="form-group">
+              <label class="form-label">ব্যাজ কালার টাইপ</label>
+              <select id="n-badge-type" class="form-control">
+                <option value="primary">নীল (Primary / নীল)</option>
+                <option value="warning">হলুদ (Warning / গোল্ড)</option>
+                <option value="info">হালকা নীল (Info / তথ্য)</option>
+                <option value="success">সবুজ (Success / সক্রিয়)</option>
+                <option value="danger">লাল (Danger / জরুরি)</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">বাটন বা বিস্তারিত লিংক</label>
+              <input type="text" id="n-link-url" class="form-control" placeholder="যেমন: /portal?category=events বা গুগল ফর্ম">
+            </div>
+          </div>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+            <div class="form-group">
+              <label class="form-label">শীর্ষে পিন করুন (Pin to Top)</label>
+              <select id="n-is-pinned" class="form-control">
+                <option value="0">না (সাধারণ ক্রম)</option>
+                <option value="1">হ্যাঁ (সর্বাগ্রে থাকবে)</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">স্ট্যাটাস</label>
+              <select id="n-status" class="form-control">
+                <option value="published">প্রকাশিত (Published)</option>
+                <option value="draft">ড্রাফট (Draft)</option>
+                <option value="archived">আর্কাইভ (Archived)</option>
+              </select>
+            </div>
+          </div>
+
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" onclick="closeNoticeModal()">বাতিল</button>
+          <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> সংরক্ষণ করুন</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="/js/api.js"></script>
+  <script>
+    let currentUser = null;
+
+    document.addEventListener('DOMContentLoaded', async () => {
+      currentUser = await Utils.requireAuth();
+      if (!currentUser) return;
+
+      document.getElementById('admin-user-name').innerText = currentUser.name;
+      document.getElementById('admin-user-role').innerText = Utils.getRoleBadge(currentUser.role).replace(/<[^>]*>/g, '');
+      document.getElementById('admin-user-avatar').src = currentUser.avatar || 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150';
+
+      loadNotices();
+
+      // Handle Form Submit
+      document.getElementById('notice-form').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const id = document.getElementById('edit-notice-id').value;
+        const title = document.getElementById('n-title').value.trim();
+        const title_en = document.getElementById('n-title-en').value.trim();
+        const description = document.getElementById('n-desc').value.trim();
+        const description_en = document.getElementById('n-desc-en').value.trim();
+        const date_text = document.getElementById('n-date-text').value.trim();
+        const badge_text = document.getElementById('n-badge-text').value.trim();
+        const badge_type = document.getElementById('n-badge-type').value;
+        const link_url = document.getElementById('n-link-url').value.trim();
+        const is_pinned = parseInt(document.getElementById('n-is-pinned').value) || 0;
+        const status = document.getElementById('n-status').value;
+
+        const payload = {
+          title, title_en, description, description_en,
+          date_text, badge_text, badge_type, link_url,
+          is_pinned, status
+        };
+
+        try {
+          if (id) {
+            await API.updateAdminNotice(id, payload);
+            Utils.showToast('নোটিশ তথ্য আপডেট হয়েছে!', 'success');
+          } else {
+            await API.createAdminNotice(payload);
+            Utils.showToast('নোটিশ সফলভাবে যুক্ত হয়েছে!', 'success');
+          }
+          closeNoticeModal();
+          loadNotices();
+        } catch (err) {
+          Utils.showToast('ত্রুটি: ' + err.message, 'error');
+        }
+      });
+    });
+
+    let currentNotices = [];
+
+    async function loadNotices() {
+      try {
+        const res = await API.getAdminNotices();
+        const tbody = document.getElementById('notices-tbody');
+        const role = currentUser ? currentUser.role : 'sub_editor';
+
+        if (!res.notices || res.notices.length === 0) {
+          tbody.innerHTML = '<tr><td colspan="7" style="text-align: center; color: var(--text-muted); padding: 30px;">কোনো নোটিশ পাওয়া যায়নি।</td></tr>';
+          return;
+        }
+
+        currentNotices = res.notices;
+
+        tbody.innerHTML = res.notices.map(n => `
+          <tr>
+            <td style="text-align: center;">
+              ${n.is_pinned ? '<i class="fas fa-thumbtack" style="color: #b45309;" title="Pinned"></i>' : '<span style="color: #94a3b8;">—</span>'}
+            </td>
+            <td>
+              <strong>${n.title}</strong>
+              ${n.title_en ? `<div style="font-size: 12px; color: var(--accent); font-weight: 600;">${n.title_en}</div>` : ''}
+              ${n.description ? `<div style="font-size: 12px; color: var(--text-muted); margin-top: 4px; max-width: 300px;">${n.description}</div>` : ''}
+            </td>
+            <td><span class="badge badge-${n.badge_type || 'primary'}">${n.badge_text || 'নোটিশ'}</span></td>
+            <td style="font-size: 13px; color: #475569; white-space: nowrap;">${n.date_text || '—'}</td>
+            <td>
+              ${n.link_url ? `<a href="${n.link_url}" target="_blank" style="color: var(--primary); font-size: 12px;"><i class="fas fa-external-link-alt"></i> লিংক</a>` : '<span style="color: #94a3b8; font-size: 12px;">নেই</span>'}
+            </td>
+            <td>${Utils.getStatusBadge(n.status)}</td>
+            <td style="text-align: right; white-space: nowrap;">
+              <button class="btn btn-sm btn-secondary" onclick="editNoticeById(${n.id})">
+                <i class="fas fa-edit"></i>
+              </button>
+              ${(role === 'it_admin' || role === 'editor') ? `
+                <button class="btn btn-sm btn-danger" onclick="deleteNoticeById(${n.id})">
+                  <i class="fas fa-trash"></i>
+                </button>
+              ` : ''}
+            </td>
+          </tr>
+        `).join('');
+      } catch (err) {
+        Utils.showToast('লোড ব্যর্থ: ' + err.message, 'error');
+      }
+    }
+
+    function openNoticeModal() {
+      document.getElementById('notice-form').reset();
+      document.getElementById('edit-notice-id').value = '';
+      document.getElementById('n-modal-title').innerText = 'নতুন নোটিশ যোগ';
+      document.getElementById('n-badge-type').value = 'primary';
+      document.getElementById('n-is-pinned').value = '0';
+      document.getElementById('n-status').value = 'published';
+      document.getElementById('notice-modal').style.display = 'flex';
+    }
+
+    function closeNoticeModal() {
+      document.getElementById('notice-modal').style.display = 'none';
+    }
+
+    function editNoticeById(id) {
+      const n = currentNotices.find(item => item.id === id);
+      if (!n) return;
+
+      document.getElementById('edit-notice-id').value = n.id;
+      document.getElementById('n-title').value = n.title || '';
+      document.getElementById('n-title-en').value = n.title_en || '';
+      document.getElementById('n-desc').value = n.description || '';
+      document.getElementById('n-desc-en').value = n.description_en || '';
+      document.getElementById('n-date-text').value = n.date_text || '';
+      document.getElementById('n-badge-text').value = n.badge_text || '';
+      document.getElementById('n-badge-type').value = n.badge_type || 'primary';
+      document.getElementById('n-link-url').value = n.link_url || '';
+      document.getElementById('n-is-pinned').value = n.is_pinned ? '1' : '0';
+      document.getElementById('n-status').value = n.status || 'published';
+
+      document.getElementById('n-modal-title').innerText = 'নোটিশ সম্পাদনা';
+      document.getElementById('notice-modal').style.display = 'flex';
+    }
+
+    async function deleteNoticeById(id) {
+      if (!confirm('আপনি কি নিশ্চিত যে এই নোটিশটি মুছে ফেলতে চান?')) return;
+      try {
+        await API.deleteAdminNotice(id);
+        Utils.showToast('নোটিশ মুছে ফেলা হয়েছে।', 'success');
+        loadNotices();
+      } catch (err) {
+        Utils.showToast('মুছতে ব্যর্থ: ' + err.message, 'error');
+      }
+    }
+
+    function logout() {
+      localStorage.removeItem('news_token');
+      localStorage.removeItem('news_user');
+      window.location.href = '/admin/login';
+    }
+  </script>
+</body>
+</html>

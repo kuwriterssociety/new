@@ -1,4 +1,4 @@
-﻿// KUWS Literary Portal Dynamic Engine
+// KUWS Literary Portal Dynamic Engine
 
 document.addEventListener('DOMContentLoaded', async () => {
   // Set Bengali Date
@@ -65,6 +65,20 @@ document.addEventListener('DOMContentLoaded', async () => {
           footerCats.appendChild(fli);
         }
       });
+
+      // Append Honor Board, Gallery, and Certificate links to Navbar
+      if (nav) {
+        const extraNavItems = [
+          { title: 'অনার বোর্ড', url: '/honorboard.html' },
+          { title: 'গ্যালারি', url: '/gallery.html' },
+          { title: 'সার্টিফিকেট', url: '/verification.html' }
+        ];
+        extraNavItems.forEach(item => {
+          const li = document.createElement('li');
+          li.innerHTML = `<a href="${item.url}">${item.title}</a>`;
+          nav.appendChild(li);
+        });
+      }
     }
   } catch (e) {
     console.error('Categories load error:', e);
